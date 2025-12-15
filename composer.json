@@ -13,6 +13,7 @@
         "mews/purifier": "^3.4",
         "resend/resend-php": "^1.1",
         "sentry/sentry-laravel": "^4.20",
+        "spatie/laravel-honeypot": "^4.6",
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {

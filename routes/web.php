@@ -6,19 +6,17 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\TwoFactorController;
+use Spatie\Honeypot\ProtectionAgainstSpam;
 
 
 
 // Home route
-Route::get('/', function() {
-   $posts = \App\Models\Post::published()
-       ->with(['user', 'category', 'tags'])
-       ->latest('published_at')
-       ->paginate(10);
-   return view('welcome', compact('posts'));
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 /** URL: /(homepage)
  * Fetches published posts only
  * Loads relationships (user, category, tags) to avoid extra queries.
@@ -55,7 +53,7 @@ Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
 
 // Public comment submission
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
-    ->middleware('throttle:5,1')
+    ->middleware(ProtectAgainstSpam::class ,'throttle:5,1')
     ->name('comments.store');
 /**
  * URL: /posts/{post}/comments, {post} is a route parameter -- Laravel will inject the Post model based on the ID in the URL.
@@ -65,40 +63,14 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
  */
 
 // Search Route
-Route::get('/search' , function() {
-   $query = request('q');
-   // user types "Laravel" in blog's search box.
-    // browser hits /search?q=Laravel
-   $posts = \App\Models\Post::published()
-       ->where(function($q) use ($query){
-         $q->where('title', 'like', "%{$query}%")
-             // %{$query}% means "anywhere in the string"
-                 // search posts by title/content.
-             ->orWhere('content', 'like', "%{$query}%");
-       })
-       ->with(['user', 'category', 'tags'])
-       ->latest('published_at')
-       ->paginate(10);
-   return view('search', compact('posts', 'query'));
-})->name('search');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 //Admin Routes (Protected)
 // All routs inside this group require the user to be logged in (auth middleware).
 // if not authenticated -> redirected to login.
 Route::middleware(['auth','2fa.verified', 'admin'])->group(function () {
    //Dashboard
-    Route::get('/dashboard' , function () {
-        $stats = [
-            'total_posts' => \App\Models\Post::count(),
-            'published_posts' => \App\Models\Post::where('status', 'published')->count(),
-            'draft_posts' => \App\Models\Post::where('status', 'draft')->count(),
-            'total_comments' => \App\Models\Comment::count(),
-            'pending_comments' => \App\Models\Comment::where('approved', false)->count(),
-            'total_categories' => \App\Models\Category::count(),
-            'total_tags' => \App\Models\Tag::count(),
-        ];
-        return view('dashboard' , compact('stats'));
-    })->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 /**
  * URL: /dashboard
  * Collect site statistics:

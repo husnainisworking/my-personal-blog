@@ -13,6 +13,8 @@ class TagController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Tag::class);
+
         $tags = Tag::withCount('posts')->get();
         // Tag::withCount('posts') -> Fetches all tags and adds a posts_count
         // column showing how many posts are linked to each tag.
@@ -25,6 +27,8 @@ class TagController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Tag::class);
+
         return view('tags.create');
         // loads the Blade view tags/create.blade.php
         // this is the form where you enter a new tag name.
@@ -35,6 +39,8 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Tag::class);
+
         $validated = $request->validate([
            'name' => 'required|unique:tags|max:255'
         ]);
@@ -52,6 +58,8 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
+        $this->authorize('update', $tag);
+
         return view('tags.edit', compact('tag'));
         //loads the Blade view tags/edit.blade.php
         // passes the specific tag you want to edit.
@@ -62,6 +70,8 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
+        $this->authorize('update', $tag);
+
         $validated = $request->validate([
            'name' => 'required|max:255|unique:tags,name,' . $tag->id
         ]);
@@ -79,6 +89,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        $this->authorize('delete', $tag);
+
         $tag->delete();
 
         return redirect()->route('tags.index')

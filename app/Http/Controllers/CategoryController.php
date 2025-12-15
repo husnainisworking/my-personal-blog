@@ -14,6 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Category::class);
+
         //withCount() is a Laravel Eloquent builder method that adds
         // posts_count column to each Category model.
         // get() = executes the query and returns a collection of Category objects.
@@ -27,6 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Category::class);
         //simply loads the Blade view categories/create.blade.php
         // this is the form where you enter a new category name and description.
         return view('categories.create');
@@ -37,6 +40,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Category::class);
+
         $validated = $request->validate([
            'name' => 'required|unique:categories|max:255',
             'description' => 'nullable|max:1000'
@@ -54,6 +59,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $this->authorize('update', $category);
+
         return view('categories.edit', compact('category'));
         //passes the specific category you want to edit.
     }
@@ -63,6 +70,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request,  Category $category)
     {
+        $this->authorize('update', $category);
+
         $validated = $request->validate([
            'name' => 'required|max: 255|unique:categories,name,'. $category->id,
             //name must exist, < 255 chars, and unique (except for the current category being updated).
@@ -83,6 +92,8 @@ class CategoryController extends Controller
      */
     public function destroy( Category $category)
     {
+        $this->authorize('delete', $category);
+        
         $category->delete();
         //deletes the category from the database.
         return redirect()->route('categories.index')

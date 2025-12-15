@@ -35,6 +35,9 @@ class CommentController extends Controller
     // show all comments (Admin)
     public function index()
     {
+        // Authorization: ensures the user has permission to view comments.
+        $this->authorize('viewAny', Comment::class);
+        
         $comments = Comment::with('post')
             ->latest()
             ->paginate(20);
@@ -51,6 +54,8 @@ class CommentController extends Controller
     // Approve comment
     public function approve(Comment $comment)
     {
+        $this->authorize('approve', $comment);
+
         $comment->update(['approved' => true]);
 
         return back()->with('success' , 'Comment approved!');
@@ -62,6 +67,8 @@ class CommentController extends Controller
     // delete comment
     public function destroy (Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
         $comment->delete();
         // delete the comment from the database
         return back()->with('success', 'Comment deleted!');

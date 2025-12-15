@@ -35,10 +35,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        // Only users with 'create posts' permission can create
-        if(!auth()->user()->can('create posts')) {
-            abort(403, 'You do not have permission to create posts.');
-        }
+       
+        // NEW: Check permission
+        $this->authorize('create', Post::class);
 
         $categories = Category::all();
         $tags = Tag::all();
@@ -52,9 +51,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        if(!auth()->user()->can('create posts')) {
-            abort(403, 'You do not have permission to create posts.');
-        }
+        $this->authorize('create', Post::class);
 
 
         //Validate the request
@@ -120,9 +117,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if(!auth()->user()->can('edit posts')) {
-            abort(403, 'You do not have permission to edit posts.');
-        }
+        // Authorization check
+        $this->authorize('update', $post);
 
         $categories = Category::all();
         $tags = Tag::all();
@@ -135,6 +131,9 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // Authorization check
+        $this->authorize('update', $post);
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -196,9 +195,8 @@ class PostController extends Controller
         // ID = 5 and injects it into $post.
         public function destroy(Post $post)
         {
-            if (!auth()->user()->can('delete posts')) {
-                abort(403, 'You do not have permission to delete posts.');
-            }
+            // Authorization check
+            $this->authorize('delete', $post);
 
 
 

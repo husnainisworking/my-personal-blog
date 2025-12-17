@@ -18,6 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Post::class);
 
         //This method is a controller action that handles showing all posts
         // in your admin panel. index() is conventional name for "list all items".
@@ -28,7 +29,24 @@ class PostController extends Controller
                 ->paginate(10); //splits results into pages of 10 posts each, laravel automatically handles page links (?page=2, etc.).
 
             return view('posts.index', compact('posts'));
-        }
+    }
+
+    /**
+     * Show trashed posts (soft deleted)
+     */
+    public function trashed()
+    {
+        $this->authorize('viewAny', Post::class);
+        //This method shows all soft-deleted posts in the admin panel.
+
+        $posts = Post::onlyTrashed() 
+           ->with(['user' , 'category', 'tags'])
+           ->latest()
+           ->paginate(10);
+           
+        return view ('posts.trashed', compact('posts'));
+    }
+
 
 
     /**
@@ -51,17 +69,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-
-        //Validate the request
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id', //optional, but must exist in categories table
-            'excerpt' => 'nullable|max:500',
-            'status' => 'required|in:draft,published',
-            'tags' => 'nullable|array', // optional, must be an array of IDs
-            'tags.*' => 'exists:tags,id' // each tag ID must exist in tags table
-        ]);
+        $validated = $request->validated();
 
         //If validation fails -> Laravel automatically redirects back with errors.
         //Add the user who created the post, get the currently logged-in user's ID.
@@ -129,16 +137,10 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        // Authorization is handled in StorePostRequest
+        // Validation is handled in StorePostRequest
 
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id',
-            'excerpt' => 'nullable|max:500',
-            'status' => 'required|in:draft,published',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id'
-        ]);
+        $validated = $request->validated();
 
         //update slug if title changed
         $validated['slug'] = Str::slug($validated['title']);
@@ -185,27 +187,107 @@ class PostController extends Controller
         return redirect()->route('posts.index')
             ->with('success', 'Post updated successfully !');
     }
+    /**
+     * Soft delete post (move to trash)
+     */
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
 
-        //delete post
-        //when we hit a route like /posts/5/delete, Laravel automatically finds the Post with
-        // ID = 5 and injects it into $post.
-        public function destroy(Post $post)
-        {
-            // Authorization check
-            $this->authorize('delete', $post);
+        $post->delete();
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post deleted successfully !');
+    }
 
 
 
-            //calls Eloquent's delete() method.
-            //this removes the record from the posts table in your database.
-            // if you have relationships with onDelete('cascade'), related records
-            // (like comments) many also be removed.
-            $post->delete(); //this method is from base Model
+    /** 
+     * Restore soft-deleted post
+     */
+    public function restore($id)
+    {
+        $post = Post::onlyTrashed()->findOrFail($id); //find the soft-deleted post by ID, findOrFail throws 404 if not found.
 
-            return redirect()->route('posts.index')
-                ->with('success', 'Post deleted successfully !');
+        $this->authorize('restore', $post); // it checks if the user has permission to restore this post.
 
+        $post->restore(); //calls Eloquent's restore() method to un-delete the post.
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post restored successfully !');
+
+    }
+
+    /**
+     * Permanently delete a soft-deleted post
+    */
+    public function forceDelete($id)
+    {
+        $post = Post::onlyTrashed()->findOrFail($id);
+        /**
+         * onlyTrashed() retrieves only soft-deleted posts, $id is the post's ID.
+         */
+        $this->authorize('forceDelete', $post);
+
+        $post->forceDelete();
+
+        return redirect()->route('posts.trashed')
+            ->with('success', 'Post permanently deleted !');
+    }
+
+    /**
+     * Generate a unique slug for the post
+     */
+
+    private function generateUniqueSlug (string $title, ?int $excludeId = null): string
+    /**
+     * int $excludeId means an optional post ID to exclude from the uniqueness check
+     * string $title is the post title to generate the slug from.
+     */
+    {
+        $slug = Str::slug($title); 
+        // Generates a URL-friendly slug from the title.
+        $originalSlug = $slug;
+        $count = 1;
+
+        $query = Post::where('slug',  $slug);
+        // Builds a query to check for existing posts with the same slug.
+
+        if($excludeId) {
+            $query->where('id', '!=', $excludeId);
+            /**
+             * This line modifies the query to exclude a specific post ID from the uniqueness check.
+             * This is useful when updating a post, so it doesn't conflict with its own slug.   
+             */
         }
+
+        while($query->exists()) {
+            /**
+             * The loop continues as long as a post with the current slug exists in the database.
+             */
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+
+            $query = Post::where('slug', $slug);
+            /**
+             * Checks again if the new slug exists.
+             */
+            if($excludeId) {
+                $query->where('id', '!=', $excludeId);
+                // It again excludes the specified post ID if provided, here excludeId is id of the post being updated.
+            }
+        }
+
+        return $slug;
+        // Returns a unique slug.
+
+    }
+
+
+
+
+
+
 
 
 

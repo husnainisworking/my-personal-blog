@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
+
+    use  HasFactory
+    // HasFactory means that this model can use Laravel's factory feature to generate test data.
+    , SoftDeletes;
+
     protected $fillable = [
       'user_id',
       'category_id',
@@ -23,6 +28,7 @@ class Post extends Model
 
     protected $casts = [
       'published_at' => 'datetime',
+      'deleted_at' => 'datetime',
     ];
     //converts the published_at column into a Carbon datetime object.
 
@@ -67,16 +73,11 @@ class Post extends Model
     }
     // this is a custom query scope.
 
-
-
-
-
-
-
-
-
-
-
+    public function scopeDraft($query)
+    // scope to filter draft posts
+    {
+        return $query->where('status', 'draft');
+    }
 
 
 }

@@ -65,10 +65,68 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
 // Search Route
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
+// Soft delete routes for posts
+Route::middleware(['auth'])->group(function () {
+
+    // View trashed posts
+    Route::get('/posts/trashed', [PostController::class, 'trashed'])
+    ->name('posts.trashed');
+
+    // Restore a trashed post
+    Route::post('/posts/{id}/restore', [PostController::class, 'restore'])
+    ->name('posts.restore');
+
+    // Permanently delete a trashed post
+    Route::delete('/posts/{id}/force-delete', [PostController::class, 'forceDelete'])
+    ->name('posts.force-delete');
+});
+
+// Soft delete routes for comments
+Route::middleware(['auth'])->group(function () {
+
+    // View trashed comments
+    Route::get('/comments/trashed', [CommentController::class, 'trashed'])
+    ->name('comments.trashed');
+
+    //Restore a trashed comment
+    Route::post('/comments/{id}/restore', [CommentController::class, 'restore'])
+    ->name('comments.restore');
+
+    //Permanently delete a trashed comment
+    Route::delete('/comments/{id}/force-delete', [CommentController::class, 'forceDelete'])
+    ->name('comments.force-delete');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Admin Routes (Protected)
 // All routs inside this group require the user to be logged in (auth middleware).
 // if not authenticated -> redirected to login.
-Route::middleware(['auth','2fa.verified', 'admin'])->group(function () {
+// FIXED: Removed 'admin' middleware - authorization now handled by policies in controllers
+Route::middleware(['auth','2fa.verified'])->group(function () {
    //Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 /**

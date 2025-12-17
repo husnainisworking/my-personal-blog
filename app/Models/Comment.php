@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comment extends Model
 {
+
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'post_id',
         'name',
@@ -19,6 +22,7 @@ class Comment extends Model
 
     protected $casts = [
         'approved' => 'boolean',
+        'deleted_at' => 'datetime',
     ];
 
     //comment belongs to a post

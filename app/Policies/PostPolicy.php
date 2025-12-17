@@ -70,4 +70,22 @@ class PostPolicy
     {
         return $user->can('publish posts');
     }
+
+    /**
+     * Determine if user can restore a soft-deleted post.
+     */
+    public function restore(User $user, Post $post): bool
+    {
+        return $user->hasPermissionTo('delete posts') || $post->user_id === $user->id;
+    }
+
+    /**
+     * Determine if the user can permanently delete a post.
+     */
+    public function forceDelete(User $user, Post $post): bool
+    {
+        return $user->hasPermissionTo('delete posts');
+        // Only users with 'delete posts' permission can force delete.
+
+    }
 }

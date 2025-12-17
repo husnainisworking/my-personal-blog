@@ -22,7 +22,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $sats = [
+
+        // Dashboard is admin-only, check if user has admin role
+        abort_unless(auth()->user()->hasRole('admin'), 403);
+        
+        $stats = [
 
             'total_posts' => Post::count(),
             'published_posts' =>Post::where('staus', 'published')->count(),

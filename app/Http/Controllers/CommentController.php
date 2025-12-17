@@ -31,7 +31,7 @@ class CommentController extends Controller
         // Rate Limiting: Prevent spam and abuse
         $rateLimitKey = 'comment-submission:' . $request->ip();
 
-        if (RateLimiter::toomanyAttempts($rateLimitKey, 3) ) {
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 3) ) {
             $seconds = RateLimiter::availableIn($rateLimitKey);
 
             return back()->withErrors([
@@ -79,7 +79,7 @@ class CommentController extends Controller
         }
 
         // Step 4: Duplicate Detection (24-hour window)
-        $isDuplicate = Comment::where('email' , validated['email'])
+        $isDuplicate = Comment::where('email' , $validated['email'])
             ->where('post_id' , $post->id)
             ->where('content', $validated['content'])
             ->where('created_at', '>', now()->subDay())
@@ -94,7 +94,7 @@ class CommentController extends Controller
             ->where('created_at', '>', now()->subMinutes(5))
             ->count();
 
-        if($recenComments >= 3) {
+        if($recentComments >= 3) {
             return back()
             ->withErrors(['email' => 'You are posting too quickly. Please wait a few minutes.']);
         }    

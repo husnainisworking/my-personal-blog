@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Support\Str;
+use App\Services\SlugService;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use Illuminate\Support\Facades\DB;
 
 
 class CategoryController extends Controller
@@ -44,12 +45,21 @@ class CategoryController extends Controller
     {
        $validated = $request->validated();
 
-        $validated['slug'] = Str::slug($validated['name']);
+       // Use atomic slug generation
+       $slug = SlugService::generateWithRetry(
+              $validated['name'],
+              Category::class,
+              null,
+              function ($generatedSlug) use (&$validated) {
+                    $validated['slug'] = $generatedSlug;
+                    
+                    DB::transaction(function () use ($validated) {
+                        Category::create($validated);
+                    });
+                });
 
-        //now going to insert new category into the database.
-        Category::create($validated);
-        return redirect()->route('categories.index')
-            ->with('success', 'Category created successfully.');
+           return redirect()->route('categories.index')
+                ->with('success', 'Category created successfully.');
     }
 
     /**
@@ -70,13 +80,20 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['slug'] = Str::slug($validated['name']);
+        // Use atomic slug generation for updates
+        $validated['slug'] = SlugService::updateSlug(
 
-        $category->update($validated);
+            $category,
+            $validated['name'],
+            Category::class
+        );
+
+        DB::transaction(function () use ($category, $validated) {
+            $category->update($validated);
+        });
 
         return redirect()->route('categories.index')
             ->with('success', 'Category updated successfully.');
-
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
+use App\Services\CacheService;
+
 class HomeController extends Controller
 {
     /**
@@ -18,12 +20,14 @@ class HomeController extends Controller
      */
     public function index() 
     {
-        $posts = Post::published()
-            ->with(['user', 'category', 'tags'])
-            ->latest(['published_at'])
-            ->paginate(10);
+        // Using a caching service to optimize performance, especially for high traffic.
+        $posts = CacheService::getPublishedPosts(
+            page: request('page', 1),
+            perPage: 10
+            // This is PHP 8.1 named arguments feature
+      );
 
-        return view('welcome', compact('posts'));
+        return view('home', compact('posts'));
 
     }
 }

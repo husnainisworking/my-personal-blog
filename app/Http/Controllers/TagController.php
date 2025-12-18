@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tag;
-use Illuminate\Support\Str;
+use App\Services\SlugService;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Tag\UpdateTagRequest;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -43,12 +44,24 @@ class TagController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['slug'] = Str::slug($validated['name']);
+        // Use atomic slug generation
+        $slug = SlugService::generateWithRetry(
+            $validated['name'],
+            Tag::class,
+            null,
+            function($generatedSlug) use (&$validated) {
+                $validated['slug'] = $generatedSlug;
 
-        Tag::create($validated); //inserts a new tag into the database.
+                DB::transaction(function() use (&$validated) {
+                    Tag::create($validated);
+                });
+
+            }
+        );
 
         return redirect()->route('tags.index')
-                        ->with('success', 'Tag created successfully.');
+            ->with('success', 'Tag created successfully!');
+
     }
 
     /**
@@ -70,12 +83,21 @@ class TagController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['slug'] = Str::slug($validated['name']);
+  
+        // Use atomic slug generation for updates
+        $validated['slug'] = SlugService::updateSlug(
+             $tag,
+             $validated['name'],
+             Tag::class
+        );
 
-        $tag->update($validated);
+        DB::transaction(function() use ($tag, $validated) {
+            $tag->update($validated);
+        });
 
         return redirect()->route('tags.index')
-            ->with('success', 'Tag updated successfully!');
+           ->with('success', 'Tag updated successfully!');
+
     }
 
     /**

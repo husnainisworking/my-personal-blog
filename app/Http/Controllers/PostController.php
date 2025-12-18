@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Services\SlugService;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -75,37 +77,37 @@ class PostController extends Controller
         //Add the user who created the post, get the currently logged-in user's ID.
         $validated['user_id'] = Auth::id();
         //Generate a slug from the title, turns title into a URL-friendly string.
-        $validated['slug'] = Str::slug($validated['title']);
 
-        //Make unique slug
-        $originalSlug = $validated['slug'];
-        $count = 1;
-        while(Post::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug. '-' . $count;
-            $count++;
-        }
+        //Use atomic slug generation with database transaction
+        $slug = SlugService::generateWithRetry(
+            $validated['title'].
+            Post::class,
+            null,
+            function($generatedSlug) use (&$validated, $request) {
+                $validated['slug'] = $generatedSlug;
 
-        //set publish cate if status is published
-        // if the post is marked "published", record the current timestamp.
-        if($validated['status'] === 'published') {
-            $validated['published_at'] = now();
-        }
+                // Set published date if status is published
+                if($validated['status'] === 'published') {
+                    $validated['published_at'] = now();
+                }
 
-        //save the post, insert new post into posts table, $post is now the saved Post object.
-        $post = Post::create($validated);
+                // Create post within the transaction
+                DB::transaction(function() use (&$validated, $request, &$post) {
+                    $post = Post::create($validated);
 
-        //attach tags, if tags were selected in the form, link them to the post in the pivot table
-        //(post_tag) = pivot table
-        // example: Post #5 gets linked to Tag# 2 and Tag# 3
-        if($request->has('tags')){
-            $post->tags()->attach($request->tags);
-        }
+                    // Attach tags if provided
+                    if($request->has('tags')) {
+                        $post->tags()->attach($request->tags);
+                    }
+                });
+            }
+        );
 
-        //Redirect with success message
         return redirect()->route('posts.index')
             ->with('success', 'Post created successfully !');
-        //sends user back to the posts list page, flashes a success message to show at the top.
     }
+
+
 
     /**
      * Public view of a single post
@@ -142,51 +144,37 @@ class PostController extends Controller
 
         $validated = $request->validated();
 
-        //update slug if title changed
-        $validated['slug'] = Str::slug($validated['title']);
+        // Use atomic slug generation for updates
+        $validated['slug'] = SlugService::updateSlug(
+            $post,
+            $validated['title'],
+            Post::class
+        );
 
-        //make slug unique
-        $originalSlug = $validated['slug'];
-        $count = 1;
-        while (Post::where('slug', $validated['slug'])
-            ->where('id', '!=', $post->id)
-            ->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $count;
-            $count++;
-        }
-        //checks if another post already uses the same slug.
-        // if yes, appends -1, -2, etc., until it finds a unique slug.
-        // the where('id', '!=' , $post->id) ensures it does not conflict with itself.
-
-        //set published date if status changed
+        //Set published date if status changed to published
         if ($validated['status'] === 'published' && $post->status !== 'published') {
             $validated['published_at'] = now();
         }
-        //if the post was previously a draft but is now being published -> set the
-        // current timestamp.
 
-        //update the post
-        $post->update($validated);
-        //saves all new validated data (title, content, slug, status , etc., ) into the database.
+        // Update within transaction
+        DB::transaction(function() use ($post, $validated, $request) {
+            $post->update($validated);
 
-        //sync tags
-        //if tags were submitted ->sync() updates the pivot table so the post
-        //has exactly those tags(add new ones, remove missing ones).
-        //if no tags were submitted->detach() removes all tag links for this post.
-        //this is going to be many-to-many laravel relationship handling
-        //sync([...]) updates the pivot table (post_tag) so that only the given IDs are attached to this post.
+            // Sync tags
+            if ($request->has('tags')) {
+                $post->tags()->sync($request->tags);
+            } else {
+                $post->tags()->detach();
+            }
 
-        if ($request->has('tags')) {
-            $post->tags()->sync($request->tags);
-        } else {
-            $post->tags()->detach();
-        }
+        });
 
-        // redirect with success message , sends the user back to the posts list page.
-        // flashes a success message.
         return redirect()->route('posts.index')
             ->with('success', 'Post updated successfully !');
+
     }
+
+
     /**
      * Soft delete post (move to trash)
      */

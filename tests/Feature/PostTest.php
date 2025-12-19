@@ -47,12 +47,29 @@ class PostTest extends TestCase
         // Role::create creates a new role in the roles table, spatie permission need these roles to exist.
         Role::create(['name' => 'user']);
 
+        // Create Permissions
+        $permissions = [
+
+            'view posts',
+            'create posts',
+            'edit posts',
+            'delete posts',
+            'publish posts',
+        ];
+
+        foreach ($permissions as $permission) {
+            \Spatie\Permission\Models\Permission::create(['name' => $permission]);
+        }
 
         // Create an admin user
         $this->admin = User::factory()->create();
         // User::factory()->create() creates and saves a user in the test database
         $this->admin->assignRole('admin');
         // assignRole is a spatie permission method to assign a role to a user
+
+        // Give admin role all permissions
+        $adminRole = Role::findByName('admin');
+        $adminRole->givePermissionTo($permissions);
 
         // Create a regular user
         $this->regularUser = User::factory()->create();
@@ -69,7 +86,7 @@ class PostTest extends TestCase
             // Posts need a category, so we create one here
     }
 
-    /** @test */
+    #[Test]
     public function test_admin_can_view_posts_index()
     // What this tests: Admin user can access the posts index page (/admin/posts)
 
@@ -86,7 +103,7 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         // assertStatus(200) checks that the response status code is 200 (OK), otherwise the test fails
 
-        $response->assertViewsIs('posts.index');
+        $response->assertViewIs('posts.index');
         // assertViewIs('posts.index') checks that the returned view is posts.index, otherwise the test fails
 
         $response->assertViewHas('posts');
@@ -94,7 +111,7 @@ class PostTest extends TestCase
 
     }
 
-    /** @test */
+    #[Test]
     public function test_guest_cannot_view_posts_index()
     // What this tests: A guest (not logged in user) cannot access the posts index page (/admin/posts)
     {
@@ -105,7 +122,7 @@ class PostTest extends TestCase
         // assertRedirect(route('login')) checks that the response is a redirect to the login page, this confirms auth middleware is working
     }
 
-    /** @test */
+    #[Test]
     public function test_admin_can_view_create_post_form()
     {
         $this->actingAs($this->admin);
@@ -118,12 +135,12 @@ class PostTest extends TestCase
          */
         $response->assertStatus(200);
         // assertStatus(200) checks that the response status code is 200 (OK),
-        $reponse->assertViewIs('posts.create');
+        $response->assertViewIs('posts.create');
         // assertViewIs('posts.create') checks that the returned view is posts.create
         $response->assertViewHas(['categories', 'tags']);
     }
 
-    /** @test */
+    #[Test]
     public function test_admin_can_create_draft_post()
     {
         $this->actingAs($this->admin);
@@ -156,7 +173,7 @@ class PostTest extends TestCase
         // assertSessionHas('success') checks that the session has a 'success' message, indicating the post was created successfully
 
 
-        $this->assrtDatabaseHas('posts' , [
+        $this->assertDatabaseHas('posts' , [
 
             'title' => 'Test Blog Post',
             'slug' => 'test-blog-post',
@@ -165,7 +182,7 @@ class PostTest extends TestCase
         ]);
 
     }
-    /** @test */
+    #[Test]
     public function test_admin_can_create_published_post()
     {
 
@@ -191,7 +208,7 @@ class PostTest extends TestCase
         $post = Post::where('title', 'Published Post')->first();
         $this->assertNotNull($post->published_at);
     }
-    /** @test */
+    #[Test]
     public function test_post_slug_is_automatically_generated()
     {
         $this->actingAs($this->admin);
@@ -212,9 +229,11 @@ class PostTest extends TestCase
         ]);
 
     }
-    /** @test */
+    #[Test]
     public function test_duplicate_slug_is_handled()
     {
+        $this->actingAs($this->admin);
+
         // Create first post 
         Post::create([
 
@@ -222,6 +241,7 @@ class PostTest extends TestCase
             'title' => 'Unique Title',
             'slug' => 'unique-title',
             'content' => 'Content',
+            'category_id' => $this->category->id,
             'status' => 'draft',
         ]);
 
@@ -230,6 +250,7 @@ class PostTest extends TestCase
 
             'title' => 'Unique Title',
             'content' => 'Different content',
+            'category_id' => $this->category->id,
             'status' => 'draft',
         ];
 
@@ -245,7 +266,7 @@ class PostTest extends TestCase
 
     }
 
-    /** @test */
+    #[Test]
     public function test_admin_can_attach_tags_to_post()
     {
 
@@ -264,7 +285,7 @@ class PostTest extends TestCase
 
         $this->post(route('posts.store'), $postData);
 
-        $post = Post::where('title', 'Tagges Post')->first();
+        $post = Post::where('title', 'Tagged Post')->first();
         $this->assertCount(2, $post->tags);
         /**
          * $this->assertCount(2, $post->tags) checks that the post has exactly 2 tags associated with it, confirming that the tags were correctly attached to the post upon creation.
@@ -281,7 +302,7 @@ class PostTest extends TestCase
          * Verifies many-to-many relationship between posts and tags is functioning correctly, pivoting table is populated as expected.
          */
     }
-    /** @test */
+    #[Test]
     public function test_admin_can_view_edit_form()
     {
         $this->actingAs($this->admin);
@@ -298,7 +319,7 @@ class PostTest extends TestCase
         $response->assertViewHas('post', $post);
     }
 
-    /** @test */
+    #[Test]
     public function test_admin_can_update_post()
     {
         $this->actingAs($this->admin);
@@ -333,28 +354,29 @@ class PostTest extends TestCase
         ]);
 
     }
-    /** @test */
+    #[Test]
     public function test_admin_can_delete_post()
     {
         $this->actingAs($this->admin);
 
         $post = Post::factory()->create([
 
-            'user_id' => $this->admin->id,        
+            'user_id' => $this->admin->id,    
+            'category_id' => $this->category->id,    
         ]);
 
         $response = $this->delete(route('posts.destroy', $post));
 
         $response->assertRedirect(route('posts.index'));
 
-        $this->assertDatabaseMissing('posts', [
+        $this->assertSoftDeleted('posts', [
 
             'id' => $post->id
         ]);
 
     }
 
-    /** @test */
+    #[Test]
     public function test_guest_can_view_published_post()
     {
         $post = Post::factory()->create([
@@ -381,7 +403,7 @@ class PostTest extends TestCase
         // assertSee($post->title) checks that the response contains the post's title
     }
 
-    /** @test */
+    #[Test]
     public function test_post_requires_title()
     {
         $this->actingAs($this->admin);
@@ -407,7 +429,7 @@ class PostTest extends TestCase
          */
     }
 
-    /** @test */
+    #[Test]
     public function test_post_requires_content()
     {
         $this->actingAs($this->admin);
@@ -427,7 +449,7 @@ class PostTest extends TestCase
         // confirming that the validation rules are working correctly when required fields are missing.
     }
 
-    /** @test */
+    #[Test]
     public function test_post_status_must_be_valid()
     {
         $this->actingAs($this->admin);

@@ -41,7 +41,6 @@ return [
             'AutoFormat.AutoParagraph' => false,
             'AutoFormat.RemoveEmpty' => true,
             'Core.EscapeInvalidTags' => true,
-            'Core.EscapeASCIICharacters' => false,
         ],
 
         // Config for names/titles - NO HTML at all.

@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $stats = [
 
             'total_posts' => Post::count(),
-            'published_posts' =>Post::where('staus', 'published')->count(),
+            'published_posts' =>Post::where('status', 'published')->count(),
             'draft_posts' => Post::where('status', 'draft')->count(),
             'total_comments' => Comment::count(),
             'pending_comments' => Comment::where('approved', false)->count(),

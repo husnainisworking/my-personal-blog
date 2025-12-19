@@ -27,7 +27,7 @@ class SearchController extends Controller
                 ->orWhere('content', 'like', "%{$query}%");
             })
             ->with(['user', 'category', 'tags'])
-            ->latest(['published_at'])
+            ->latest('published_at')
             ->paginate(10);
 
             return view('search', compact('posts', 'query'));

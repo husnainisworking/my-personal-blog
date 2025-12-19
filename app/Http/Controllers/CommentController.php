@@ -131,7 +131,9 @@ class CommentController extends Controller
         // Authorization: ensures the user has permission to view comments.
         $this->authorize('viewAny', Comment::class);
         
-        $comments = Comment::with('post')
+        $comments = Comment::with(['post' => function($query) {
+            $query->withTrashed(); // Include soft-deleted posts
+            }])
             ->latest()
             ->paginate(20);
 

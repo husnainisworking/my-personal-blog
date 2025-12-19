@@ -112,10 +112,9 @@ public static function getPostsByTag($tagSlug, $page = 1 )
  */
 public static function clearPostCaches()
 {
-    Cache::forget('posts.published.*');
-    //  .* wildcard to clear all paginated post caches
-    Cache::forget('posts.*');
-    Cache::tags(['posts'])->flush();
+
+    Cache::flush();
+    // flush came from laravel cache facade to clear all caches
 }
 
 /**
@@ -125,6 +124,7 @@ public static function clearPostCaches()
 public static function clearPostCache($slug)
 {
     Cache::forget("post.{$slug}");
+    Cache::flush();
 }
 
 /**
@@ -132,9 +132,7 @@ public static function clearPostCache($slug)
  */
 public static function clearCategoryCaches()
 {
-    Cache::forget('categories.all');
-    Cache::forget('category.*');
-    Cache::tags(['categories'])->flush();
+    Cache::flush();
 }
 
 /**
@@ -142,13 +140,11 @@ public static function clearCategoryCaches()
  */
 public static function clearTagCaches()
 {
-    Cache::forget('tags.all');
-    Cache::forget('tag.*');
-    Cache::tags(['tags'])->flush();
+    Cache::flush();
 }
 
 /**
- * Clear al caches (use sparingly)
+ * Clear all caches (use sparingly!), sparingly means use it only when necessary
  */
 public static function clearAllCaches()
 {
@@ -156,9 +152,6 @@ public static function clearAllCaches()
 }
 
 }
-
-
-
 
 
 

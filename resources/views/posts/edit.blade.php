@@ -6,7 +6,7 @@
             <h2 class="text-2xl font-bold text-gray-800">Edit Post</h2>
         </div>
 
-        <form action="{{route('posts.update', $post)}}" method="POST" class="p-6">
+        <form action="{{route('posts.update', $post)}}" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             @method('PUT')
 
@@ -27,6 +27,50 @@
             <textarea name="content" id="content" rows="15" required
                       class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{old('content', $post->content)}}</textarea>
         </div>
+
+        <div class="mb-6">
+            <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">
+                Featured image
+        </label>
+
+        <!-- Show current image if exists -->
+        @if(isset($post) && $post->featured_image)
+        <div class="mb-3">
+                <img src="{{ asset('storage/' . $post->featured_image) }}"
+                alt="Current featured image"
+                class="img-thumbnail"
+                style="max-width: 300px;">
+
+                <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input"
+                        id="remove_featured_image" name="remove_featured_image" value="1">
+                    <label class="form-check-label" for="remove_featured_image">
+                        Remove current image
+        </label>    
+    </div>
+</div>
+        @endif
+
+        <!-- New image upload field -->
+        <input type="file"
+                name="featured_image"
+                id="featured_image"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500
+                     @error('featured_image') border-red-500 @enderror">
+
+        <!-- Error message for featured_image -->
+        @error('featured_image')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+
+        <!-- Helper text -->        
+        <small class="block mt-1 text-gray-500">
+            Max 2MB. Formats: JPEG, PNG, GIF, WebP
+        </small>
+        
+</div>
+
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>

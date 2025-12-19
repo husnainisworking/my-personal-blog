@@ -21,7 +21,7 @@ class IsAdmin
 
         //Check if user has admin or super-admin role
         if (!auth()->user()->hasAnyRole(['admin', 's'])) {
-            abort(403, 'Unauthorized action. Adin access required.');
+            abort(403, 'Unauthorized action. Admin access required.');
         }
 
         return $next($request);

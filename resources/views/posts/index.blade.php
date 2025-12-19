@@ -18,6 +18,7 @@
                     <table class="min-2-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -28,7 +29,19 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($posts as $post)
-                                <tr>
+                                <tr>   
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($post->featured_image)
+                                            <img src="{{ asset('storage/' . $post->featured_image) }}" 
+                                            alt="{{ $post->title }}"
+                                            class="h-12 w-12 rounded object-cover">
+                                            @else
+                                            <div class="h-12 w-12 bg-gray-200 rounded flex items-center justify-center">
+                                                <span class="text-gray-400 text-xs">No image</span>
+                                            </div>
+                                        @endif
+                                    </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{$post->title}}</div>
                                     </td>

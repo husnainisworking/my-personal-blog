@@ -27,7 +27,7 @@ class HomeController extends Controller
             // This is PHP 8.1 named arguments feature
       );
 
-        return view('home', compact('posts'));
+        return view('welcome', compact('posts'));
 
     }
 }

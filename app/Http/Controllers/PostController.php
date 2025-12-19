@@ -12,6 +12,7 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Services\SlugService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -78,18 +79,28 @@ class PostController extends Controller
         $validated['user_id'] = Auth::id();
         //Generate a slug from the title, turns title into a URL-friendly string.
 
+        // Handle image upload
+        if ($request->hasFile('featured_image')){
+            $validated['featured_image'] = $this->uploadImage($request->file('featured_image'));
+        }
+
+         // Set published date if status is published
+                if($validated['status'] === 'published') {
+                    $validated['published_at'] = now();
+                }
+
+
+
         //Use atomic slug generation with database transaction
+        $post = null;
         $slug = SlugService::generateWithRetry(
-            $validated['title'].
+            $validated['title'],
             Post::class,
             null,
             function($generatedSlug) use (&$validated, $request) {
                 $validated['slug'] = $generatedSlug;
 
-                // Set published date if status is published
-                if($validated['status'] === 'published') {
-                    $validated['published_at'] = now();
-                }
+               
 
                 // Create post within the transaction
                 DB::transaction(function() use (&$validated, $request, &$post) {
@@ -143,6 +154,22 @@ class PostController extends Controller
         // Validation is handled in StorePostRequest
 
         $validated = $request->validated();
+
+        // Handle image removal
+        if ($request->boolean('remove_featured_image')) {
+            $this->deleteImage($post->featured_image);
+            $validated['featured_image'] = null;
+        }
+
+        // Handle new image upload
+        elseif ($request->hasFile('featured_image')){
+            // Delete old image if exists
+            if ($post->featured_image) {
+                $this->deleteImage($post->featured_image);
+            }
+            $validated['featured_image'] = $this->uploadImage($request->file('featured_image'));
+        }
+
 
         // Use atomic slug generation for updates
         $validated['slug'] = SlugService::updateSlug(
@@ -215,12 +242,43 @@ class PostController extends Controller
         /**
          * onlyTrashed() retrieves only soft-deleted posts, $id is the post's ID.
          */
+
         $this->authorize('forceDelete', $post);
+
+        // Delete image file before force deleting post
+        if ($post->featured_image) {
+            $this->deleteImage($post->featured_image);
+        }
 
         $post->forceDelete();
 
         return redirect()->route('posts.trashed')
             ->with('success', 'Post permanently deleted !');
+    }
+
+    /**
+     * Upload and store featured image
+     */
+    private function uploadImage($image): string
+    {
+        // Generate unique filename with optional extension.
+        $filename = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+        // Store in storage/app/public/posts directory
+        $path = $image->storeAs('posts', $filename, 'public');
+
+        return $path;
+    }
+
+    /**
+     * Delete image file from storage
+     */
+
+    private function deleteImage(?string $path):void
+    {
+        if($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 
     /**

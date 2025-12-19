@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             '2fa.verified' => EnsureTwoFactorVerified::class,
             'admin' => \App\Http\Middleware\IsAdmin::class,
+            'spam' => \App\Http\Middleware\ProtectAgainstSpam::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

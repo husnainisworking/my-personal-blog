@@ -7,7 +7,7 @@
 
         <link rel="icon" type="image/jpeg" href="{{asset('build/assets/123.jpg')}}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'My Personal Blog') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

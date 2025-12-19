@@ -10,7 +10,7 @@
                 <!-- Total Posts -->
                 <div class="bg-blue-50 p-6 rounded-lg">
                     <div class="text-blue-600 text-sm font-semibold mb-2">Total Posts</div>
-                    <div class="text-3xl font-bold text-gray-800">{{ $stats['total_posts'] }}</div>
+                    <div class="text-3xl font-bold text-gray-800">{{$stats['total_posts']}}</div>
                 </div>
 
                 <!-- Published Posts -->

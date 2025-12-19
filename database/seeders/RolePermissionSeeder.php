@@ -49,18 +49,18 @@ class RolePermissionSeeder extends Seeder
 
         foreach ($permissions as $permission)
         {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Create roles and assign permissions
 
         //1. Super Admin - Has all permissions
-        $superAdmin = Role::create(['name' => 'super-admin']);
-        $superAdmin->givePermissionTo(Permission::all());
+        $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
+        $superAdmin->syncPermissions(Permission::all());
 
         //2. Admin - Can manage content but not users
-        $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo([
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $admin->syncPermissions([
 
             'view posts', 'create posts', 'edit posts', 'delete posts', 'publish posts',
             'view categories', 'create categories', 'edit categories', 'delete categories',
@@ -70,8 +70,8 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         //3. Editor - Can create and edit posts but not delete
-        $editor = Role::create(['name' => 'editor']);
-        $editor->givePermissionTo([
+        $editor = Role::firstOrCreate(['name' => 'editor']);
+        $editor->syncPermissions([
             'view posts', 'create posts', 'edit posts', 
             'view categories', 'view tags',
             'view comments',
@@ -79,11 +79,14 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         //4. Moderator - Can only manage comments
-        $moderator = Role::create(['name' => 'moderator']);
-        $moderator->givePermissionTo([
+        $moderator = Role::firstOrCreate(['name' => 'moderator']);
+        $moderator->syncPermissions([
             'view posts', 'view categories', 'view tags',
             'view comments', 'approve comments', 'delete comments',
             'view dashboard',
         ]);
+
+        $this->command->info('Roles and permissions have been seeded successfully.');
+        // command->info is used to output information to the console, it differs from echo or print as it is specifically designed for Laravel's command line interface.
     }
 }

@@ -8,7 +8,7 @@
             <h2 class="text-2xl font-bold text-gray-800">Create New Post</h2>
         </div>
 
-        <form action="{{route('posts.store')}}" method="POST" class="p-6">
+        <form action="{{route('posts.store')}}" method="POST" class="p-6" enctype="multipart/form-data">
             @csrf
         <div class="mb-6">
             <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
@@ -21,6 +21,21 @@
                     class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{old('excerpt')}}</textarea>
             <p class="text-sm text-gray-500 mt-1">Short description (optional)</p>
         </div>
+        <div class="mb-3">
+            <label for="featured_image" class="form-label">Featured Image</label>
+            <input type="file"
+                class="form-control @error('featured_image') is-invalid @enderror"
+                id="featured_image"
+                name="featured_image"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+
+            @error('featured_image')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            
+            <small class="text-muted">Max 2MB. Formats: JPEG, PNG, GIF, WebP</small>
+        </div>
+
         <div>
             <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Content *</label>
             <textarea name="content" id="content" rows="15" required
@@ -74,6 +89,8 @@
              </a>
          </div>
             </div>
+
+
         </form>
     </div>
 @endsection

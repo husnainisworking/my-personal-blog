@@ -26,9 +26,20 @@ class StorePostRequest extends FormRequest
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
             'excerpt' => 'nullable|max:500',
-            'status' => 'required|in:draft, published',
+            'status' => 'required|in:draft,published',
             'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id'
+            'tags.*' => 'exists:tags,id',
+
+
+            // Image upload validation
+            'featured_image' => [
+
+                'nullable',
+                'image',
+                'mimes:jpeg,jpg,png,gif,webp',
+                'max:2048',
+                'dimensions:min_width=100,min_height=100,max-width=4000,max_height=4000'
+            ]
         ];
     }
 
@@ -48,6 +59,12 @@ class StorePostRequest extends FormRequest
             'status.in' => 'The post status must be either draft or published.',
             'tags.array' => 'Tags must be provided as an array.',
             'tags.*.exists' => 'One or more selected tags do not exist.',
+
+            // Image validation messages
+            'featured_image.image' => 'The featured image must be an image file.',
+            'featured_image.mimes' => 'The featured image must be a file of type: jpeg,jpg, png, gif, or webp.',
+            'featured_image.max' => 'The featured image size cannot exceed 2MB.',
+            'featured_image.dimensions' => 'The featured image must be between 100x100 and 4000x4000 pixels.',
 
         ];
     }

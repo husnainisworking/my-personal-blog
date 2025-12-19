@@ -31,6 +31,15 @@
             @endif
     </header>
 
+    <!-- Featured Image -->
+     @if($post->featured_image)
+        <div class="mb-8">
+            <img src="{{ asset('storage/' . $post->featured_image) }}"
+            alt="{{ $post->title }}"
+            class="w-full h-auto rounded-lg shadow-lg">
+    </div>
+    @endif
+
     <!-- Post Content -->
     <div class="prose prose-lg max-w-none mb-12">
         {!! clean(\Illuminate\Support\Str::markdown($post->content)) !!}
@@ -44,56 +53,11 @@
     <!-- Comments Section -->
     <section class="mb-12">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">
-            Comments({{$post->approvedComments->count()}}
+            Comments ({{$post->approvedComments->count()}})
         </h2>
 
-    <!-- Comment Form -->
-        <div class="bg-gray-50 p-6 rounded-lg mb-8">
-            <h3 class="text-lg font-semibold mb-4">Leave a Comment</h3>
-
-        @if(session('success'))
-            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                {{session('success')}}
-            </div>
-        @endif
-
-        <form action="{{route('comments.store' , $post)}}" method="POST">
-            @csrf
-            @honeypot
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
-            <input type="text" name="name" id="name" value="{{old('name')}}" required
-                   class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            @error('name')
-            <p class="text-red-500 text-sm mt-m1">{{$message}}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-            <input type="email" name="email" id="email" value="{{old('email')}}" required
-                   class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            @error('email')
-            <p class="text-red-500 text-sm mt-1">{{$message}}</p>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Comment *</label>
-            <textarea name="content" id="content" rows="4" required
-                      class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{old('content')}}</textarea>
-            @error('content')
-            <p class="text-red-500 text-sm mt-m1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">
-            Post Comment
-        </button>
-        </div>
-
+    <!-- Comment Form Component -->
+     <x-comment-form :post="$post" class="mb-8"/>
 
     <!-- Display Comments -->
         @if($post->approvedComments->count() > 0)
@@ -101,7 +65,7 @@
                 @foreach($post->approvedComments as $comment)
                     <div class="bg-white p-6 rounded-lg shadow">
                         <div class="flex items-center mb-2">
-                            <div class="font=semibold text-gray-900">{{$comment->name}}</div>
+                            <div class="font-semibold text-gray-900">{{$comment->name}}</div>
                             <span class="mx-2 text-gray-400">•</span>
                             <div class="text-sm text-gray-600">{{$comment->created_at->diffForHumans()}}</div>
                             <!--diffforhmns() is a Laravel Carbon Method(Carbon is the date/time library Laravel uses), it takes a date/time and converts into human-friendly string -->

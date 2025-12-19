@@ -53,7 +53,7 @@ Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
 
 // Public comment submission
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
-    ->middleware(ProtectAgainstSpam::class ,'throttle:5,1')
+    ->middleware('spam','throttle:5,1')
     ->name('comments.store');
 /**
  * URL: /posts/{post}/comments, {post} is a route parameter -- Laravel will inject the Post model based on the ID in the URL.
@@ -96,30 +96,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{id}/force-delete', [CommentController::class, 'forceDelete'])
     ->name('comments.force-delete');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //Admin Routes (Protected)

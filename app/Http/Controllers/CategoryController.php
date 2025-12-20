@@ -8,6 +8,7 @@ use App\Services\SlugService;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 
 
 class CategoryController extends Controller
@@ -115,12 +116,13 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $posts = $category->posts() //get all posts linked to this category
-            ->published() //use a local scope to only fetch posts with status = published
+        $posts = Post::published() //get all posts linked to this category
+            ->where('category_id', $category->id)
             ->with(['user', 'tags'])  //eager loads relationships (author and tags) to avoid N+1 queries.
             ->latest('published_at') //orders posts by newest published date
             ->paginate(10); //splits results into pages of 10 posts each.
 
+            /** @phpstan-ignore-next-line */
         return view ('categories.show', compact('category', 'posts'));
     }
 }

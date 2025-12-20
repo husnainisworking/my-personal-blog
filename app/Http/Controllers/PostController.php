@@ -47,6 +47,7 @@ class PostController extends Controller
            ->latest()
            ->paginate(10);
            
+        /** @phpstan-ignore-next-line */
         return view ('posts.trashed', compact('posts'));
     }
 
@@ -271,70 +272,14 @@ class PostController extends Controller
     }
 
     /**
-     * Delete image file from storage
+     * Delete featured image from storage
      */
-
-    private function deleteImage(?string $path):void
+    private function deleteImage(?string $path): void 
     {
         if($path && Storage::disk('public')->exists($path)) {
             Storage::disk('public')->delete($path);
         }
     }
-
-    /**
-     * Generate a unique slug for the post
-     */
-
-    private function generateUniqueSlug (string $title, ?int $excludeId = null): string
-    /**
-     * int $excludeId means an optional post ID to exclude from the uniqueness check
-     * string $title is the post title to generate the slug from.
-     */
-    {
-        $slug = Str::slug($title); 
-        // Generates a URL-friendly slug from the title.
-        $originalSlug = $slug;
-        $count = 1;
-
-        $query = Post::where('slug',  $slug);
-        // Builds a query to check for existing posts with the same slug.
-
-        if($excludeId) {
-            $query->where('id', '!=', $excludeId);
-            /**
-             * This line modifies the query to exclude a specific post ID from the uniqueness check.
-             * This is useful when updating a post, so it doesn't conflict with its own slug.   
-             */
-        }
-
-        while($query->exists()) {
-            /**
-             * The loop continues as long as a post with the current slug exists in the database.
-             */
-            $slug = $originalSlug . '-' . $count;
-            $count++;
-
-            $query = Post::where('slug', $slug);
-            /**
-             * Checks again if the new slug exists.
-             */
-            if($excludeId) {
-                $query->where('id', '!=', $excludeId);
-                // It again excludes the specified post ID if provided, here excludeId is id of the post being updated.
-            }
-        }
-
-        return $slug;
-        // Returns a unique slug.
-
-    }
-
-
-
-
-
-
-
 
 
 }

@@ -8,12 +8,20 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Mime\Message;
 
 class BrevoApiTransport extends AbstractTransport
 {
     protected function doSend(SentMessage $message): void
     {
-        $email = MessageConverter::toEmail($message->getOriginalMessage());
+        $originalMessage = $message->getOriginalMessage();
+
+        // Ensure we have a Message instance, not just RawMessage
+        if(!$originalMessage instanceof Message) {
+            throw new \InvalidArgumentException('Message must be an instance of Symfony\Component\Mime\Message');
+        }
+
+        $email = MessageConverter::toEmail($originalMessage);
         
         $config = Configuration::getDefaultConfiguration()->setApiKey(
             'api-key',

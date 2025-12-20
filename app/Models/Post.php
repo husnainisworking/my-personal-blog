@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use App\Services\CacheService;
 
 class Post extends Model
@@ -106,9 +107,14 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->where('approved', true);
     }
-    //shortcut to get only comments that are approved.
 
-    public function scopePublished($query)
+    // shortcut to get only comments that are approved.
+
+    /**
+     *  Builder means that this method returns a query builder instance.
+     *  Query builder allows you to build database queries programmatically.
+     */
+    public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published')
             ->whereNotNull('published_at')
@@ -116,11 +122,55 @@ class Post extends Model
     }
     // this is a custom query scope.
 
-    public function scopeDraft($query)
+    public function scopeDraft(Builder $query): Builder
     // scope to filter draft posts
     {
         return $query->where('status', 'draft');
     }
 
+    // Add more useful scopes
+    public function scopeScheduled(Builder $query): Builder
+    {
+        return $query->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->where('published_at', '>', now());
+    }
+
+    public function scopeByCategory(Builder $query, int $categoryId): Builder
+    {
+        return $query->where('category_id', $categoryId);
+    }
+
+    public function scopeByTag(Builder $query, int $tagId): Builder
+    {
+        return $query->whereHas('tags', function ($q) use ($tagId) {
+            $q->where('tags.id', $tagId);
+        });
+    }
+
+    public function scopeByAuthor(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    // Helper methods
+    public function isPublished(): bool
+    {
+        return $this->status === 'published'
+        && $this->published_at !== null
+        && $this->published_at->isPast();
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === 'draft';
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status === 'published'
+        && $this->published_at !== null
+        && $this->published_at->isFuture();
+    }
 
 }

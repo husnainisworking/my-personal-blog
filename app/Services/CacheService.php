@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
+use App\Models\Post;
 
 class CacheService
 {
@@ -78,7 +79,7 @@ public static function getPostsByCategory($categorySlug, $page = 1)
 
         $category = \App\Models\Category::where('slug', $categorySlug)->firstOrFail();
 
-        return $category->posts()
+        return Post::where('category_id', $category->id)
             ->published()
             ->with(['user', 'tags'])
             ->latest('published_at')
@@ -99,7 +100,11 @@ public static function getPostsByTag($tagSlug, $page = 1 )
 
         $tag = \App\Models\Tag::where('slug', $tagSlug)->firstOrFail();
 
-        return $tag->posts()
+        // Use whereHas to query through the relationship with published scope
+
+        return Post::whereHas('tags', function($query) use ($tag){
+            $query->where('tags.id' , $tag->id);
+        })
           ->published()
           ->with(['user', 'category'])
           ->latest('published_at')

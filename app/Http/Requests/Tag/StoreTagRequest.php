@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Tag;
 
+use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTagRequest extends FormRequest

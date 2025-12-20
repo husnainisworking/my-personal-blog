@@ -4,7 +4,7 @@
 @section('content')
     <!-- Homepage (Welcome Page) of blog. -->
     <div class="mb-12 text-center">
-        <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to My Blog</h1>
+        <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to My Personal Blog</h1>
         <p class="text-xl text-gray-600">Sharing thoughts, ideas, and stories</p>
     </div>
 

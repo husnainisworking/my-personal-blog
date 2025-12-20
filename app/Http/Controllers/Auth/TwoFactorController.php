@@ -47,7 +47,7 @@ class TwoFactorController extends Controller
 
         if(RateLimiter::tooManyAttempts($key, 5)){
             // checks if this IP tried more than 5 times in 1 minute.
-            $seconds = RateLimiter::avaiableIn($key);
+            $seconds = RateLimiter::availableIn($key);
             // tells how many seconds until they can try again.
             throw ValidationException::withMessages([
                 // stops execution and shows an error message
@@ -111,7 +111,10 @@ class TwoFactorController extends Controller
         $key = 'resend-2fa-' . $request->ip();
 
         if(RateLimiter::tooManyAttempts($key, 3)) {
-            $minutes = ceil(RateLimiter::availableIn($key, 3) /60);
+
+            $seconds = RateLimiter::availableIn($key);
+            $minutes = max(1, ceil($seconds / 60));
+            //ceil rounds up to the nearest whole number
 
             return back()->withErrors([
                'code' => "Too many resend attempts. Please wait {$minutes} minutes.",
@@ -126,7 +129,8 @@ class TwoFactorController extends Controller
         }
 
         //Generate a new code
-        $code = rand(100000, 999999);
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        //STR_PAD_LEFT ensures the code is always 6 digits, adding leading zeros if necessary.
 
         // Save to database with new expiry time
         $user->two_factor_code = $code;

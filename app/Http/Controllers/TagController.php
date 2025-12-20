@@ -8,6 +8,7 @@ use App\Services\SlugService;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Tag\UpdateTagRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 
 class TagController extends Controller
 {
@@ -118,8 +119,10 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        $posts = $tag->posts()
-                ->published()
+        $posts = Post::published()
+                ->whereHas('tags', function($query) use ($tag) {
+                    $query->where('tags.id', $tag->id);
+                })
                 ->with(['user', 'category'])
                 ->latest('published_at')
                 ->paginate(10);

@@ -28,17 +28,7 @@ class CommentController extends Controller
 
     public function store(StoreCommentRequest $request, Post $post)
     {
-        // Rate Limiting: Prevent spam and abuse
-        $rateLimitKey = 'comment-submission:' . $request->ip();
-
-        if (RateLimiter::tooManyAttempts($rateLimitKey, 3) ) {
-            $seconds = RateLimiter::availableIn($rateLimitKey);
-
-            return back()->withErrors([
-                'rate limit' => "Too many comment attempts. Please try again in {$seconds} seconds."
-            ])->withInput();
-        }
-
+       
         $validated = $request->validated();
 
         
@@ -106,9 +96,6 @@ class CommentController extends Controller
 
         try {
             Comment::create($validated);
-            
-            //Increment rate limiter ( 5-minute decay)
-            RateLimiter::hit($rateLimitKey, 300);
 
             return back()->with('success', 'Comment submitted successfully! It will appear after approval.');
         } catch(\Exception $e) {
@@ -117,11 +104,11 @@ class CommentController extends Controller
 
             return back()
             ->withInput()
-            ->withErrors(['error' => 'Failed to submit commment. Please try again.']);
+            ->withErrors(['error' => 'Failed to submit comment. Please try again.']);
         }
 
         /**
-         * Display all commments for admin review
+         * Display all comments for admin review
          * Shows pending and approved comments with post information
          */
     }
@@ -169,6 +156,59 @@ class CommentController extends Controller
         return back()->with('success', 'Comment deleted!');
         // redirect back with a success message.
         // this is how an admin removes unwanted comments.
+    }
+
+    /**
+     * Display trashed (soft-deleted) comments
+     */
+    public function trashed()
+    {
+        $this->authorize('viewAny', Comment::class);
+        // viewAny policy allows viewing trashed comments as well.
+
+        $comments = Comment::onlyTrashed()
+            ->with(['post' => function($query) {
+                $query->withTrashed();
+            }]) 
+            // here closure loads related posts including soft-deleted ones.
+            ->latest('deleted_at')
+            ->paginate(20);
+
+        return view('comments.trashed', compact('comments'));
+        // view is helper to show trashed comments in comments/trashed.blade.php
+
+    }
+    
+
+    /**
+     * Restore a soft-deleted comment
+     */
+    public function restore($id)
+    {
+        $comment = Comment::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $comment);
+        // authorize came from CommentPolicy, which came from AuthServiceProvider which came from middleware 'auth' in routes/web.php
+
+        $comment->restore();
+
+        return back()->with('success', 'Comment restored successfully!');
+        // restore() is Eloquent method to un-delete a soft-deleted record.
+    }
+
+    /**
+     * Permanently delete a comment
+     */
+
+    public function forceDelete($id)
+    {
+        $comment = Comment::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $comment);
+
+        $comment->forceDelete();
+
+        return back()->with('success', 'Comment permanently deleted!');
     }
     
 

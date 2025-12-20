@@ -1,12 +1,21 @@
 @extends('layouts.admin')
 @section('title', 'Manage Comments')
 @section('content')
-    <!-- Admin dashboard page for managing comments -->
+                        <!-- Admin dashboard page for managing comments -->
     <div class="bg-white shadow rounded-lg">
-        <div class="p-6 border-b">
-            <h2 class="text-2xl font-bold text-gray-800">Manage Comments</h2>
-        </div>
+       <div class="p-6 border-b flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-800">
+            {{ __('Manage Comments')}}
+        </h2>
+   <a href="{{ route('comments.trashed') }}"
+   style="background:#f59e0b;color:#fff" class="inline-flex items-center px-4 py-2 rounded-md shadow">
+    View Trashed Comments
+</a>
 
+
+
+    </div>
+            <!-- Comments List -->
         <div class="p-6">
             @if($comments->count() > 0)
                 <div class="space-y-4">
@@ -28,8 +37,8 @@
                             <div class="text-sm text-gray-600 mb-3">
                                 On post: <a href="{{route('posts.public.show', $comment->post->slug)}}" class="text-indigo-600 hover:underline" target="_blank">{{$comment->post->title}}</a>
                             </div>
-
-                            <div class="flex-space-x-3">
+                        <!-- Action Buttons -->
+                            <div class="flex space-x-3">
                                 @if(!$comment->approved)
                                     <form action="{{route('comments.approve', $comment)}}" method="POST" class="inline">
                                         @csrf

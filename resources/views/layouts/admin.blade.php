@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpeg" href="{{asset('build/assets/123.jpg')}}">
-    <title>@yield('title', 'Admin') - Personal Blog </title>
+    <title>@yield('title', 'Admin') - My Personal Blog </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!--
     This is admin layout template. All admin pages extend this so they
@@ -19,39 +19,39 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{route('dashboard')}}" class="text-xl font-bold text-gray-800">
-                            Personal Blog
+                        <a href="{{route('dashboard')}}" class="text-2xl font-bold text-indigo-600">
+                            My Personal Blog
                         </a>
                         <!-- Generates the URL for the dashboard route , so in this file, its just HTML + Blade + Tailwind CSS working together to build your admin navbar.
                         Tailwind CSS uses utility classes directly in your HTML. Browser dont understand
                         Tailwind thats why vite includes app.css so these utilities of the tailwind can get converted to css.
                         -->
                     </div>
-                    <div class="hidden sm:ml -6 sm:flex sm:space-x-8">
-                        <a href="{{ route('dashboard') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{{ route('dashboard') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                             Dashboard
                         </a>
-                        <a href="{{ route('posts.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 border-b-2 text-sm font-medium">
+                        <a href="{{ route('posts.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                             Posts
                         </a>
-                        <a href="{{route('categories.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        <a href="{{ route('categories.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                             Categories
                         </a>
-                        <a href="{{route('tags.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        <a href="{{ route('tags.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                             Tags
                         </a>
-                        <a href="{{route('comments.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        <a href="{{ route('comments.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                             Comments
                         </a>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <a href="{{route('home')}}" target="_blank" class="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('home') }}" target="_blank" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
                         View Site
                     </a>
-                    <form method="POST" action="{{route('logout')}}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                    <button type="submit" class="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                    <button type="submit" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
                         Logout
                     </button>
                     </form>

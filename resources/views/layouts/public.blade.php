@@ -7,7 +7,7 @@
     charset="UTF-8" -> Ensures the page supports all characters(Eng, Urdu, emojis, etc.).
     viewport -> Makes the page responsive on mobile devices (scales properly).
     -->
-    <title>@yield('title', 'Welcome') - Personal Blog </title>
+    <title>@yield('title', 'Welcome') - My Personal Blog </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -17,7 +17,7 @@
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">
-                            My Blog
+                            My Personal Blog
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">

@@ -16,7 +16,7 @@
                 <input type="text" name="name" id="name" value="{{old('name', $category->name)}}" required
                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 @error('name')
-                <p class="text-red-500 text-sm mt-m1">{{$message}}</p>
+                <p class="text-red-500 text-sm mt-1">{{$message}}</p>
                 @enderror
             </div>
 

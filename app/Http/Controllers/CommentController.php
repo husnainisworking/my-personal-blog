@@ -8,6 +8,7 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\RateLimiter;
 use Mews\Purifier\Facades\Purifier;
 use App\Http\Requests\Comment\StoreCommentRequest;
+use Illuminate\Database\QueryException;
 
 
 
@@ -98,14 +99,30 @@ class CommentController extends Controller
             Comment::create($validated);
 
             return back()->with('success', 'Comment submitted successfully! It will appear after approval.');
-        } catch(\Exception $e) {
-            // Log error for debugging
-            \Log::error('Comment submission failed: ' . $e->getMessage());
+        } catch(QueryException $e) {
+            // Specific: Database errors(constraint violations, connection issues, etc)
+            \Log::error('Database error while creating comment', [
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'email' => $validated['email'],
+                'post_id' => $post->id,
+                'ip' => $request->ip(),
+            ]);
 
+            // Check for specific database error codes, duplicate entry error
+            if ($e->getCode() === '23000') {
+                // Integrity constraint violation (duplicate, foreign key, etc.)
+                return back()
+                ->withInput()
+                ->withErrors(['error' => 'This comment could not be saved due to a data conflict.']);
+            }
+            
+            // General database error
             return back()
             ->withInput()
-            ->withErrors(['error' => 'Failed to submit comment. Please try again.']);
+            ->withErrors(['error' => 'A database error occurred. Please try again later.']);
         }
+        
 
         /**
          * Display all comments for admin review

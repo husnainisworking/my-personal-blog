@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TwoFactorCodeMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\TwoFactorCodeMail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +20,7 @@ class TwoFactorController extends Controller
     {
         // Check if user is logged in
         // If not logged in, redirect them back to login page
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
@@ -43,15 +43,15 @@ class TwoFactorController extends Controller
         // Rate Limiting: max 5 attempts per minute per IP
         // Example : Creating a unique key using the user's IP address.
         // verify-2fa-192.168.1.10
-        $key = 'verify-2fa-'. $request->ip();
+        $key = 'verify-2fa-'.$request->ip();
 
-        if(RateLimiter::tooManyAttempts($key, 5)){
+        if (RateLimiter::tooManyAttempts($key, 5)) {
             // checks if this IP tried more than 5 times in 1 minute.
             $seconds = RateLimiter::availableIn($key);
             // tells how many seconds until they can try again.
             throw ValidationException::withMessages([
                 // stops execution and shows an error message
-               'code' => "Too many attempts. PLease try again in {$seconds} seconds." ,
+                'code' => "Too many attempts. Please try again in {$seconds} seconds.",
             ]);
         }
 
@@ -59,7 +59,7 @@ class TwoFactorController extends Controller
         $user = Auth::user();
 
         // Safety check: if somehow user is not logged in, redirect to login
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')
                 ->withErrors(['code' => 'Please login first.']);
         }
@@ -67,9 +67,9 @@ class TwoFactorController extends Controller
         // Check TWO things:
         // 1. Does the entered code match the code we saved in database?
         // 2. Is the code still valid (not expired)?
-        if ($user->two_factor_code && 
-	 $request->code &&
-	    $user->two_factor_code == $request->code &&
+        if ($user->two_factor_code &&
+     $request->code &&
+        $user->two_factor_code == $request->code &&
 
             now()->lessThan($user->two_factor_expires_at)) {
 
@@ -82,14 +82,14 @@ class TwoFactorController extends Controller
             $user->two_factor_expires_at = null;
             $user->save();
 
-            //User is already logged in from the first step
-            //Just redirect them to the dashboard
+            // User is already logged in from the first step
+            // Just redirect them to the dashboard
             return redirect()->route('dashboard');
         }
 
-        //FAILURE - Increment attempt counter
+        // FAILURE - Increment attempt counter
         // Add 1 failed attempt, block for 60 seconds after 5 failures.
-        RateLimiter::hit($key, 60); //Block for 60 seconds after 5 failures
+        RateLimiter::hit($key, 60); // Block for 60 seconds after 5 failures
 
         // Failure ! Code is wrong or expired
 
@@ -108,66 +108,42 @@ class TwoFactorController extends Controller
     public function resend(Request $request)
     {
         // Rate limiting: max 3 resends per 5 minutes
-        $key = 'resend-2fa-' . $request->ip();
+        $key = 'resend-2fa-'.$request->ip();
 
-        if(RateLimiter::tooManyAttempts($key, 3)) {
+        if (RateLimiter::tooManyAttempts($key, 3)) {
 
             $seconds = RateLimiter::availableIn($key);
             $minutes = max(1, ceil($seconds / 60));
-            //ceil rounds up to the nearest whole number
+            // ceil rounds up to the nearest whole number
 
             return back()->withErrors([
-               'code' => "Too many resend attempts. Please wait {$minutes} minutes.",
+                'code' => "Too many resend attempts. Please wait {$minutes} minutes.",
             ]);
         }
 
-        //Get the logged-in user
+        // Get the logged-in user
         $user = Auth::user();
 
-        if(!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
-        //Generate a new code
+        // Generate a new code
         $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        //STR_PAD_LEFT ensures the code is always 6 digits, adding leading zeros if necessary.
+        // STR_PAD_LEFT ensures the code is always 6 digits, adding leading zeros if necessary.
 
         // Save to database with new expiry time
         $user->two_factor_code = $code;
         $user->two_factor_expires_at = now()->addMinutes(10);
         $user->save();
 
-        //Send new code via email
+        // Send new code via email
         Mail::to($user->email)->queue(new TwoFactorCodeMail($code));
 
         // Increment resend counter
         RateLimiter::hit($key, 300); // 300 seconds = 5 minutes
 
-        //Redirect back with success message
+        // Redirect back with success message
         return back()->with('status', 'New verification code sent to your email!');
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

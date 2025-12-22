@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CacheService;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,7 @@ class HomeController extends Controller
      * Orders by newest published_at.
      * Paginates results (10 per page).
      */
-    public function index()
+    public function index(): View
     {
         // Using a caching service to optimize performance, especially for high traffic.
         $posts = CacheService::getPublishedPosts(

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Policies\DashboardPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register Dashboard policy manually (not a model)
+        Gate::policy('Dashboard', DashboardPolicy::class);
+
     }
 }

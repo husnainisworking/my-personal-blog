@@ -6,6 +6,8 @@ use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Mews\Purifier\Facades\Purifier;
 
 class CommentController extends Controller
@@ -20,7 +22,7 @@ class CommentController extends Controller
      * - Spam Detection
      * - Duplicate Prevention
      */
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Post $post): RedirectResponse
     {
 
         $validated = $request->validated();
@@ -137,7 +139,7 @@ class CommentController extends Controller
          */
     }
 
-    public function index()
+    public function index(): View
     {
         // Authorization: ensures the user has permission to view comments.
         $this->authorize('viewAny', Comment::class);
@@ -162,7 +164,7 @@ class CommentController extends Controller
     }
 
     // Approve comment
-    public function approve(Comment $comment)
+    public function approve(Comment $comment): RedirectResponse
     {
         $this->authorize('approve', $comment);
 
@@ -176,7 +178,7 @@ class CommentController extends Controller
     }
 
     // delete comment
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): RedirectResponse
     {
         $this->authorize('delete', $comment);
 
@@ -191,7 +193,7 @@ class CommentController extends Controller
     /**
      * Display trashed (soft-deleted) comments
      */
-    public function trashed()
+    public function trashed(): View
     {
         $this->authorize('viewAny', Comment::class);
         // viewAny policy allows viewing trashed comments as well.
@@ -215,7 +217,7 @@ class CommentController extends Controller
     /**
      * Restore a soft-deleted comment
      */
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         $comment = Comment::onlyTrashed()->findOrFail($id);
 
@@ -231,7 +233,7 @@ class CommentController extends Controller
     /**
      * Permanently delete a comment
      */
-    public function forceDelete($id)
+    public function forceDelete($id): RedirectResponse
     {
         $comment = Comment::onlyTrashed()->findOrFail($id);
 

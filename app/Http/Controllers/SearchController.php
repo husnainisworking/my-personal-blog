@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SearchController extends Controller
 {
@@ -14,7 +15,7 @@ class SearchController extends Controller
      * user types "Laravel" in blog's search box.
      * browser hits /search?q=Laravel
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = $request->input('q');
 

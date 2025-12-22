@@ -8,16 +8,18 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Services\SlugService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
     /**
      * Shows all posts (Admin)
      */
-    public function index()
+    public function index(): View
     {
         $this->authorize('viewAny', Post::class);
 
@@ -37,7 +39,7 @@ class PostController extends Controller
     /**
      * Show trashed posts (soft deleted)
      */
-    public function trashed()
+    public function trashed(): View
     {
         $this->authorize('viewAny', Post::class);
         // This method shows all soft-deleted posts in the admin panel.
@@ -56,7 +58,7 @@ class PostController extends Controller
     /**
      * Show create form
      */
-    public function create()
+    public function create(): View
     {
 
         // NEW: Check permission
@@ -71,7 +73,7 @@ class PostController extends Controller
     /**
      * Store new post
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -118,7 +120,7 @@ class PostController extends Controller
     /**
      * Public view of a single post
      */
-    public function show(Post $post)
+    public function show(Post $post): View
     {   // Post $post -> laravel automatically injects the post you want to show
         // (based on the route parameter, e.g. /posts/5).
         $post->load(['user', 'category', 'tags', 'approvedComments']);
@@ -130,7 +132,7 @@ class PostController extends Controller
     /**
      * Admin edit form
      */
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         // Authorization check
         $this->authorize('update', $post);
@@ -144,7 +146,7 @@ class PostController extends Controller
     /**
      * Update post
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
         // Authorization is handled in StorePostRequest
         // Validation is handled in StorePostRequest
@@ -199,7 +201,7 @@ class PostController extends Controller
     /**
      * Soft delete post (move to trash)
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $this->authorize('delete', $post);
 
@@ -212,7 +214,7 @@ class PostController extends Controller
     /**
      * Restore soft-deleted post
      */
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         $post = Post::onlyTrashed()->findOrFail($id); // find the soft-deleted post by ID, findOrFail throws 404 if not found.
 
@@ -228,7 +230,7 @@ class PostController extends Controller
     /**
      * Permanently delete a soft-deleted post
      */
-    public function forceDelete($id)
+    public function forceDelete($id): RedirectResponse
     {
         $post = Post::onlyTrashed()->findOrFail($id);
         /**

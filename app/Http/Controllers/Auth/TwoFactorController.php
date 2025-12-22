@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\TwoFactorCodeMail;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class TwoFactorController extends Controller
 {
@@ -16,7 +18,7 @@ class TwoFactorController extends Controller
      * Show the 2FA verification page
      * This method runs when user visits /2fa/verify
      */
-    public function show()
+    public function show(): View|RedirectResponse
     {
         // Check if user is logged in
         // If not logged in, redirect them back to login page
@@ -32,7 +34,7 @@ class TwoFactorController extends Controller
      * This method runs when user submits the 2FA form
      */
 
-    public function verify(Request $request)
+    public function verify(Request $request): RedirectResponse
     {
         // Validate the input
         // Make sure 'code' field exists, is required, and has exactly 6 digits
@@ -105,7 +107,7 @@ class TwoFactorController extends Controller
     /**
      *  Resend the code with rate limiting
      */
-    public function resend(Request $request)
+    public function resend(Request $request): RedirectResponse
     {
         // Rate limiting: max 3 resends per 5 minutes
         $key = 'resend-2fa-'.$request->ip();

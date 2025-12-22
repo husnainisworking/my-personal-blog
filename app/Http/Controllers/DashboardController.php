@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
@@ -18,10 +19,10 @@ class DashboardController extends Controller
      *  Total categories, total tags.
      *  This is the admin overview page.
      */
-    public function index()
+    public function index(): View
     {
-
-        // No authorization check needed - middleware handles it!
+        // Use policy based authorization (consistent with other controllers)
+        $this->authorize('viewDashboard', 'Dashboard');
 
         $stats = [
 

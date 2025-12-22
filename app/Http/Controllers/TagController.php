@@ -7,14 +7,16 @@ use App\Http\Requests\Tag\UpdateTagRequest;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Services\SlugService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class TagController extends Controller
 {
     /**
      * Show all tags
      */
-    public function index()
+    public function index(): View
     {
         $this->authorize('viewAny', Tag::class);
 
@@ -29,7 +31,7 @@ class TagController extends Controller
     /**
      * Show create form
      */
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', Tag::class);
 
@@ -41,7 +43,7 @@ class TagController extends Controller
     /**
      * Store new tag
      */
-    public function store(StoreTagRequest $request)
+    public function store(StoreTagRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -68,7 +70,7 @@ class TagController extends Controller
     /**
      * Show the edit form
      */
-    public function edit(Tag $tag)
+    public function edit(Tag $tag): View
     {
         $this->authorize('update', $tag);
 
@@ -80,7 +82,7 @@ class TagController extends Controller
     /**
      * Update an existing tag
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
+    public function update(UpdateTagRequest $request, Tag $tag): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -103,7 +105,7 @@ class TagController extends Controller
     /**
      * Delete a tag
      */
-    public function destroy(Tag $tag)
+    public function destroy(Tag $tag): RedirectResponse
     {
         $this->authorize('delete', $tag);
 
@@ -116,7 +118,7 @@ class TagController extends Controller
     /**
      * Show posts by tag (Public)
      */
-    public function show(Tag $tag)
+    public function show(Tag $tag): View
     {
         $perPage = config('pagination.tags');
 

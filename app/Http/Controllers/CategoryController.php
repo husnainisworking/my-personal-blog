@@ -7,14 +7,16 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\SlugService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     /**
      * Show all categories
      */
-    public function index()
+    public function index(): View
     {
         $this->authorize('viewAny', Category::class);
 
@@ -30,7 +32,7 @@ class CategoryController extends Controller
     /**
      * Show create form
      */
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', Category::class);
 
@@ -42,7 +44,7 @@ class CategoryController extends Controller
     /**
      * Store new category
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -66,7 +68,7 @@ class CategoryController extends Controller
     /**
      * Show edit form.
      */
-    public function edit(Category $category)
+    public function edit(Category $category): View
     {
         $this->authorize('update', $category);
 
@@ -77,7 +79,7 @@ class CategoryController extends Controller
     /**
      * Update category. (Update an existing category)
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -100,7 +102,7 @@ class CategoryController extends Controller
     /**
      * Delete a category
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
         $this->authorize('delete', $category);
 
@@ -115,7 +117,7 @@ class CategoryController extends Controller
     /**
      * Show posts by category (Public)
      */
-    public function show(Category $category)
+    public function show(Category $category): View
     {
         $perPage = config('pagination.categories');
 

@@ -48,7 +48,7 @@ Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
 
 // Public comment submission
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
-    ->middleware('spam', 'throttle:5,1')
+    ->middleware('spam', 'throttle:10,1')
     ->name('comments.store');
 /**
  * URL: /posts/{post}/comments, {post} is a route parameter -- Laravel will inject the Post model based on the ID in the URL.
@@ -102,7 +102,7 @@ Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
     /**
      * URL: /dashboard
      * Collect site statistics:
-     *  Total comments, pending comments.
+     *  Total comments, pending comments.https://cineb.gg/
      *  Total categories, total tags.
      * Passes stats to dashboard.blade.php , this is the admin overview page
      */
@@ -113,7 +113,7 @@ Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
 
     /**
      * Edit profile -> /profile (GET)
-     *  Update profile -> /profile (PATCH).
+     *  Update profile -> /profile (PATCH).https://cineb.gg/
      *  Delete account -> /profile (DELETE).
      * Lets the logged-in user manage their own profile.
      */

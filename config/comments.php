@@ -9,7 +9,7 @@ return [
 
     // Rate Limiting
     'rate_limit' => [
-        'max_attempts' => env('COMMENT_RATE_LIMIT_ATTEMPTS', 3),
+        'max_attempts' => env('COMMENT_RATE_LIMIT_ATTEMPTS', 5),
         'decay_minutes' => env('COMMENT_RATE_LIMIT_MINUTES', 5),
     ],
 

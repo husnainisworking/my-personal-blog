@@ -23,7 +23,7 @@ class SlugService
         $attempt = 1;
 
         // Use database transaction with pessimistic locking
-        return DB::transaction(function () use ($slug, $baseSlug, $model, $excludeId, $maxAttempts, &$attempt) {
+        return DB::transaction(function () use (&$slug, $baseSlug, $model, $excludeId, $maxAttempts, &$attempt) {
             /**
              * This closures capture the variables by reference to allow modification within the transaction.
              */

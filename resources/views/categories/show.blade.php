@@ -31,13 +31,13 @@
 <div class="flex space-x-3">
     @auth
         @role('admin')
-    <a href="{{ route('admin.posts.edit', $post) }}"
+    <a href="{{ route('posts.edit', $post) }}"
     class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
         Edit
 </a>
 
 
-<form action="{{ route('admin.posts.destroy', $post)}}" method="POST" class="inline">
+<form action="{{ route('posts.destroy', $post)}}" method="POST" class="inline">
     @csrf
     @method('DELETE')
     <button type="submit"

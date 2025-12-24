@@ -58,10 +58,14 @@
 </div>
 
 <div class="p-6 border-t flex space-x-4">
+    @auth
+    @role('admin')
     <a href="{{ route('categories.edit', $category) }}"
     class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
     Edit category
 </a>
+@endrole
+@endauth
 <a href="{{ route('categories.index') }}"
     class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">
     Back to Categories

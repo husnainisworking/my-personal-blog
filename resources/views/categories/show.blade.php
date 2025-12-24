@@ -29,14 +29,13 @@
 </p>
 <div class="flex space-x-3">
     @auth
-        @can('update', $post)
+        @role('admin')
     <a href="{{ route('admin.posts.edit', $post) }}"
     class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
         Edit
 </a>
-@endcan
 
-@can('delete', $post)
+
 <form action="{{ route('admin.posts.destroy', $post)}}" method="POST" class="inline">
     @csrf
     @method('DELETE')
@@ -46,7 +45,7 @@
                         Delete
 </button>
 </form>
-@endcan
+@endrole
 @endauth
 </div>
 </div>

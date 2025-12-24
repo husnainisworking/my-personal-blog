@@ -20,7 +20,7 @@
             @foreach($category->posts as $post)
                 <div class="border rounded-lg p-6 hover:shadow-lg transition">
                     <h4 class="text-lg font-bold text-gray-800 mb-2">
-                        <a href="{{ route('posts.show', $post}}" class="hover:underline">
+                        <a href="{{ route('posts.show', $post)}}" class="hover:underline">
                             {{ $post->title}}
 </a>
 </h4>

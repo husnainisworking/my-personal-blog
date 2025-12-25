@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -165,3 +166,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/api/search', [\App\Http\Controllers\Api\DbSearchController::class, 'index'])
     ->name('api.search')
     ->middleware('throttle:30,1');
+
+// Sitemap (SEO) - ADD
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');

@@ -1,5 +1,5 @@
 {{-- resource/views/categories/show.blade.php --}}
-@extends('layouts.admin')
+@extends('layouts.public')
 
 @section('title', $category->name)
 
@@ -15,9 +15,9 @@
 <div class="p-6">
     <h3 class="text-xl font-semibold mb-4">Posts in this category</h3>
 
-    @if($category->posts->count() > 0)
+    @if($posts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($category->posts as $post)
+            @foreach($posts as $post)
                 <div class="border rounded-lg p-6 hover:shadow-lg transition">
                     <h4 class="text-lg font-bold text-gray-800 mb-2">
 
@@ -66,9 +66,9 @@
 </a>
 @endrole
 @endauth
-<a href="{{ route('categories.index') }}"
+<a href="{{ route('home') }}"
     class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">
-    Back to Categories
+    Back to Home
 </a>
 </div>
 </div>

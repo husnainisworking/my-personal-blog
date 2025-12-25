@@ -47,15 +47,15 @@
             </div>
         </div>
     </nav>
-    <main class="py-10 flex-1">
+    <main class="pt-8 pb-6 sm:pt-10 sm:pb-10 flex-1">
         <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             @yield('content')
         </div>
     </main>
-    <footer class="bg-white border-t mt-auto">
+    <footer class="bg-gray-50 border-t mt-auto">
         <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
-            <p> © {{date('Y')}} Personal Blog. All rights reserved.</p>
+        <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>
 
             <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-2 hover:text-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">

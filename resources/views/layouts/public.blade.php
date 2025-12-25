@@ -54,10 +54,17 @@
     </main>
     <footer class="bg-white border-t mt-auto">
         <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
-            <p class="text-center text-gray-500 text-sm">
-                © {{date('Y')}} Personal Blog. All rights reserved.
-            </p>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
+            <p> © {{date('Y')}} Personal Blog. All rights reserved.</p>
+
+            <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-2 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">
+            <path d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36Zm-2.18-10v3.27a9.91 9.91 0 0 1 9.91 9.91h3.27C17.18 14.3 10.7 7.82 4 7.82Zm0-5v3.27c9.18 0 16.64 7.46 16.64 16.64H24C24 11.74 14.26 2 4 2Z"/>
+        </svg>
+        <span>RSS</span>
+        </a>
         </div>
+    </div>
     </footer>
 </body>
 </html>

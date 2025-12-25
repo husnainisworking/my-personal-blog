@@ -58,7 +58,7 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
  */
 
 // Search Route
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+// Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Soft delete routes for posts
 Route::middleware(['auth'])->group(function () {
@@ -159,3 +159,9 @@ Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
 
 require __DIR__.'/auth.php';
 // includes Laravel Breeze/Fortify/Jetstream auth routes (login, register, password reset, etc.)
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+Route::get('/api/search', [\App\Http\Controllers\Api\DbSearchController::class, 'index'])
+    ->name('api.search')
+    ->middleware('throttle:30,1');

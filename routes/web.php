@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RssFeedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
@@ -169,3 +170,6 @@ Route::get('/api/search', [\App\Http\Controllers\Api\DbSearchController::class, 
 
 // Sitemap (SEO) - ADD
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// RSS Feed
+Route::get('/feed.xml', [RssFeedController::class, 'index'])->name('rss.feed');

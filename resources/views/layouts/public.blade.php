@@ -8,6 +8,7 @@
     viewport -> Makes the page responsive on mobile devices (scales properly).
     -->
     <title>@yield('title', 'Welcome') - My Personal Blog </title>
+    <link rel="alternate" type="application/rss+xml" title="My Personal Blog" href="{{ url('/feed.xml') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">

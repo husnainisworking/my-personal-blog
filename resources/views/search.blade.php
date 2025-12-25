@@ -3,7 +3,7 @@
 @section('content')
     <!-- Search results page-->
     <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">Search Results</h1>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">Search Results</h1>
         <p class="text-gray-600">Showing results for: <strong>"{{$query}}</strong></p>
         <p class="text-gray-500 text-sm">Found {{$posts->total()}} post(s)</p>
     </div>
@@ -12,14 +12,14 @@
         <div class="grid gap-8">
             @foreach($posts as $post)
                 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                    <div class="p-6">
+                    <div class="p-5 sm:p-6">
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">
                             <a href="{{route('posts.public.show', $post->slug)}}" class="hover:text-indigo-600">
                                 {{$post->title}}
                             </a>
                         </h2>
 
-                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 mb-4">
                             <span>{{$post->user?->name ?? "Unknown"}}</span>
                             <span class="mx-2">•</span>
                             <span>{{$post->published_at->format('F d, Y')}}</span>

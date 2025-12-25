@@ -4,7 +4,7 @@
 @section('content')
     <!-- Homepage (Welcome Page) of blog. -->
     <div class="mb-12 text-center">
-        <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to My Personal Blog</h1>
+        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 mb-4">Welcome to My Personal Blog</h1>
         <p class="text-xl text-gray-600">Sharing thoughts, ideas, and stories</p>
     </div>
 
@@ -12,14 +12,14 @@
         <div class="grid gap-8">
             @foreach($posts as $post)
                 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                    <div class="p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                    <div class="p-5 sm:p-8">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
                             <a href="{{route('posts.public.show', $post->slug)}}" class="hover:text-indigo-600">
                                 {{$post->title}}
                             </a>
                         </h2>
 
-                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 mb-4">
                             <span>{{$post->user?->name ?? 'Unknown Author'}}</span>
                             <span class="mx-2">•</span>
                             <span>{{$post->published_at->format('F d, Y')}}</span>

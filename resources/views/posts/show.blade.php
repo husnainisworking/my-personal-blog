@@ -5,9 +5,9 @@
 <article class="max-w-4xl mx-auto">
     <!--Post Header-->
     <header class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{$post->title}}</h1>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-4">{{$post->title}}</h1>
 
-        <div class="flex items-center text-sm text-gray-600 mb-4">
+        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 mb-4">
             <span>By {{$post->user?->name ?? "Unknown"}}</span>
             <span class="mx-2">•</span>
             <span>{{$post->published_at->format('F d, Y')}}</span>
@@ -41,7 +41,7 @@
     @endif
 
     <!-- Post Content -->
-    <div class="prose prose-lg max-w-none mb-12">
+    <div class="prose prose-lg max-w-none mb-12 break-words">
         {!! clean(\Illuminate\Support\Str::markdown($post->content)) !!}
         <!-- Converts the post's content(written in Markdown) into HTMl.
         Problem Solved: Authors can write in simple Markdown, but readers can see nicely formatted text.

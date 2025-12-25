@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             <div class="flex flex-col gap-3 py-3 sm:flex-row sm:justify-between sm:items-center sm:h-16">
                 <div class="flex min-w-0">
                     <div class="flex-shrink-0 flex items-center">
@@ -47,12 +47,12 @@
         </div>
     </nav>
     <main class="py-10 flex-1">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             @yield('content')
         </div>
     </main>
     <footer class="bg-white border-t mt-auto">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
             <p class="text-center text-gray-500 text-sm">
                 © {{date('Y')}} Personal Blog. All rights reserved.
             </p>

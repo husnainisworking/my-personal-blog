@@ -13,10 +13,10 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <nav class="bg-white shadow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
+            <div class="flex flex-col gap-3 py-3 sm:flex-row sm:justify-between sm:items-center sm:h-16">
+                <div class="flex min-w-0">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">
+                        <a href="{{ route('home') }}" class="text-lg sm:text-2xl font-bold text-indigo-600 truncate max-w-[11rem] sm:max-w-none">
                             My Personal Blog
                         </a>
                     </div>
@@ -26,15 +26,15 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <form action="{{route ('search')}}" method="GET" class="flex">
-                        <input type="text" name="q" placeholder="Search..." class="border rounded-l px-4 py-2 text-sm" value="{{ request('q') }}">
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r text-sm hover:bg-indigo-700">
+                <div class="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:items-center">
+                    <form action="{{route ('search')}}" method="GET" class="flex w-full sm:w-auto">
+                        <input type="text" name="q" placeholder="Search..." class="border rounded-l px-4 py-2 text-sm w-full sm:w-64" value="{{ request('q') }}">
+                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r text-sm hover:bg-indigo-700 shrink-0">
                             Search
                         </button>
                     </form>
                     @auth
-                        <a href="{{route('dashboard')}}" class="ml-4 text-gray-500 hover:text-gray-700 text-sm font-medium">
+                        <a href="{{route('dashboard')}}" class="sm:ml-4 text-gray-500 hover:text-gray-700 text-sm font-medium">
                             Admin
                         </a>
                     @endauth

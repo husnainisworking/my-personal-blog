@@ -4,7 +4,7 @@
     <!-- Public-facing page for a tag -->
     <div class="mb-8">
         <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">#{{ $tag->name }}</h1>
-        <p class="text-gray-500 text-sm">Found {{ $posts->total() }} post(s)</p>
+        <p class="text-gray-500 text-sm">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
         <div class="mt-2">
             <x-back-link :fallback="route('public.tags.index')" />

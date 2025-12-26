@@ -11,7 +11,7 @@
                 <p class="text-gray-600">{{ $category->description }}</p>
             @endif
 
-            <p class="text-gray-500 text-sm mt-1">Found {{ $posts->total() }} post(s)</p>
+            <p class="text-gray-500 text-sm mt-1">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
             <div class="mt-2">
                 <x-back-link :fallback="route('public.categories.index')" />

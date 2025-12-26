@@ -5,7 +5,7 @@
     <div class="mb-8">
         <h1 class="text-4xl font-bold text-gray-900">#{{$tag->name}}</h1>
         <p class="text-gray-600 mt-2">{{$posts->total()}} posts tagged with this</p>
-<x-back-link : fallback="route('public.tags.index')" />
+<x-back-link :fallback="route('public.tags.index')" />
     </div>
 
     @if($posts->count() > 0)

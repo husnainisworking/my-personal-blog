@@ -32,7 +32,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{route('dashboard')}}" class="text-2xl font-bold text-indigo-600">
+                        <a href="{{route('home')}}" class="text-2xl font-bold text-indigo-600">
                             My Personal Blog
                         </a>
                         <!-- Generates the URL for the dashboard route , so in this file, its just HTML + Blade + Tailwind CSS working together to build your admin navbar.
@@ -41,22 +41,37 @@
                         -->
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{{ route('dashboard') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            Dashboard
-                        </a>
-                        <a href="{{ route('posts.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            Posts
-                        </a>
-                        <a href="{{ route('categories.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            Categories
-                        </a>
-                        <a href="{{ route('tags.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            Tags
-                        </a>
-                        <a href="{{ route('comments.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            Comments
-                        </a>
-                    </div>
+                        @can('view dashboard')
+                            <a href="{{ route('dashboard') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
+                                Dashboard
+</a>
+@endcan
+
+@can('view posts')
+    <a href="{{ route('posts.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 text-sm font-medium transition duration-150 ease-in-out">
+        Posts
+</a>
+@endcan
+
+@can('view categories')
+    <a href="{{ route('categories.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border:b-2 text-sm font:medium transition duration-150 ease-in-out">
+        Categories
+</a>
+@endcan
+
+@can('view tags')
+    <a href="{{ route('tags.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
+        Tags
+</a>
+    @endcan
+    
+    @can('view comments')
+    <a href="{{ route('comments.index')}}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-2 text-sm font-medium transition duration-150 ease-in-out">
+        Comments
+</a>
+@endcan
+</div>
+
                 </div>
 
                 <div class="flex items-center space-x-4">

@@ -23,18 +23,20 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('viewAny', Post::class);
-
-        // This method is a controller action that handles showing all posts
-        // in your admin panel. index() is conventional name for "list all items".
-        // Eager loading occurs here.
-
         $perPage = config('pagination.posts');
-
-        $posts = Post::with(['user', 'category', 'tags'])
-            ->latest() // orders posts by the newest first (usually by created_at)
-            ->paginate($perPage); // splits results into pages of 10 posts each, laravel automatically handles page links (?page=2, etc.).
-
+        
+        // Admins see all posts, regular users see only their own
+        if (Auth::user()->hasRole('admin')) {
+            $posts = Post::with(['user', 'category', 'tags'])
+            ->latest()
+            ->paginate($perPage);
+        } else {
+            $posts = Post::with(['user', 'category', 'tags'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->paginate($perPage);
+        }
+        
         return view('posts.index', compact('posts'));
     }
 
@@ -43,16 +45,22 @@ class PostController extends Controller
      */
     public function trashed(): View
     {
-        $this->authorize('viewAny', Post::class);
-        // This method shows all soft-deleted posts in the admin panel.
 
         $perPage = config('pagination.posts');
 
-        $posts = Post::onlyTrashed()
+        // Admins see all trashed posts, users see only their own
+        if(Auth::user()->hasRole('admin')) {
+            $posts = Post::onlyTrashed()
             ->with(['user', 'category', 'tags'])
             ->latest()
             ->paginate($perPage);
-
+        } else {
+        $posts = Post::onlyTrashed()
+            ->where('user_id' , Auth::id())
+            ->with(['user', 'category', 'tags'])
+            ->latest()
+            ->paginate($perPage);
+    }
         /** @phpstan-ignore-next-line */
         return view('posts.trashed', compact('posts'));
     }
@@ -153,8 +161,10 @@ class PostController extends Controller
      */
     public function edit(Post $post): View
     {
-        // Authorization check
-        $this->authorize('update', $post);
+        // Users can edit their own posts OR admins can edit any post
+        if ($post-> user_id !== Auth::id() && !Auth::user()->hasRole('admin')) {
+            abort(403, 'You can only edit your own posts');
+        }
 
         $categories = Category::all();
         $tags = Tag::all();
@@ -167,8 +177,10 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
-        // Authorization is handled in StorePostRequest
-        // Validation is handled in StorePostRequest
+        
+        if ($post->user_id !== Auth::id()  && !Auth::user()->hasRole('admin')) {
+            abort(403, 'You can only update your own posts');
+        }
 
         $validated = $request->validated();
 
@@ -222,7 +234,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post): RedirectResponse
     {
-        $this->authorize('delete', $post);
+        // Users can delete their own posts OR admins can delete any post
+        if ($post->user_id !== Auth::id() && !Auth::user()->hasRole('admin')) {
+            abort(403, 'You can only delete your own posts');
+        }
 
         $post->delete();
 

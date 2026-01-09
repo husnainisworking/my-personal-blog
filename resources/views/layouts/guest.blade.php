@@ -32,17 +32,53 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col bg-gray-100">
             <!-- Navigation Bar -->
-             <nav class="bg-white shadow">
+            <nav class="bg-white shadow">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-center h-16">
-                        <div class="flex items-center">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Blog Title (Left/Center) -->
+                         <div class="flex-1 flex justify-center">
                             <span class="text-2xl font-bold text-indigo-600">
                                 My Personal Blog
-                            </span>
-                        </div>
-</div>
-</div>
-</nav>
+        </span>
+        </div>
+
+        <!-- Dark Mode Toggle (Right) -->
+         <div class="flex items-center">
+            <button
+                type="button"
+                class="flex min-w-[6rem] items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                x-data
+                @click="$store.theme.toggle()">
+                <!-- Moon Icon -->
+                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M21.64 13a1 1 0 0 0-1.05-.14A8 8 0 0 1 11.14 3.4a1 1 0 0 0-1.19-1.19A10 10 0 1 0 22 14.05a1 1 0 0 0-.36-1.05Z"/>
+                    </svg>
+                <!-- Labels swap via CSS in resources/css/app.css -->
+                 <span class="theme-label-dark">Dark</span>
+                 <span class="theme-label-light">Light</span>
+        </button>
+        </div>
+        </div>
+        </div>
+        </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- Main Content -->
              <div class="flex-1 flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
                 <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

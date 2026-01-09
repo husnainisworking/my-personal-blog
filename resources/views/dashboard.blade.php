@@ -48,21 +48,26 @@
                         <div class="text-2xl font-bold text-gray-800">{{$stats['total_tags']}}</div>
                     </div>
                 </div>
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+            <div class="flex flex-wrap gap-4">
+                @can('create posts')
+                    <a href="{{ route('posts.create')}}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                        Create New Post
+</a>
+@endcan
 
-                <div class="mt-8">
-                    <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
-                    <div class="flex space-x-4">
-                        <a href="{{route('posts.create')}}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                            Create New Post
-                        </a>
-                        <a href="{{route('categories.create')}}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
-                            Add Category
-                        </a>
-                        <a href="{{route('tags.create')}}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
-                            Add Tag
-                        </a>
-                    </div>
-                </div>
+@can('create categories')
+    <a href="{{ route('categories.create')}}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+        Add Category
+</a>
+@endcan
+
+@can('create tags')
+    <a href="{{ route('tags.create')}}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+        Add Tag
+</a>
+@endcan
         </div>
     </div>
 @endsection

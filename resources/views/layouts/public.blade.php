@@ -64,11 +64,34 @@
                     <span class="theme-label-dark">Dark</span>
                     <span class="theme-label-light">Light</span>
                     </button>    
-                    @auth
-                        <a href="{{route('dashboard')}}" class="sm:ml-4 text-gray-500 hover:text-gray-700 text-sm font-medium">
-                            Admin
-                        </a>
-                    @endauth
+                    @guest
+                        <a href="{{ route('register') }}" class="sm:ml-4 text-gray-500 hover:text-gray-700 text-sm font-medium">
+                            Create account
+    </a>
+    <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+        Log in
+    </a>
+    @endguest
+    @auth
+        <a href="{{ route('posts.index')}}" class="sm:ml-4 text-gray-500 hover:text-gray-500 hover:text-gray-700 text-sm font-medium">
+            My Posts 
+    </a>
+    <a href="{{ route('posts.create') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+        New Post
+    </a>
+    @if(auth()->user()->hasRole('admin'))
+        <a href="{{ route('dashboard')}}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+            Admin
+    </a>
+    @endif
+    <form method="POST" action="{{ route('logout') }}" class="inline">
+        @csrf
+        <button type="submit" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+            Logout
+    </button>
+    </form>
+    @endauth
+
                     <!--
                     Blade directive:only shows this link if the user is logged in.
                     Displays an Admin link to the dashboard.

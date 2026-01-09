@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\OAuthAccount;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,5 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function oauthAccounts(): HasMany
+    {
+        // A user can have multiple provider connections (google + apple)
+        return $this->hasMany(OAuthAccount::class);
     }
 }

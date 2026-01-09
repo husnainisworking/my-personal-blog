@@ -65,6 +65,18 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
  * POST /posts/5/comments , laravel will find Post::find(5) and pass it to the controller.
  */
 
+// User post management (logged-in users)
+Route::middleware(['auth'])->group(function() {
+    Route::get('/my/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/my/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/my/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/my/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/my/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/my/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+});
+
+
+
 // Search Route
 // Route::get('/search', [SearchController::class, 'index'])->name('search');
 
@@ -99,6 +111,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{id}/force-delete', [CommentController::class, 'forceDelete'])
         ->name('comments.force-delete');
 });
+    Route::middleware(['auth', 'role:admin'])->group(function() {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
+
+
 
 // Admin Routes (Protected)
 // All routs inside this group require the user to be logged in (auth middleware).

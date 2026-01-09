@@ -2,6 +2,15 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Google Oauth login button -->
+    <div class="mb-4">
+        <a href="{{ route('google.redirect') }}"
+            class="w-full inline-flex justify-center items-center px-4 py-2 rounded bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+            Sign in with Google
+        </a>
+    </div>
+
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

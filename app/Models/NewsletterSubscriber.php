@@ -15,6 +15,7 @@ class NewsletterSubscriber extends Model
         'name',
         'subscribed',
         'confirmation_token',
+        'unsubscribe_token',
         'confirmed_at',
     ];
 

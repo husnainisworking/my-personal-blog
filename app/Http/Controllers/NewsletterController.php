@@ -16,6 +16,7 @@ class NewsletterController extends Controller
         $validated = $request->validated();
 
         $validated['confirmation_token'] = Str::random(64);
+        $validated['unsubscribe_token'] = Str::random(64);
 
         try {
 
@@ -49,7 +50,7 @@ class NewsletterController extends Controller
 
     public function unsubscribe(string $token): RedirectResponse
     {
-        $subscriber = NewsletterSubscriber::where('email', $email)->firstOrFail();
+        $subscriber = NewsletterSubscriber::where('unsubscribe_token', $token)->firstOrFail();
 
         $subscriber->update(['subscribed' => false]);
 

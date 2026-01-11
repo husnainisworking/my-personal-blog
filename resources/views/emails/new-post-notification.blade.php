@@ -18,6 +18,6 @@
         <p style="font-size: 12px; color: #666;">
             You're receiving this email because you subscribed to our newsletter.
             <br>
-                <a href="{{ route('newsletter.unsubscribe', $subscriber->email) }}">Unsubscribe from future emails</a>
+                <a href="{{ route('newsletter.unsubscribe', $subscriber->unsubscribe_token) }}">Unsubscribe from future emails</a>
         </p>
     

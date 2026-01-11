@@ -196,3 +196,15 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 // RSS Feed
 Route::get('/feed.xml', [RssFeedController::class, 'index'])->name('rss.feed');
+
+
+// Newsletter routes
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])
+    ->middleware('throttle:5,1')
+    ->name('newsletter.subscribe');
+
+Route::get('/newsletter/confirm/{token}' , [App\Http\Controllers\NewsletterController::class, 'confirm'])
+    ->name('newsletter.confirm');
+
+Route::get('/newsletter/unsubscribe/{email}', [App\Http\Controllers\NewsletterController::class, 'unsubscribe'])
+    ->name('newsletter.unsubscribe');

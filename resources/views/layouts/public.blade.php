@@ -106,6 +106,14 @@
         </div>
     </main>
     <footer class="bg-gray-50 border-t mt-auto">
+    <!-- Newsletter Signup -->
+        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <x-newsletter-signup
+            title="Stay Updated"
+            description="Subscribe to get new posts delivered to your inbox"
+            buttonText="Subscribe"
+            />
+    </div>
         <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
         <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>

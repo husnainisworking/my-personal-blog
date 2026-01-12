@@ -206,5 +206,5 @@ Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController:
 Route::get('/newsletter/confirm/{token}' , [App\Http\Controllers\NewsletterController::class, 'confirm'])
     ->name('newsletter.confirm');
 
-Route::get('/newsletter/unsubscribe/{email}', [App\Http\Controllers\NewsletterController::class, 'unsubscribe'])
+Route::get('/newsletter/unsubscribe/{token}', [App\Http\Controllers\NewsletterController::class, 'unsubscribe'])
     ->name('newsletter.unsubscribe');

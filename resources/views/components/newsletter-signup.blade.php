@@ -4,8 +4,8 @@
     'buttonText' => 'Subscribe'    
     ])
 
-    <div {{ $attributes->merge(['class' => 'bg-indigo-50 dark:bg-gray-800 p-6 rounded-lg border border-indigo-200 dark:border-gray-700'])}}>
-    <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{{ $title }}</h3>
+    <div {{ $attributes->merge(['class' => 'bg-gray-50/50 dark:bg-gray-900/50 p-6 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm'])}}>
+    <h3 class="text-base font-medium mb-2 text-gray-700 dark:text-gray-300">{{ $title }}</h3>
     <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $description }}</p>
 
 

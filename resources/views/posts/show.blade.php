@@ -48,6 +48,14 @@
 -->
     </div>
 
+<!-- Share Buttons -->
+ <x-share-buttons
+    :url="route('posts.public.show', $post->slug)"
+    :title="$post->title"
+    :description="$post->excerpt ?? Str::limit(strip_tags($post->content), 150)"
+    />
+
+
     <hr class="my-12">
 
     <!-- Comments Section -->

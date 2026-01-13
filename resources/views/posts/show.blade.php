@@ -42,8 +42,8 @@
 
     <!-- Post Content -->
     <div class="prose prose-lg max-w-none mb-12 break-words">
-        {!! clean(\Illuminate\Support\Str::markdown($post->content)) !!}
-        <!-- Converts the post's content(written in Markdown) into HTMl.
+        {!! $post->content !!}
+    <!-- Converts the post's content(written in Markdown) into HTMl.
         Problem Solved: Authors can write in simple Markdown, but readers can see nicely formatted text.
 -->
     </div>

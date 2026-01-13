@@ -35,12 +35,136 @@
             <p  class="text-sm text-gray-500 mt-1">Max 2MB. Formats: JPEG, PNG, GIF, WebP</p>
         </div>
 
-        <div>
-            <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Content *</label>
-            <textarea name="content" id="content" rows="15" required
-                      class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{old('content')}}</textarea>
-            <p class="text-sm text-gray-500 mt-1">Supports Markdown</p>
-        </div>
+    <!-- Tiptap editor -->
+        <div class="mb-6">
+            <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+                Content *
+</label>
+
+<div class="tiptap-editor">
+<!-- Toolbar -->
+<div class="tiptap-toolbar" id="tiptap-toolbar">
+    <button type="button" data-action="bold" title="Bold (Ctrl+B)">
+        <strong>B</strong>
+</button>
+<button type="button" data-action="italic" title="Italic (Ctrl+I)">
+    <em>I</em>
+</button>
+<button type="button" data-action="strike" title="Strikethrough">
+    <s>S</s>
+</button>
+<span class="border-l border-gray-300 mx-1"></span>
+<button type="button" data-action="heading" data-level="1" title="Heading 1">
+    H1
+</button>
+<button type="button" data-action="heading" data-level="2" title="Heading 2">
+    H2
+</button>
+<button type="button" data-action="heading" data-level="3" title="Heading 3">
+    H3
+</button>
+<span class="border-l border-gray-300 mx-1"></span>
+<button type="button" data-action="bulletList" title="Bullet List">
+                    • List
+</button>
+<button type="button" data-action="orderedList" title="Numbered List">
+                    1. List
+</button>
+<button type="button" data-action="codeBlock" title="Code Block">
+    &lt;/&gt;
+</button>
+<span class="border-l border-gray-300 mx-1"></span>
+<button type="button" data-action="link" title="Add Link">
+    Link
+</button>
+<button type="button" data-action="image" title="Add Image">
+    Image
+</button>
+<button type="button" data-action="table" title="Insert Table">
+    Table
+</button>
+</div>
+
+<!-- Editor -->
+ <div id="tiptap-content"></div>
+</div>
+
+<!-- Hidden textarea -->
+<textarea
+        name="content"
+        id="content-textarea"
+        class="hidden"
+        required
+        >{{ old('content') }}</textarea>
+
+        @error('content')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const initialContent = document.getElementById('content-textarea').value
+        const editor = window.initTiptapEditor(
+            document.getElementById('tiptap-content'),
+            initialContent
+        )
+
+        editor.on('update', ({ editor }) => {
+            document.getElementById('content-textarea').value = editor.getHTML()
+        })
+
+
+        document.querySelectorAll('#tiptap-toolbar button').forEach(button => {
+            button.addEventListener('click', ()=> {
+                const action = button.dataset.action
+                const level = button.dataset.level
+
+                switch(action) {
+                    case 'bold':
+                        editor.chain().focus().toggleBold().run()
+                        break
+                    case 'italic':
+                        editor.chain().focus().toggleItalic().run()
+                        break
+                    case 'strike':
+                        editor.chain().focus().toggleStrike().run()
+                        break
+                    case 'heading':
+                        editor.chain().focus().toggleHeading({ level: parseInt(level) }).run()
+                        break
+                    case 'bulletList':
+                        editor.chain().focus().toggleBulletList().run()
+                        break
+                    case 'orderedList':
+                        editor.chain().focus().toggleOrderedList().run()
+                        break
+                    case 'codeBlock':
+                        editor.chain().focus().toggleCodeBlock().run()
+                        break
+                    case 'link':
+                        const url = prompt('Enter URL:')
+                        if(url) {
+                            editor.chain().focus().setLink({ href: url }).run()
+                        }
+                        break
+                    case 'image':
+                        const imageUrl = prompt('Enter image URL:')
+                        if (imageUrl) {
+                            editor.chain().focus().setImage({src: imageUrl}).run()
+                        }
+                        break
+                    case 'table':
+                        editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true}).run()
+                        break
+                }
+
+                button.classList.toggle('is-active', editor.isActive(action, level ? {level: parseInt(level)} : {}))
+            })
+
+        })
+    })
+</script>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Category</label>

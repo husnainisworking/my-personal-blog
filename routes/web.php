@@ -66,7 +66,7 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
  */
 
 // User post management (logged-in users)
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', '2fa.verified'])->group(function() {
     Route::get('/my/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/my/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/my/posts', [PostController::class, 'store'])->name('posts.store');
@@ -81,7 +81,7 @@ Route::middleware(['auth'])->group(function() {
 // Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Soft delete routes for posts
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', '2fa.verified'])->group(function () {
 
     // View trashed posts
     Route::get('/posts/trashed', [PostController::class, 'trashed'])
@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Soft delete routes for comments
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', '2fa.verified'])->group(function () {
 
     // View trashed comments
     Route::get('/comments/trashed', [CommentController::class, 'trashed'])
@@ -111,7 +111,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{id}/force-delete', [CommentController::class, 'forceDelete'])
         ->name('comments.force-delete');
 });
-    Route::middleware(['auth', 'role:admin'])->group(function() {
+    Route::middleware(['auth', '2fa.verified' ,'role:admin'])->group(function() {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 

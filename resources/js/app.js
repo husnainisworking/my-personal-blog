@@ -55,3 +55,9 @@ Alpine.start();
 // IMPORTANT: Initialize the store after Alpine starts
 Alpine.store('theme').init();
 
+
+import { initTiptapEditor } from './components/tiptap-editor'
+
+// Make it available globally so Blade templates can use it
+window.initTiptapEditor = initTiptapEditor
+

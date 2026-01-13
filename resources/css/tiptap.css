@@ -1,0 +1,57 @@
+/* Main editor container */
+.tiptap-editor {
+    @apply border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800;
+}
+
+/* Toolbar at top of editor */
+.tiptap-toolbar {
+    @apply border-b border-gray-300 dark:border-gray-700 p-2 flex flex-wrap gap-1 bg-gray-50 dark:bg-gray-900 rounded-t-lg;
+}
+
+/* Toolbar buttons (Bold, Italic, etc.) */
+.tiptap-toolbar button {
+    @apply px-3 py-1.5 rounded text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
+
+}
+
+
+/* Active button state (when bold is on, Bold button highlights) */
+.tiptap-toolbar button.is-active {
+    @apply bg-indigo-600 text-white hover:bg-indigo-700;
+}
+
+/* The actual editor content area */
+.tiptap-editor .tiptap {
+    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+}
+
+/* ProseMirror editor element */
+.ProseMirror {
+    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+}
+
+
+
+/* Placeholder text when editor is empty */
+.tiptap p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    height: 0;
+}
+
+/* Code block styling */
+.tiptap pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto;
+}
+
+/* Table styling */
+.tiptap table {
+    @apply border-collapse table-auto w-full;
+}
+
+.tiptap td,
+.tiptap th {
+    @apply border border-gray-300 dark:border-gray-700 px-3 py-2;
+}

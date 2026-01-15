@@ -25,6 +25,7 @@ class Post extends Model
         'excerpt',
         'content',
         'featured_image',
+        'views',
         'status',
         'published_at',
     ];
@@ -207,5 +208,46 @@ class Post extends Model
 
         return $relatedPosts;
     }
+
+    /**
+     * Increment the view count for this post
+     * Use incrementing to avoid race conditions when multiple users view at once
+     */
+    public function incrementViews():void
+    {
+        $this->increment('views');
+        // increment() directly updates the database without loading the full model
+        // This is more efficient and prevents race conditions
+    }
+
+    /**
+     * Get the most viewed posts
+     * Useful for displaying posts in a widget or sidebar
+     */
+    public static function mostViewed(int $limit = 5)
+    {
+        return static::published()
+        ->orderBy('views', 'desc')
+        ->take($limit)
+        ->get();
+    }
+
+    /**
+     * Format view count for display (e.g., 1.2K instead of 1234)
+     */
+    public function getFormattedViewsAttribute(): string
+    {
+        $views = $this->views;
+
+        if($views >= 1000000) {
+            return round($views / 1000000, 1) . 'M';
+        } elseif ($views >= 1000) {
+            return round($views /1000, 1) . 'K';
+        }
+
+        return (string) $views;
+    }
+
+
 
 }

@@ -152,6 +152,9 @@ class PostController extends Controller
         // (based on the route parameter, e.g. /posts/5).
         $post->load(['user', 'category', 'tags', 'approvedComments']);
 
+        // Increment view count when someone views the post
+        $post->incrementViews();
+
         // eager loading
         return view('posts.show', compact('post'));
     }

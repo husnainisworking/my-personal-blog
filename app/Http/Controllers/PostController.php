@@ -105,13 +105,16 @@ class PostController extends Controller
         // Use atomic slug generation with database transaction
         $post = null;
         try {
-            // Use generateWithRetry WITHOUT the callback
+
+              // Use generateWithRetry WITHOUT the callback
             $validated['slug'] = SlugService::generateUniqueSlug(
                 $validated['title'],
                 Post::class
             );
-            DB::transaction(function () use (&$validated, $request, &$post) {
 
+            
+            DB::transaction(function () use (&$validated, $request, &$post) {
+              
                 $post = Post::create($validated);
 
                 // Attach tags if provided

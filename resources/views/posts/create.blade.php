@@ -10,6 +10,9 @@
 
         <form action="{{route('posts.store')}}" method="POST" class="p-6" enctype="multipart/form-data">
             @csrf
+        <!-- Autosave Component -->
+        <x-autosave :draft-key="'draft_create_' . auth()->id()" />
+
         <div class="mb-6">
             <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
             <input type="text" name="title" value="{{old('title')}}" required
@@ -109,6 +112,7 @@
             document.getElementById('tiptap-content'),
             initialContent
         )
+            window.tiptapEditor = editor
 
         editor.on('update', ({ editor }) => {
             document.getElementById('content-textarea').value = editor.getHTML()

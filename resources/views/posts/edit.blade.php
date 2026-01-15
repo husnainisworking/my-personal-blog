@@ -10,6 +10,10 @@
             @csrf
             @method('PUT')
 
+        <!-- Autosave Component -->
+        <x-autosave :post-id="$post->id" :draft-key="'draft_edit_' . $post->id" />
+
+
         <div class="mb-6">
             <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
             <input type="text" name="title" id="title" value="{{old('title',$post->title)}}" required
@@ -96,6 +100,7 @@
                 document.getElementById('tiptap-content'),
                 initialContent
             )
+                window.tiptapEditor = editor
 
             editor.on('update', ({ editor }) => {
                 document.getElementById('content-textarea').value = editor.getHTML()

@@ -13,6 +13,7 @@ use App\Http\Controllers\RssFeedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\DraftAutosaveController;
 use Illuminate\Support\Facades\Route;
 
 // Home route
@@ -95,6 +96,15 @@ Route::middleware(['auth', '2fa.verified'])->group(function () {
     Route::delete('/posts/{id}/force-delete', [PostController::class, 'forceDelete'])
         ->name('posts.force-delete');
 });
+
+// Draft autosave routes
+Route::middleware(['auth', '2fa.verified'])->group(function() {
+
+    Route::post('/drafts/autosave', [DraftAutosaveController::class, 'save'])->name('drafts.autosave');
+    Route::get('/drafts/load', [DraftAutosaveController::class, 'load'])->name('drafts.load');
+    Route::delete('/drafts/delete', [DraftAutosaveController::class, 'delete'])->name('drafts.delete');
+});
+
 
 // Soft delete routes for comments
 Route::middleware(['auth', '2fa.verified'])->group(function () {

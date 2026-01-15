@@ -8,6 +8,20 @@
     viewport -> Makes the page responsive on mobile devices (scales properly).
     -->
     <title>@yield('title', 'Welcome') - My Personal Blog </title>
+    <meta name="description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology. Read articles, tutorials, and insights.')">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@yield('title', 'Welcome') - My Personal Blog">
+        <meta property="og:description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
+        @yield('og-image')
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url()->current() }}">
+        <meta property="twitter:title" content="@yield('title', 'Welcome') - My Personal Blog">
+        <meta property="twitter:description"content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
+        
     <link rel="alternate" type="application/rss+xml" title="My Personal Blog" href="{{ url('/feed.xml') }}">
     <script>
         (() => {

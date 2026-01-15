@@ -1,5 +1,14 @@
 @extends('layouts.public')
 @section('title', $post->title)
+@section('description', $post->excerpt ?? Str::limit(strip_tags($post->content), 155))
+
+@if($post->featured_image)
+@section('og-image')
+<meta property="og:image" content="{{ asset('/storage/' . $post->featured_image) }}">
+<meta property="twitter:image" content="{{ asset('storage/' . $post->featured_image) }}">
+@endsection
+@endif
+
 @section('content')
     <!-- Single Post View (Public) -->
 <article class="max-w-4xl mx-auto">
@@ -78,6 +87,7 @@
                             <div class="text-sm text-gray-600">{{$comment->created_at->diffForHumans()}}</div>
                             <!--diffforhmns() is a Laravel Carbon Method(Carbon is the date/time library Laravel uses), it takes a date/time and converts into human-friendly string -->
                         </div>
+
                         <p class="text-gray-700">{{$comment->content}}</p>
                     </div>
                 @endforeach
@@ -86,6 +96,26 @@
             <p class="text-gray-500 text-center py-8">No comments yet. Be the first to comment!</p>
         @endif
     </section>
+    <!-- Structured Data (JSON-LD) for Rich Snippets -->
+                    <script type="application/ld+json">
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "BlogPosting",
+                            "headline": "{{ $post->title }}",
+                            "description": "{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 155) }}",
+                            "author": {
+                                "@type": "Person",
+                                "name": "{{ $post->user?->name ?? 'Unknown' }}"
+                            },
+                            "datePublished": "{{ $post->published_at?->toIso8601String() }}",
+                            "dateModified": "{{ $post->updated_at->toIso8601String() }}"
+                            @if($post->featured_image)
+                            ,
+                            "image": "{{ asset('storage/'. $post->featured_image) }}"
+                            @endif
+                        }
+                    </script>
+                    
 </article>
     @endsection
 

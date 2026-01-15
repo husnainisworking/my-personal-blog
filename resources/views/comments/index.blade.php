@@ -3,12 +3,12 @@
 @section('content')
                         <!-- Admin dashboard page for managing comments -->
     <div class="bg-white shadow rounded-lg">
-       <div class="p-6 border-b flex justify-between items-center">
+       <div class="p-6 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 class="text-2xl font-bold text-gray-800">
             {{ __('Manage Comments')}}
         </h2>
    <a href="{{ route('comments.trashed') }}"
-    class="inline-flex items-center px-4 py-2 rounded-md bg-amber-500 text-white font-medium shadow hover:bg-amber-600">
+    class="inline-flex items-center px-4 py-2 rounded-md bg-amber-500 text-white font-medium shadow hover:bg-amber-600 whitespace-nowrap">
     View Trashed Comments
 </a>
 

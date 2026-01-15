@@ -27,7 +27,7 @@
 -->
 </head>
 <body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-white shadow-lg" x-data="{open: false}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
@@ -77,7 +77,7 @@
                 <div class="flex items-center space-x-4">
                     <button 
                     type="button"
-                    class="inline-flex items-center gap-2 px-2 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    class="hidden sm:inline-flex items-center gap-2 px-2 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
                     x-data
                     @click="$store.theme.toggle()"
                 >
@@ -87,18 +87,125 @@
                 <span class="theme-label-dark">Dark</span>
                 <span class="theme-label-light">Light</span>
             </button>
-                    <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                    <a href="{{ route('home') }}" target="_blank" class="hidden sm:inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
                         View Site
                     </a>
-                    <form class="inline-flex" method="POST" action="{{ route('logout') }}">
+                    <form class="hidden sm:inline-flex" method="POST" action="{{ route('logout') }}">
                         @csrf
                     <button type="submit" class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
                         Logout
                     </button>
                     </form>
-                </div>
+
+            <!-- Hamburger button for mobile -->
+
+        <button
+            @click="open = !open"
+            class="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            >
+            <!-- Hamburger icon (☰) when menu is closed -->
+             <svg 
+                x-show="!open"
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+</svg>
+<!-- X icon when menu is open -->
+<svg 
+    x-show="open"
+    class="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+</svg>
+</button>
+</div>  
             </div>
         </div>
+    <!-- Mobile menuu (shows when hamburger is clicked) -->
+     <div x-show="open" class="sm:hidden" x-cloak>
+        <div class="pt-2 pb-3 space-y-1">
+            @can('view dashboard')
+                <a href="{{ route('dashboard') }}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+                    Dashboard
+</a>
+@endcan
+
+@can('view posts')
+    <a href="{{ route('posts.index')}}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+        Posts
+</a>
+@endcan
+
+@can('view categories')
+    <a href="{{ route('categories.index')}}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+        Categories
+</a>
+@endcan
+
+@can('view tags')
+    <a href="{{ route('tags.index')}}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+        Tags
+</a>
+@endcan
+
+@can('view comments')
+    <a href="{{ route('comments.index')}}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+        Comments
+</a>
+@endcan
+
+<!-- Divider -->
+<div class="border-t border-gray-200 my-2"></div>
+
+<!-- Dark/Light toggle for mobile -->
+<button
+    type="button"
+    class="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500"
+    x-data
+    @click="$store.theme.toggle()"
+    >
+
+    <span class="theme-label-dark">Switch to Dark Mode</span>
+    <span class="theme-label-light">Switch to Light Mode</span>
+</button>
+
+<!-- View Site for mobile -->
+<a href="{{ route('home')}}" target="_blank" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+    View Site
+</a>
+
+<!-- Logout for mobile -->
+<form method="POST" action="{{ route('logout')}}">
+    @csrf
+    <button type="submit" class="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-indigo-500">
+        Logout
+</button>
+</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+
     </nav>
     <!--
     This is a flash message block, when you redirect back after an action (like submitting a comment or approving one), laravel stores a message in the session (with('success', 'Comment submitted!')).

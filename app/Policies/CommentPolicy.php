@@ -30,4 +30,20 @@ class CommentPolicy
     {
         return $user->can('delete comments');
     }
-}
+
+    /** Determine if user can restore soft-deleted comments. */
+    public function restore(User $user, Comment $comment): bool
+    {
+        return $user->can('delete comments');
+    }
+
+    /** Determine if user can permanently delete comments */
+    public function forceDelete(User $user, Comment $comment): bool
+    {
+        return $user->can('delete comments');
+    }
+
+
+
+}   
+

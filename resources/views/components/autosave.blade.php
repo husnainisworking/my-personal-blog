@@ -76,11 +76,12 @@
 
                 scheduleAutosave() {
                     clearTimeout(this.autosaveTimer)
-                    this.showSaving()
+                    
                     this.autosaveTimer = setTimeout(() => this.saveDraft(), this.AUTOSAVE_INTERVAL)
                 },
 
                 async saveDraft() {
+                    this.showSaving()
                     const form = this.$el.closest('form')
                     const formData = new FormData(form)
 

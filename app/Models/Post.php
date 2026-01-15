@@ -248,6 +248,26 @@ class Post extends Model
         return (string) $views;
     }
 
+    /**
+     * Calculate estimated reading time based on word count
+     * Average reader speed: 200 words per minute
+     */
+    public function getReadingTimeAttribute(): string
+    {
+        // Strip HTML tags and count words in the content
+        $wordCount = str_word_count(strip_tags($this->content));
+
+        // Calculate minutes (200 words peer mins is average reading speed)
+        $minutes = ceil($wordCount / 200);
+
+        // Return formatted string
+        if ($minutes < 1) {
+            return '1 min read';
+        }
+
+        return $minutes . ' min read';
+    }
+
 
 
 }

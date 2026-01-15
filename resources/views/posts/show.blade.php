@@ -22,6 +22,14 @@
             <span>{{ optional($post->published_at)->format('F d, Y')}}</span>
             <span class="mx-2">•</span>
             <span class="flex items-center gap-1">
+            <!-- Clock icon for reading time -->
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ $post->reading_time }}
+</span>
+            <span class="mx-2">•</span>
+            <span class="flex items-center gap-1">
         <!-- Eye icon for views -->
          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>

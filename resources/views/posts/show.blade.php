@@ -99,8 +99,8 @@
     <!-- Structured Data (JSON-LD) for Rich Snippets -->
                     <script type="application/ld+json">
                         {
-                            "@context": "https://schema.org",
-                            "@type": "BlogPosting",
+                            "@@context": "https://schema.org",
+                            "@@type": "BlogPosting",
                             "headline": "{{ $post->title }}",
                             "description": "{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 155) }}",
                             "author": {
@@ -115,7 +115,8 @@
                             @endif
                         }
                     </script>
-                    
+                    <!-- Related Posts -->
+                    <x-related-posts :post="$post" />
 </article>
     @endsection
 

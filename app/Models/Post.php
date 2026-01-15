@@ -171,4 +171,41 @@ class Post extends Model
         && $this->published_at !== null
         && $this->published_at->isFuture();
     }
+
+    /**
+     * Get related posts based on category and tags
+     * Returns up to 3 related posts
+     */
+    public function getRelatedPosts(int $limit = 3) 
+    {
+        // Start with posts in the same category
+        $relatedPosts = Post::published()
+        ->where('id', '!=', $this->id) //Exclude current post
+        ->where('category_id', $this->category_id) //Same category
+        ->with(['category', 'user', 'tags']) // Eager loads relationships
+        ->latest('published_at')
+        ->take($limit)
+        ->get();
+
+        // If we don't have enough posts from the same category, find posts with shared tags
+        if ($relatedPosts->count() < $limit && $this->tags->isNotEmpty()) {
+            $tagIds = $this->tags->pluck('id')->toArray();
+
+            $additionalPosts = Post::published()
+            ->where('id', '!=', $this->id)
+            ->whereHas('tags', function($query) use ($tagIds) {
+                $query->whereIn('tags.id', $tagIds);
+            })
+            ->whereNotIn('id', $relatedPosts->pluck('id')->toArray()) // Exclude already selected posts
+            ->with(['category', 'user', 'tags'])
+            ->latest('published_at')
+            ->take($limit - $relatedPosts->count())
+            ->get();
+
+            $relatedPosts = $relatedPosts->merge($additionalPosts);
+        }
+
+        return $relatedPosts;
+    }
+
 }

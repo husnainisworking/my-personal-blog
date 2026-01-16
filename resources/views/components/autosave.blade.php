@@ -83,16 +83,22 @@
                 async saveDraft() {
                     this.showSaving()
                     const form = this.$el.closest('form')
+                    if (!form) {
+                        console.error('Form not found')
+                        this.showIndicator = false
+                        return
+                    }
+                    
                     const formData = new FormData(form)
 
                     const data = {
                         draft_key: this.draftKey,
                         post_id: this.postId,
-                        title: formData.get('title'),
-                        excerpt: formData.get('excerpt'),
-                        content:formData.get('content'),
-                        category_id: formData.get('category_id'),
-                        status: formData.get('status'),
+                        title: formData.get('title') || '',
+                        excerpt: formData.get('excerpt') || '',
+                        content:formData.get('content') || '',
+                        category_id: formData.get('category_id') || null,
+                        status: formData.get('status') || 'draft',
                         tags: formData.getAll('tags[]'),
                     }
 
@@ -106,12 +112,17 @@
                             body: JSON.stringify(data),
                         })
 
+                        if(!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`)
+                        }
+
                         const result = await response.json()
                         if (result.success) {
                             this.showSaved(result.saved_at)
                         }
                     } catch(error) {
                         console.error('Autosave failed:', error)
+                        this.showIndicator = false
                     }
                 },
 

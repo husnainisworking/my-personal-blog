@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Services\SlugService;
 use Illuminate\Database\QueryException;
+use Mews\Purifier\Facades\Purifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,11 @@ class PostController extends Controller
     public function store(StorePostRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
+        // Sanitize post content to prevent XSS attacks
+        if (isset($validated['content'])) {
+            $validated['content'] = Purifier::clean($validated['content'], 'post');
+        }
 
         // If validation fails -> Laravel automatically redirects back with errors.
         // Add the user who created the post, get the currently logged-in user's ID.
@@ -189,6 +195,11 @@ class PostController extends Controller
         }
 
         $validated = $request->validated();
+
+        // Sanitize post content to prevent XSS attacks
+        if (isset($validated['content'])) {
+            $validated['content'] = Purifier::clean($validated['content'], 'post');
+        }
 
         // Handle image removal
         if ($request->boolean('remove_featured_image')) {

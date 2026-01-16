@@ -126,8 +126,8 @@ class GoogleOAuthController extends Controller
                     'password' => Hash::make(Str::random(32)), // Random secure password
                 ]);
 
-                // Assign editor role (allows creating posts)
-                $user->assignRole('editor');
+                    // Assign editor role (allows creating and publishing posts)
+                     $user->assignRole('editor');
 
                 // Create OAuth account link
                 OAuthAccount::create([

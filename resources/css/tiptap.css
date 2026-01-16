@@ -67,3 +67,24 @@
     list-style: decimal;
     padding-left: 1.25rem;
 }
+
+.tiptap h1,
+.ProseMirror h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0.75rem 0;
+}
+
+.tiptap h2,
+.ProseMirror h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.6rem 0;
+}
+
+.tiptap h3,
+.ProseMirror h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}

@@ -87,8 +87,8 @@
     </a>
     @endguest
     @auth
-        <a href="{{ route('posts.index')}}" class="sm:ml-4 text-gray-500 hover:text-gray-500 hover:text-gray-700 text-sm font-medium">
-            My Posts 
+        <a href="{{ route('posts.index')}}" class="sm:ml-4 text-gray-500  hover:text-gray-700 text-sm font-medium">
+            My Posts
     </a>
     <a href="{{ route('posts.create') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
         New Post
@@ -98,9 +98,9 @@
             Admin
     </a>
     @endif
-    <form method="POST" action="{{ route('logout') }}" class="inline">
+    <form method="POST" action="{{ route('logout') }}" class="inline-flex items-center">
         @csrf
-        <button type="submit" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+        <button type="submit" class="inline-flex items-center leading-none text-gray-500 hover:text-gray-700 text-sm font-medium bg-transparent p-0 border-0">
             Logout
     </button>
     </form>

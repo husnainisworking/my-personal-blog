@@ -47,6 +47,18 @@ return [
             'HTML.Allowed' => '',
             'AutoFormat.RemoveEmpty' => true,
         ],
+
+        // Config for post content - Allow safe HTML for rich formatting
+        'post' => [
+            'HTML.Doctype' => 'HTML 4.01 Transitional',
+            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,u,ol,ul,li,a[href|title|target],img[src|alt|width|height],blockquote,code,pre,table,thead,tbody,tr,th,td,hr,span[class],div[class]',
+            'HTML.SafeIframe' => false,
+            'CSS.AllowedProperties' => 'text-align,font-weight,font-style,text-decoration',
+            'AutoFormat.AutoParagraph' => false,
+            'AutoFormat.RemoveEmpty' => false,
+            'Attr.AllowedFrameTargets' => ['_blank'],
+            'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'mailto' => true],
+        ],
     ],
 
 ];

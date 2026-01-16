@@ -121,10 +121,15 @@ Route::middleware(['auth', '2fa.verified'])->group(function () {
     Route::delete('/comments/{id}/force-delete', [CommentController::class, 'forceDelete'])
         ->name('comments.force-delete');
 });
-    Route::middleware(['auth', '2fa.verified' ,'role:admin'])->group(function() {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    });
 
+    // 2FA Route (Only require 'auth', NOT '2fa.verified')
+    // These routes must be accessible when user has pending 2FA
+    Route::middleware(['auth'])->group(function () {
+    Route::get('2fa/verify', [TwoFactorController::class, 'show'])->name('2fa.show');
+    Route::post('2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
+    // New route for resending code
+    Route::post('2fa/resend', [TwoFactorController::class, 'resend'])->name('2fa.resend');
+    });
 
 
 // Admin Routes (Protected)
@@ -184,12 +189,7 @@ Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
      * Delete comment -> /admin/comments/{comment}.
      * Admin can moderate comments.
      */
-    Route::get('2fa/verify', [TwoFactorController::class, 'show'])->name('2fa.show');
-    Route::post('2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
-
-    // New route for resending code
-    Route::post('2fa/resend', [TwoFactorController::class, 'resend'])->name('2fa.resend');
-
+    
 });
 
 require __DIR__.'/auth.php';

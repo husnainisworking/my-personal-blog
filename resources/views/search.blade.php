@@ -5,7 +5,13 @@
     <div class="mb-8">
         <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">Search Results</h1>
         <p class="text-gray-600">Showing results for: <strong>"{{$query}}</strong></p>
-        <p class="text-gray-500 text-sm">Found {{$posts->total()}} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
+        @if(!isset($error))
+            <p class="text-gray-500 text-sm">Found {{$posts->total()}} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
+        @else
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                <p class="text-yellow-700">{{ $error }}</p>
+            </div>
+        @endif
     </div>
 
     @if($posts->count() > 0)
@@ -15,7 +21,7 @@
                     <div class="p-5 sm:p-6">
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">
                             <a href="{{route('posts.public.show', $post->slug)}}" class="hover:text-indigo-600">
-                                {{$post->title}}
+                                {!! $post->highlighted_title !!}
                             </a>
                         </h2>
 
@@ -32,7 +38,7 @@
                         </div>
 
                         @if($post->excerpt)
-                            <p class="text-gray-700 mb-4">{{$post->excerpt}}</p>
+                            <p class="text-gray-700 mb-4">{!! $post->highlighted_excerpt !!}</p>
                             @else
                             <p class="text-gray-700 mb-4">{{Str::limit(strip_tags($post->content), 200)}}</p>
                             @endif

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use App\Events\PostViewed;
 use RuntimeException;
 
 class PostController extends Controller
@@ -163,6 +164,17 @@ class PostController extends Controller
 
         // Increment view count when someone views the post
         $post->incrementViews();
+
+        // Dispatch event (non-blocking, queued)
+        PostViewed::dispatch(
+            $post,
+            auth()->user(),
+            [
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+                'referrer' => request()->headers->get('referrer'),
+            ]
+            );
 
         // eager loading
         return view('posts.show', compact('post'));

@@ -66,6 +66,68 @@
     </div>
     @endif
 
+    <div 
+        x-data="{
+            startTime: Date.now(),
+            maxScroll: 0,
+            sent: false
+        }"
+        x-init="
+            // Track scroll depth
+            window.addEventListener('scroll', () => {
+            const scrollPercent = Math.round(
+                (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
+                );
+                maxScroll = Math.max(maxScroll, scrollPercent);
+            });
+
+            // Send engagement every 15s while page is visible
+            const sendEngagement = () => {
+                fetch('{{ route('analytics.track', $post) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+},
+                    body: JSON.stringify({
+                        time_spent: Math.round((Date.now() - startTime) / 1000),
+                        scroll_depth: maxScroll
+}),
+                keepalive: true
+});
+};
+            const intervalId = setInterval(() => {
+                if(document.visibilityState === 'visible') {
+                    sendEngagement();
+}
+}, 15000);
+            window.addEventListener('beforeunload', () => {
+                clearInterval(intervalId);
+});
+
+
+            // Send data when user leaves
+            window.addEventListener('beforeunload', () => {
+            if (!sent) {
+                sent = true;
+                fetch('{{ route('analytics.track', $post) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            time_spent: Math.round((Date.now() - startTime) / 1000),
+                            scroll_depth: maxScroll
+                        }),
+                        keepalive: true
+                    });
+                }
+            });
+        "
+    > 
+
+
     <!-- Post Content -->
     <div class="prose prose-lg max-w-none mb-12 break-words">
         {!! $post->content !!}
@@ -81,7 +143,7 @@
     :description="$post->excerpt ?? Str::limit(strip_tags($post->content), 150)"
     />
 
-
+</div>
     <hr class="my-12">
 
     <!-- Comments Section -->

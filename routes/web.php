@@ -15,6 +15,8 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DraftAutosaveController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Analytics\PostAnalyticsController;
+use App\Http\Controllers\Analytics\AnalyticsController;
 
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -218,3 +220,11 @@ Route::get('/newsletter/confirm/{token}' , [App\Http\Controllers\NewsletterContr
 
 Route::get('/newsletter/unsubscribe/{token}', [App\Http\Controllers\NewsletterController::class, 'unsubscribe'])
     ->name('newsletter.unsubscribe');
+
+// Tracking endpoint
+Route::post('posts/{post:slug}/track', [PostAnalyticsController::class, 'track'])->name('analytics.track');
+
+// Admin analytics dashboard
+Route::middleware('auth', 'role:admin')->group(function () {
+    Route::get('admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
+});

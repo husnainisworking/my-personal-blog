@@ -268,6 +268,11 @@ class Post extends Model
         return $minutes . ' min read';
     }
 
+    public function events()
+    {
+        return $this->hasMany(\App\Models\PostEvent::class);
+    }
+
 
 
 }

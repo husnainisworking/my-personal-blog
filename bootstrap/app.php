@@ -26,6 +26,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
+
+        // Exclude analytics tracking from CSRF (sendBeacon can't send custom headers)
+        $middleware->validateCsrfTokens(except: [
+            'posts/*/track',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         Integration::handles($exceptions);

@@ -66,66 +66,68 @@
     </div>
     @endif
 
+    
     <div 
-        x-data="{
-            startTime: Date.now(),
-            maxScroll: 0,
-            sent: false
-        }"
-        x-init="
-            // Track scroll depth
-            window.addEventListener('scroll', () => {
-            const scrollPercent = Math.round(
-                (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
-                );
-                maxScroll = Math.max(maxScroll, scrollPercent);
-            });
+    x-data="{
+        startTime: Date.now(),
+        maxScroll:0,
+        sent: false
+}"
+x-init="
+    // Track scroll depth
+    window.addEventListener('scroll', () => {
+        const scrollPercent = Math.round(
+        (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
+        );
+        maxScroll = Math.max(maxScroll, scrollPercent);
+});
 
-            // Send engagement every 15s while page is visible
-            const sendEngagement = () => {
-                fetch('{{ route('analytics.track', $post) }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        // Send engagement every 15s while page is visible
+        const sendEngagement = () => {
+            fetch('{{ route('analytics.track', $post) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
 },
-                    body: JSON.stringify({
-                        time_spent: Math.round((Date.now() - startTime) / 1000),
-                        scroll_depth: maxScroll
+                body: JSON.stringify({
+                    time_spent: Math.round((Date.now() - startTime) / 1000),
+                    scroll_depth: maxScroll
 }),
-                keepalive: true
+            keepalive: true
 });
 };
-            const intervalId = setInterval(() => {
-                if(document.visibilityState === 'visible') {
-                    sendEngagement();
+
+        const intervalId = setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                sendEngagement();
 }
 }, 15000);
-            window.addEventListener('beforeunload', () => {
-                clearInterval(intervalId);
+
+        // Use sendBeacon for reliable data sending on page unload
+        const sendBeaconData = () => {
+            if (sent) return;
+            sent  = true;
+            clearInterval(intervalId);
+
+            const data = new FormData();
+            data.append('time_spent', Math.round((Date.now() - startTime) / 1000));
+            data.append('scroll_depth', maxScroll);
+            data.append('_token', '{{ csrf_token() }}');
+
+            navigator.sendBeacon('{{ route('analytics.track', $post) }}', data);
+};
+
+        // Send data when user leaves (multiple events for reliability)
+        window.addEventListener('beforeunload', sendBeaconData);
+        window.addEventListener('pagehide', sendBeaconData);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                sendBeaconData();
+}
 });
-
-
-            // Send data when user leaves
-            window.addEventListener('beforeunload', () => {
-            if (!sent) {
-                sent = true;
-                fetch('{{ route('analytics.track', $post) }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            time_spent: Math.round((Date.now() - startTime) / 1000),
-                            scroll_depth: maxScroll
-                        }),
-                        keepalive: true
-                    });
-                }
-            });
-        "
-    > 
+"
+>
 
 
     <!-- Post Content -->

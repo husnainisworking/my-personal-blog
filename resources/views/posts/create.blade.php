@@ -10,9 +10,119 @@
 
         <form action="{{route('posts.store')}}" method="POST" class="p-6" enctype="multipart/form-data">
             @csrf
+
+        <!-- AI Generate Section -->
+         <div class="mb-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-indigo-200"
+         
+            x-data="{
+                loading: false,
+                showForm: false,
+                topic: '',
+                tone: 'professional',
+                length: 'medium',
+                async generate() {
+                if (!this.topic.trim()) {
+                    alert('Please enter a topic.');
+                    return;
+}
+                    this.loading = true;
+                    try {
+                        const response = await fetch('{{ route('ai.generate-post') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+},
+                            body: JSON.stringify({
+                                topic: this.topic,
+                                tone: this.tone,
+                                length: this.length
+}) 
+});
+                        const data = await response.json();
+                        if (data.success) {
+                            document.querySelector('input[name=title]').value = data.data.title;
+                            document.querySelector('textarea[name=excerpt]').value = data.data.excerpt;
+                            if (window.tiptapEditor) {
+                                window.tiptapEditor.commands.setContent(data.data.content);
+                                document.getElementById('content-textarea').value = data.data.content;
+
+}
+                            this.showForm = false;
+                            this.topic = '';
+} else {
+                            alert(data.error || 'Failed to generate content.');
+}
+} catch (error) {
+                        alert('Error: ' + error.message);
+} finally {
+                        this.loading = false;
+}
+}
+}">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+</svg>
+<span class="font-medium text-indigo-900">AI Post Generator</span>
+</div>
+                <button type="button"
+                @click="showForm = !showForm"
+                class="text-sm px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                    <span x-text="showForm ? 'Close ': 'Generate with AI'"></span>
+</button>
+</div>
+
+<div x-show="showForm"  class="mt-4 space-y-3">
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">What should the post be about?</label>
+        <input type="text"
+                x-model="topic"
+                placeholder="e.g., 10 Tips for Better Sleep, How to Start a Garden..."
+                class="w-full border-gray-300 rounded-md shadow-sm text-sm">
+</div>
+<div class="grid grid-cols-2 gap-3">
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Tone</label>
+        <select x-model="tone" class="w-full border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="professional">Professional</option>
+            <option value="casual">Casual</option>
+            <option value="friendly">Friendly</option>
+            <option value="formal">Formal</option>
+            <option value="humorous">Humorous</option>
+</select>
+</div>
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Length</label>
+        <select x-model="length" class="w-full border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="short">Short (300-500 words)</option>
+            <option value="medium">Medium (600-900 words)</option>
+            <option value="long">Long (1000-1500 words)</option>
+</select>
+</div>
+</div>
+    <button type="button"
+            @click="generate()"
+            :disabled="loading"
+            class="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 flex items-center justify-center gap-2">
+            <svg x-show="loading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+</svg>
+            <span x-text="loading ? 'Generating...' : 'Generate Post'"></span>
+</button>
+</div>
+</div>
+         
+            
+
+
+
         <!-- Autosave Component -->
         <x-autosave :draft-key="'draft_create_' . auth()->id()" />
 
+        
         <div class="mb-6">
             <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
             <input type="text" name="title" value="{{old('title')}}" required

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIPostController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\DraftAutosaveController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Analytics\PostAnalyticsController;
 use App\Http\Controllers\Analytics\AnalyticsController;
+
 
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -228,3 +230,7 @@ Route::post('posts/{post:slug}/track', [PostAnalyticsController::class, 'track']
 Route::middleware('auth', 'role:admin')->group(function () {
     Route::get('admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
 });
+
+Route::post('/ai/generate-post', [AIPostController::class, 'generate'])
+    ->name('ai.generate-post')
+    ->middleware('auth');

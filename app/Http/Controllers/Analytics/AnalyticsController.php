@@ -60,6 +60,15 @@ class AnalyticsController extends Controller
             ->pluck('count', 'date')
             ->toArray();
 
+        // Fill in missing days with 0 (last 7 days)
+        $viewsByDaysComplete = [];
+        for ($i=6; $i>=0; $i--) {
+            $date = now()->subDays($i)->toDateString();
+            $viewsByDaysComplete[$date] = $viewsByDay[$date] ?? 0;
+        }
+
+
+
         // Top referrers
         $topReferrers = PostEvent::viewed()->lastDays(7)
             ->whereNotNull('referrer')
@@ -82,7 +91,7 @@ class AnalyticsController extends Controller
                 'topPosts',
                 'avgEngagement',
                 'viewsByHoursComplete',
-                'viewsByDay',
+                'viewsByDaysComplete',
                 'topReferrers',
                 'recentActivity'
             ));

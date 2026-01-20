@@ -82,7 +82,7 @@
             $maxCount = max($viewsByHoursComplete) ?: 1;
             $height = ($count / $maxCount) * 100;
         @endphp
-        <div class="flex-1 flex flex-col items-center">
+        <div class="flex-1 flex flex-col items-center h-full justify-end">
             <div
                 class="w-full bg-indigo-500 rounded-t transition-all duration-300 hover:bg-indigo-600"
                 style="height: {{ $height }}%"
@@ -105,12 +105,12 @@
     <div class="bg-white rounded-lg shadow p-6">
         <h3 class="text-lg font-medium text-gray-900 mb-4">Views Last 7 Days</h3>
         <div class="flex items-end space-x-2 h-40">
-            @forelse($viewsByDay as $date => $count)
+            @forelse($viewsByDaysComplete as $date => $count)
             @php
-                $maxCount = max($viewsByDay) ?: 1;
+                $maxCount = max($viewsByDaysComplete) ?: 1;
                 $height = ($count / $maxCount) * 100;
             @endphp
-            <div class="flex-1 flex flex-col items-center">
+            <div class="flex-1 flex flex-col items-center h-full justify-end">
                 <div
                     class="w-full bg-green-500 rounded-t transition-all duration-300 hover:bg-green-600"
                     style="height: {{ $height }}%"

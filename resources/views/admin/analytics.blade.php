@@ -88,9 +88,9 @@
                 style="height: {{ $height }}%"
                 title="{{ $hour }}:00 - {{ $count }} views"
                 ></div>
-                @if($hour % 4 === 0)
-                <span class="text-xs text-gray-500 mt-1">{{ $hour }}</span>
-                @endif
+                <span class="text-xs text-gray-500 mt-1 h-4">
+                {{ $hour % 4 === 0 ? $hour : '' }}
+</span>
 </div>
 @endforeach
 </div>

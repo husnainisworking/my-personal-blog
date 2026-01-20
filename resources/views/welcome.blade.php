@@ -8,6 +8,15 @@
         <p class="text-xl text-gray-600">Sharing thoughts, ideas, and stories</p>
     </div>
 
+    <!-- Newsletter CTA -->
+     <div class="mb-10 max-w-xl mx-auto">
+        <x-newsletter-signup
+            title="Get New Posts in Your Inbox"
+            description="Join the newsletter and never miss an update"
+            buttonText="Subscribe"
+        />
+</div>
+
     @if($posts->count() > 0)
         <div class="grid gap-8">
             @foreach($posts as $post)
@@ -32,12 +41,12 @@
                                 </span>
 
                             <span class="mx-2">•</span>
-                            <span class="flex items-center gap-1">
+                            <span class="flex items-center gap-1" title="Total views">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                             </svg>
-                            {{ $post->formatted_views  }}
+                            {{ $post->formatted_views  }} views
                             </span>
                             @if($post->category)
                                 <span class="mx-2">•</span>
@@ -48,9 +57,9 @@
                         </div>
 
                         @if($post->excerpt)
-                            <p class="text-gray-700 text-lg mb-4">{{$post->excerpt}}</p>
+                            <p class="text-gray-700 text-lg mb-4 leading-relaxed" >{{$post->excerpt}}</p>
                             @else
-                            <p class="text-gray-700 text-lg mb-4">{{Str::limit(strip_tags($post->content), 200)}}</p>
+                            <p class="text-gray-700 text-lg mb-4 leading-relaxed">{{Str::limit(strip_tags($post->content), 300)}}</p>
                         @endif
 
                         @if($post->tags->count() > 0)

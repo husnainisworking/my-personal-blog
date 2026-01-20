@@ -22,11 +22,7 @@ Alpine.store('theme', {
     */
     init() {
         const stored = localStorage.getItem('theme'); // 'dark' | 'light' | null
-        const prefersDark =
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        this.isDark = stored ? stored === 'dark' : prefersDark;
+        this.isDark = stored === 'dark';
 
         // Tailwind will apply dark styles when <html class="dark" exists
         document.documentElement.classList.toggle('dark', this.isDark);

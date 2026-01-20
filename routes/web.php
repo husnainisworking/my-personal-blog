@@ -234,3 +234,5 @@ Route::middleware('auth', 'role:admin')->group(function () {
 Route::post('/ai/generate-post', [AIPostController::class, 'generate'])
     ->name('ai.generate-post')
     ->middleware('auth');
+
+Route::view('/about', 'about')->name('about');

@@ -27,9 +27,7 @@
         (() => {
             // Prevents a flash of light mode before JS loads
             const stored = localStorage.getItem('theme'); // 'dark' | 'light' | null
-            const prefersDark = 
-                window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const useDark = stored ? stored === 'dark' : prefersDark;
+            const useDark = stored === 'dark';
             document.documentElement.classList.toggle('dark', useDark);
         }) ();
         </script>
@@ -49,21 +47,25 @@
                         <a href="{{route('home')}}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
                             Home
                         </a>
-                        <a href="{{ route('public.categories.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                        <a href="{{ route('public.categories.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium" title="Browse posts by topic (e.g., Technology, Lifestyle)">
                             Categories
                         </a>
-                        <a href="{{ route('public.tags.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                        <a href="{{ route('public.tags.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium" title="Browse posts by keyword (e.g., #laravel, #tips)">
                             Tags
                         </a>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:items-center">
-                    <form action="{{route ('search')}}" method="GET" class="flex w-full sm:w-auto">
-                        <input type="text" name="q" placeholder="Search..." class="border rounded-l px-4 py-2 text-sm w-full sm:w-64" value="{{ request('q') }}">
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r text-sm hover:bg-indigo-700 shrink-0">
-                            Search
-                        </button>
-                    </form>
+                    <form action="{{ route('search') }}" method="GET" class="flex w-full sm:w-auto relative" x-data="{ searching: false}" @submit="searching = true">
+                        <input type="text" name="q" placeholder="Search posts, tags, categories..." class="border rounded-l px-4 py-2 text-sm w-full sm:w-80" value="{{ request('q')}}" required minlength="2">
+                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r text-sm hover:bg-indigo-700 shrink-0 flex items-center gap-2" :disabled="searching">
+                            <svg x-show="searching" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span x-text="searching ? 'Searching...' : 'Search'"></span>
+    </button>
+    </form>
                     <button
                         type="button"
                          class="inline-flex min-w-[6rem] items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
@@ -129,14 +131,17 @@
             />
     </div>
         <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
         <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>
 
-            <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-2 hover:text-gray-700" target="_blank" rel="noopener">
+        <div class="flex items-center gap-4">
+            <a href="{{ route('about') }}" class="hover:text-gray-700">About</a>
+            <a href="mailto:husnainisworking@gmail.com" class="hover:text-gray-700">Contact</a>
+            <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-1 hover:text-gray-700" target="_blank" rel="noopener">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">
-            <path d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36Zm-2.18-10v3.27a9.91 9.91 0 0 1 9.91 9.91h3.27C17.18 14.3 10.7 7.82 4 7.82Zm0-5v3.27c9.18 0 16.64 7.46 16.64 16.64H24C24 11.74 14.26 2 4 2Z"/>
+                    <path d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36Zm-2.18-10v3.27a9.91 9.91 0 0 1 9.91 9.91h3.27C17.18 14.3 10.7 7.82 4 7.82Zm0-5v3.27c9.18 0 16.64 7.46 16.64 16.64H24C24 11.74 14.26 2 4 2Z"/>
         </svg>
-        <span>RSS</span>
+        RSS
         </a>
         </div>
     </div>

@@ -21,9 +21,7 @@
             // Prevents a flash of light mode before JS loads
             (() => {
                 const stored = localStorage.getItem('theme');
-                const prefersDark = 
-                    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const useDark = stored ? stored === 'dark' : prefersDark;
+                const useDark = stored === 'dark';
                 document.documentElement.classList.toggle('dark', useDark);
             }) ();
         </script>

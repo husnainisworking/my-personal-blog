@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\OllamaService;
+use App\Services\GroqService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Exception;
@@ -14,7 +14,7 @@ class AIPostController extends Controller
         $this->middleware('auth');
     }
 
-    public function generate(Request $request, OllamaService $ai): JsonResponse
+    public function generate(Request $request, GroqService $ai): JsonResponse
     {
 
         $validator = \Validator::make($request->all(), [

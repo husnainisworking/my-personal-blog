@@ -32,10 +32,14 @@
             document.documentElement.classList.toggle('dark', useDark);
         })();
     </script>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 
-<body class="bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
+<body class="font-sans bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
     <x-public-nav />
 
     <main class="pt-8 pb-6 sm:pt-10 sm:pb-10 flex-1">

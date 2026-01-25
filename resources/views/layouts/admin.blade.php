@@ -18,7 +18,11 @@
             document.documentElement.classList.toggle('dark', useDark);
         })();
     </script>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!--
     This is admin layout template. All admin pages extend this so they
     share the same header,nav and styling.
@@ -27,7 +31,7 @@
 -->
 </head>
 
-<body class="bg-gray-100 dark:bg-slate-900">
+<body class="font-sans bg-gray-100 dark:bg-slate-900">
 
     <x-admin-nav />
 

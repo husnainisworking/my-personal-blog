@@ -32,3 +32,5 @@ storage/framework/sessions/*
 /config/scout.php
 /app/View/Components/back-link.php
 .claude/
+
+public/build/

@@ -42,7 +42,7 @@
                                 @if(!$comment->approved)
                                     <form action="{{route('comments.approve', $comment)}}" method="POST" class="inline">
                                         @csrf
-                                    <button type="submit" class="text-green-600 hover:text-green-800 text-sm font-medium">
+                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-700">
                                         Approve
                                     </button>
                                     </form>
@@ -50,7 +50,7 @@
                             <form action="{{route('comments.destroy', $comment)}}" method="POST" class="inline">
                                 @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium" onclick="return confirm('Delete this comment?')">
+                            <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700" onclick="return confirm('Delete this comment?')">
                                 Delete
                             </button>
                             </form>

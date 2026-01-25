@@ -138,4 +138,14 @@
     html.dark .shadow-xl {
         @apply shadow-none ring-1 ring-gray-700/50;
     }
+
+    @layer components {
+        .tiptap-toolbar button {
+            @apply h-8 px-2 text-xs sm:text-sm rounded-md border border-gray-200 bg-white text-gray-700 hover:bg-gray-100;
+        }
+
+        .tiptap-toolbar button.is-active {
+            @apply bg-indigo-600 text-white border-indigo-600;
+        }
+    }
 }

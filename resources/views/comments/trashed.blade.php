@@ -52,7 +52,7 @@
                                     @honeypot
                                     <!-- route() here generates the URL for restoring the comment. The 'comments.restore' route is defined in the web routes file 
                                      and points to the controller method that handles the restoration. -->
-                                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-700">
                                         Restore
                                     </button>
                                 </form>
@@ -60,7 +60,7 @@
                                     @csrf
                                     @honeypot
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">
+                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700">
                                         Delete Forever
                                     </button>
                                 </form>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +10,19 @@
     -->
     <title>@yield('title', 'Welcome') - My Personal Blog </title>
     <meta name="description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology. Read articles, tutorials, and insights.')">
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ url()->current() }}">
-        <meta property="og:title" content="@yield('title', 'Welcome') - My Personal Blog">
-        <meta property="og:description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
-        @yield('og-image')
-        
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ url()->current() }}">
-        <meta property="twitter:title" content="@yield('title', 'Welcome') - My Personal Blog">
-        <meta property="twitter:description"content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
-        
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Welcome') - My Personal Blog">
+    <meta property="og:description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
+    @yield('og-image')
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'Welcome') - My Personal Blog">
+    <meta property="twitter:description"content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
+
     <link rel="alternate" type="application/rss+xml" title="My Personal Blog" href="{{ url('/feed.xml') }}">
     <script>
         (() => {
@@ -29,174 +30,46 @@
             const stored = localStorage.getItem('theme'); // 'dark' | 'light' | null
             const useDark = stored === 'dark';
             document.documentElement.classList.toggle('dark', useDark);
-        }) ();
-        </script>
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-3 py-3 sm:flex-row sm:justify-between sm:items-center sm:h-16">
-                <div class="flex min-w-0 justify-center sm:justify-start">
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('home') }}" class="text-lg sm:text-2xl font-bold text-indigo-600 truncate max-w-[11rem] sm:max-w-none text-center">
-                            My Personal Blog
-                        </a>
-                    </div>
-                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{{route('home')}}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            Home
-                        </a>
-                        <a href="{{ route('public.categories.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium" title="Browse posts by topic (e.g., Technology, Lifestyle)">
-                            Categories
-                        </a>
-                        <a href="{{ route('public.tags.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium" title="Browse posts by keyword (e.g., #laravel, #tips)">
-                            Tags
-                        </a>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:items-center">
-                    <form action="{{ route('search') }}" method="GET" class="flex w-full sm:w-auto relative" x-data="{ searching: false}" @submit="searching = true">
-                        <input type="text" name="q" placeholder="Search posts, tags, categories..." class="border rounded-l px-4 py-2 text-sm w-full sm:w-80" value="{{ request('q')}}" required minlength="2">
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r text-sm hover:bg-indigo-700 shrink-0 flex items-center gap-2" :disabled="searching">
-                            <svg x-show="searching" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span x-text="searching ? 'Searching...' : 'Search'"></span>
-    </button>
-    </form>
-                    <button
-                        type="button"
-                         class="inline-flex min-w-[6rem] items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        x-data
-                        @click="$store.theme.toggle()" 
-                    >
 
-                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                         <path d="M21.64 13a1 1 0 0 0-1.05-.14A8 8 0 0 1 11.14 3.4a1 1 0 0 0-1.19-1.19A10 10 0 1 0 22 14.05a1 1 0 0 0-.36-1.05Z"/>
-    </svg>
-                    
-                    <span class="theme-label-dark">Dark</span>
-                    <span class="theme-label-light">Light</span>
-                    </button>    
-                    @guest
-                        <a href="{{ route('register') }}" class="sm:ml-4 text-gray-500 hover:text-gray-700 text-sm font-medium">
-                            Create account
-    </a>
-    <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
-        Log in
-    </a>
-    @endguest
-    @auth
-        <a href="{{ route('posts.index')}}" class="sm:ml-4 text-gray-500  hover:text-gray-700 text-sm font-medium">
-            My Posts
-    </a>
-    <a href="{{ route('posts.create') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
-        New Post
-    </a>
-    @if(auth()->user()->hasRole('admin'))
-        <a href="{{ route('dashboard')}}" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
-            Admin
-    </a>
-    @endif
-    <form method="POST" action="{{ route('logout') }}" class="inline-flex items-center">
-        @csrf
-        <button type="submit" class="inline-flex items-center leading-none text-gray-500 hover:text-gray-700 text-sm font-medium bg-transparent p-0 border-0">
-            Logout
-    </button>
-    </form>
-    @endauth
+<body class="bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
+    <x-public-nav />
 
-                    <!--
-                    Blade directive:only shows this link if the user is logged in.
-                    Displays an Admin link to the dashboard.
-                    -->
-                </div>
-            </div>
-        </div>
-    </nav>
     <main class="pt-8 pb-6 sm:pt-10 sm:pb-10 flex-1">
         <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             @yield('content')
         </div>
     </main>
-    <footer class="bg-gray-50 border-t mt-auto">
-    <!-- Newsletter Signup -->
-        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <x-newsletter-signup
-            title="Stay Updated"
-            description="Subscribe to get new posts delivered to your inbox"
-            buttonText="Subscribe"
-            />
-    </div>
-        <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-        <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>
-
-        <div class="flex items-center gap-4">
-            <a href="{{ route('about') }}" class="hover:text-gray-700">About</a>
-            <a href="mailto:husnainisworking@gmail.com" class="hover:text-gray-700">Contact</a>
-            <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-1 hover:text-gray-700" target="_blank" rel="noopener">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">
-                    <path d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36Zm-2.18-10v3.27a9.91 9.91 0 0 1 9.91 9.91h3.27C17.18 14.3 10.7 7.82 4 7.82Zm0-5v3.27c9.18 0 16.64 7.46 16.64 16.64H24C24 11.74 14.26 2 4 2Z"/>
-        </svg>
-        RSS
-        </a>
+    <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-auto">
+        <!-- Newsletter Signup -->
+        <div class="pt-6 border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+                <x-newsletter-signup title="Stay Updated"
+                    description="Subscribe to get new posts delivered to your inbox" buttonText="Subscribe" />
+            </div>
         </div>
-    </div>
+        <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+                <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>
+
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('about') }}" class="hover:text-gray-700">About</a>
+                    <a href="mailto:husnainisworking@gmail.com" class="hover:text-gray-700">Contact</a>
+                    <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-1 hover:text-gray-700"
+                        target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">
+                            <path
+                                d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36Zm-2.18-10v3.27a9.91 9.91 0 0 1 9.91 9.91h3.27C17.18 14.3 10.7 7.82 4 7.82Zm0-5v3.27c9.18 0 16.64 7.46 16.64 16.64H24C24 11.74 14.26 2 4 2Z" />
+                        </svg>
+                        RSS
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

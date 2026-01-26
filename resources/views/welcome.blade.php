@@ -4,7 +4,7 @@
 @section('content')
     <!-- Homepage (Welcome Page) of blog. -->
     <div class="mb-12 text-center">
-        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 mb-4">Welcome to My Personal Blog</h1>
+        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">Welcome to My Personal Blog</h1>
         <p class="text-xl text-gray-600">Sharing thoughts, ideas, and stories</p>
     </div>
 
@@ -14,7 +14,7 @@
                 <article class="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
                     <div class="p-5 sm:p-8">
                         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-                            <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600">
+                            <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:text-indigo-400">
                                 {{ $post->title }}
                             </a>
                         </h2>
@@ -45,7 +45,7 @@
                             @if ($post->category)
                                 <span class="mx-2">•</span>
                                 <a href="{{ route('categories.show', $post->category->slug) }}"
-                                    class="text-indigo-600 hover:text-indigo-800">
+                                    class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">
                                     {{ $post->category->name }}
                                 </a>
                             @endif
@@ -69,7 +69,7 @@
                             </div>
                         @endif
                         <a href="{{ route('posts.public.show', $post->slug) }}"
-                            class="text-indigo-600 hover:text-indigo-800 font-medium text-lg">
+                            class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 font-medium text-lg">
                             Read more →
                         </a>
                     </div>

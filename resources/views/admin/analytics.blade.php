@@ -11,8 +11,8 @@
         <!-- Views Today -->
          <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center">
-                <div class="p-3 bg-indigo-100 rounded-full">
-                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-indigo-100  rounded-full">
+                    <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                     </svg>
@@ -58,7 +58,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-2">Average Time on Page</h3>
-            <p class="text-3xl font-bold text-indigo-600">
+            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
                 {{ $avgEngagement && $avgEngagement->avg_time !== null ? round($avgEngagement->avg_time) . 's' : 'N/A'}}
 </p>
 <p class="text-sm text-gray-500 mt-1">Last 7 days</p>
@@ -132,7 +132,7 @@
         <div class="space-y-3">
             @foreach($topPosts as $post)
             <div class="flex items-center justify-between">
-                <a href="{{ route('posts.public.show', $post->slug) }}" class="text-sm text-gray-700 hover:text-indigo-600 truncate flex-1 mr-4">
+                <a href="{{ route('posts.public.show', $post->slug) }}" class="text-sm text-gray-700 hover:text-indigo-600 dark:text-indigo-400 truncate flex-1 mr-4">
                     {{ $post->title }}
 </a>
 <span class="text-sm font-medium text-gray-900 whitespace-nowrap">

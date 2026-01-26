@@ -10,7 +10,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @foreach($relatedPosts as $relatedPost)
-            <article class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
+            <article class="bg-white dark:bg-slate-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
                 @if($relatedPost->featured_image)
                     <a href="{{ route('posts.public.show', $relatedPost->slug) }}">
                         <img src="{{ asset('storage/' . $relatedPost->featured_image) }}"

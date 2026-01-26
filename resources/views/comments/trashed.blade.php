@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight">
                 {{__('Trashed Comments')}} <!-- __() means translate -->
             </h2>
-            <a href="{{ route('comments.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('comments.index') }}" class="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 dark:border-slate-600 dark:bg-slate-800 dark:text-gray-200 dark:hover:bg-slate-700">
                 Back to Comments
             </a>
         </div>
@@ -14,7 +14,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (session('success'))
             <!--Session('success') means the user has successfully restored a comment -->
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <div class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 px-4 py-3 rounded mb-4">
                     {{ session('success') }}
             <!-- The session('success') is a Laravel session variable that holds a success message after an action like restoring a comment.
               It's displayed in the view using {{ session('success') }} -->
@@ -33,11 +33,11 @@
                                     <p class="text-sm text-gray-600">{{ $comment->email }}</p>
                                     <p class="text-sm text-gray-500">
                                         @if($comment->post)
-                                        Post: <a href="{{ route('posts.public.show', $comment->post) }}" class="text-blue-600 hover:underline">
+                                        Post: <a href="{{ route('posts.public.show', $comment->post) }}" class="text-blue-600 dark:text-blue-400 hover:underline">
                                             {{ $comment->post->title }}
                                     </a>
                                     @else
-                                    Post: <span class="text-red-500">Deleted</span>
+                                    Post: <span class="text-red-500 dark:text-red-400">Deleted</span>
                                     @endif
                                 </p>
                                 <p class="mt-2">{{ $comment->content }}</p>
@@ -52,7 +52,7 @@
                                     @honeypot
                                     <!-- route() here generates the URL for restoring the comment. The 'comments.restore' route is defined in the web routes file 
                                      and points to the controller method that handles the restoration. -->
-                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-700">
+                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md border border-green-600 text-green-600 dark:text-green-400 dark:border-green-500 text-sm font-medium hover:bg-green-50 dark:hover:bg-green-900/30">
                                         Restore
                                     </button>
                                 </form>
@@ -60,7 +60,7 @@
                                     @csrf
                                     @honeypot
                                     @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700">
+                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-500 dark:bg-red-500 text-white text-xs font-medium hover:bg-red-600 dark:hover:bg-red-700">
                                         Delete Forever
                                     </button>
                                 </form>

@@ -45,7 +45,7 @@
 </div>
 
 <!-- Bottom Share Buttons (All Devices) -->
- <div class="mt-8 p-6 bg-gray-50/50 dark:bg-gray-900/50 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
+ <div class="mt-8 p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-lg border border-gray-100 dark:border-slate-800 shadow-sm">
     <h3 class="text-base font-medium text-gray-700 dark:text-gray-300 mb-4 text-center">Share this post</h3>
     <div class="flex flex-wrap justify-center gap-3">
         <button onclick="shareOn('twitter')"
@@ -81,7 +81,7 @@
 </button>
 
 <button onclick="copyLink()"
-    class="inline-flex items-center gap-2 h-10 px-4 rounded-md bg-gray-700 text-white shadow-sm hover:shadow-md dark:bg-gray-600 dark:hover:bg-gray-700 transition">
+    class="inline-flex items-center gap-2 h-10 px-4 rounded-md bg-gray-700 text-white shadow-sm hover:shadow-md dark:bg-slate-600 dark:hover:bg-slate-700 transition">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
 </svg>

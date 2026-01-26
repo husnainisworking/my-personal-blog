@@ -229,7 +229,7 @@
     </div>
     </div>
 
-            <div class="mb-4 rounded-md border border-gray-100 bg-gray-50/50 p-3 dark:border-gray-700 dark:bg-gray-800/60">
+            <div class="mb-4 rounded-md border border-gray-100 bg-gray-50/50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
                <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-100">Tags</label>
                <p class="text-xs text-gray-500 mb-2 dark:text-gray-400">Optional</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -237,7 +237,7 @@
                          <label class="inline-flex items-center gap-2">
                 <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
                         {{ in_array($tag->id, old('tags', $post->tags->pluck('id')->toArray())) ? 'checked' : '' }}
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800">   
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-800">   
                 <span class="text-sm leading-none text-gray-700 dark:text-gray-200">{{$tag->name}}</span>
                 </label>
                     @endforeach

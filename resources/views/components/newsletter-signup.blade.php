@@ -4,12 +4,12 @@
     'buttonText' => 'Subscribe'    
     ])
 
-    <div {{ $attributes->merge(['class' => 'bg-white dark:bg-gray-900 p-8 rounded-lg border border-gray-200 dark:border-gray-800 shadow-sm'])}}>
+    <div {{ $attributes->merge(['class' => 'bg-white dark:bg-slate-900 p-8 rounded-lg border border-gray-200 dark:border-slate-800 shadow-sm'])}}>
     <h3 class="text-base font-medium mb-2 text-gray-700 dark:text-gray-300">{{ $title }}</h3>
     <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $description }}</p>
 
 
-    @if(session('newsletter_success'))
+    @if(session('newsletter_success'))s-90
     <div class="mb-4 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-200 px-4 py-3 rounded">
         {{ session('newsletter_success') }}
 </div>
@@ -31,7 +31,7 @@
             name="email"
             placeholder="Enter your email"
             required
-            class="flex-1 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md shadow-md focus:border-indigo-500 focus:ring-indigo-500 @error('email') border-red-500 @enderror"
+            class="flex-1 border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md shadow-md focus:border-indigo-500 focus:ring-indigo-500 @error('email') border-red-500 @enderror"
             >
             <button
             type="submit"

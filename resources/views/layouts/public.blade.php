@@ -49,7 +49,7 @@
     </main>
     <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-auto">
         <!-- Newsletter Signup -->
-        <div class="pt-6 border-gray-200 dark:border-gray-700">
+        <div class="pt-6 border-gray-200 dark:border-slate-700">
             <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
                 <x-newsletter-signup title="Stay Updated"
                     description="Subscribe to get new posts delivered to your inbox" buttonText="Subscribe" />

@@ -34,7 +34,7 @@
                         <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
                             <div class="p-5 sm:p-6">
                                 <h2 class="text-2xl font-bold text-gray-900 mb-2">
-                                    <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600">
+                                    <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:text-indigo-400">
                                         {{ $post->title }}
                                     </a>
                                 </h2>
@@ -63,7 +63,7 @@
 @endif
 
 <a href="{{ route('posts.public.show', $post->slug) }}"
-class="text-indigo-600 hover:text-indigo-800 font-medium">
+class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 font-medium">
 Read more →
 </a>
 </div>

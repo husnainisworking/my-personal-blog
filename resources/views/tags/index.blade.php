@@ -23,7 +23,7 @@
                             <span class="text-gray-600 text-sm ml-2">({{$tag->posts_count}})</span>
                         </div>
                         <div class="flex space-x-2">
-                            <a href="{{route('tags.edit', $tag)}}" class="text-indigo-600 hover:text-indigo-800 text-sm">
+                            <a href="{{route('tags.edit', $tag)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 text-sm">
                                 Edit
                             </a>
                             <form action="{{route('tags.destroy', $tag)}}" method="POST" class="inline">

@@ -61,7 +61,7 @@
                                     {{$post->created_at->format('M d, Y')}}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{route('posts.edit', $post)}}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                        <a href="{{route('posts.edit', $post)}}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 mr-3">Edit</a>
                                     <form action="{{route('posts.destroy', $post)}}" method="POST" class="inline">
                                         <!--
                                         Browsers only know GET(links) and POST(forms).

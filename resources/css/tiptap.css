@@ -1,16 +1,16 @@
 /* Main editor container */
 .tiptap-editor {
-    @apply border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800;
+    @apply border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800;
 }
 
 /* Toolbar at top of editor */
 .tiptap-toolbar {
-    @apply border-b border-gray-300 dark:border-gray-700 p-2 flex flex-wrap gap-1 bg-gray-50 dark:bg-gray-900 rounded-t-lg;
+    @apply border-b border-gray-300 dark:border-slate-700 p-2 flex flex-wrap gap-1 bg-gray-50 dark:bg-slate-900 rounded-t-lg;
 }
 
 /* Toolbar buttons (Bold, Italic, etc.) */
 .tiptap-toolbar button {
-    @apply px-3 py-1.5 rounded text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
+    @apply px-3 py-1.5 rounded text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors;
 
 }
 
@@ -22,12 +22,12 @@
 
 /* The actual editor content area */
 .tiptap-editor .tiptap {
-    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100;
 }
 
 /* ProseMirror editor element */
 .ProseMirror {
-    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    @apply min-h-[300px] p-4 focus:outline-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100;
 }
 
 
@@ -53,7 +53,7 @@
 
 .tiptap td,
 .tiptap th {
-    @apply border border-gray-300 dark:border-gray-700 px-3 py-2;
+    @apply border border-gray-300 dark:border-slate-700 px-3 py-2;
 }
 
 .tiptap ul,

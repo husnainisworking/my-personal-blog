@@ -33,8 +33,12 @@ Alpine.store('theme', {
      */
     set(isDark) {
         this.isDark = isDark;
+        document.documentElement.classList.add('dark-transition');
         document.documentElement.classList.toggle('dark', isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        setTimeout(() => {
+            document.documentElement.classList.remove('dark-transition');
+        }, 200);
     },
 
     /**

@@ -39,7 +39,7 @@
                     </div>
                     <!-- Categories -->
                     <div class="bg-indigo-50 p-6 rounded-lg">
-                        <div class="text-indigo-600 text-sm font-semibold mb-2">Categories</div>
+                        <div class="text-indigo-600 dark:text-indigo-400 text-sm font-semibold mb-2">Categories</div>
                         <div class="text-2xl font-bold text-gray-800">{{$stats['total_categories']}}</div>
                     </div>
                     <!-- Tags -->

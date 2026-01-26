@@ -24,7 +24,7 @@
                             <p class="text-gray-500 text-sm mb-4">{{$category->description}}</p>
                         @endif
                         <div class="flex space-x-3">
-                            <a href="{{route('categories.edit', $category)}}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                            <a href="{{route('categories.edit', $category)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 text-sm font-medium">
                                 Edit
                             </a>
                             <form action="{{route('categories.destroy', $category)}}" method="POST" class="inline">

@@ -12,7 +12,7 @@
 
     /* Base pages colors */
     html.dark body {
-        @apply bg-gray-900 text-gray-100;
+        @apply bg-slate-900 text-gray-100;
     }
 
     /* 
@@ -21,23 +21,23 @@
     */
 
     html.dark .bg-white {
-        @apply bg-gray-800;
+        @apply bg-slate-800;
     }
 
     html.dark .bg-gray-50 {
-        @apply bg-gray-900;
+        @apply bg-slate-900;
     }
 
     html.dark .bg-gray-100 {
-        @apply bg-gray-900;
+        @apply bg-slate-900;
     }
 
     html.dark .bg-gray-200 {
-        @apply bg-gray-700;
+        @apply bg-slate-700;
     }
 
     html.dark .bg-gray-300 {
-        @apply bg-gray-600;
+        @apply bg-slate-600;
     }
 
     html.dark .bg-blue-50 {
@@ -89,15 +89,15 @@
     }
 
     html.dark .border-gray-100 {
-        @apply border-gray-800;
+        @apply border-slate-800;
     }
 
     html.dark .border-gray-200 {
-        @apply border-gray-800;
+        @apply border-slate-800;
     }
 
     html.dark .border-gray-300 {
-        @apply border-gray-700;
+        @apply border-slate-700;
     }
 
     .theme-label-light {
@@ -117,11 +117,11 @@
     }
 
     html.dark .hover\:bg-gray-50:hover {
-        @apply bg-gray-800;
+        @apply bg-slate-800;
     }
 
     html.dark .hover\:bg-gray-100:hover {
-        @apply bg-gray-800;
+        @apply bg-slate-800;
     }
 
     html.dark .hover\:text-gray-700:hover {
@@ -136,7 +136,15 @@
     html.dark .shadow-md,
     html.dark .shadow-lg,
     html.dark .shadow-xl {
-        @apply shadow-none ring-1 ring-gray-700/50;
+        @apply shadow-none ring-1 ring-slate-700/50;
+    }
+
+    /* Smooth dark mode transition */
+    html.dark-transition,
+    html.dark-transition *,
+    html.dark-transition *::before,
+    html.dark-transition *::after {
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
     }
 
     @layer components {

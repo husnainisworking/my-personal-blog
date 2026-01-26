@@ -25,7 +25,7 @@
         Have a question or want to connect? Feel free to reach out:
 </p>
 <ul class="list-none space-y-2">
-    <li>Email: <a href="mailto:husnainisworking@gmail.com" class="text-indigo-600 hover:text-indigo-800">husnainisworking@gmail.com</a></li>
+    <li>Email: <a href="mailto:husnainisworking@gmail.com" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">husnainisworking@gmail.com</a></li>
     <ul>
 </div>
 </div>

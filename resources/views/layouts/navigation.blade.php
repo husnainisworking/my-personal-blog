@@ -5,7 +5,7 @@
             <div class="flex">
         
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-indigo-600">
+                    <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
                         My Personal Blog
                     </a>
                 </div>

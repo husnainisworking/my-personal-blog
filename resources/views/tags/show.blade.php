@@ -18,7 +18,7 @@
                 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
                     <div class="p-6">
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">
-                            <a href="{{route('posts.public.show', $post->slug)}}" class="hover:text-indigo-600">
+                            <a href="{{route('posts.public.show', $post->slug)}}" class="hover:text-indigo-600 dark:text-indigo-400">
                                 {{$post->title}}
                             </a>
                         </h2>
@@ -29,7 +29,7 @@
                             <span>{{ optional($post->published_at)->format('F d, Y') }}</span>
                             @if($post->category)
                                 <span class="mx-2">•</span>
-                                <a href="{{route('categories.show', $post->category->slug)}}" class="text-indigo-600 hover:text-indigo-800">
+                                <a href="{{route('categories.show', $post->category->slug)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">
                                     {{$post->category->name}}
                                 </a>
                                 @endif
@@ -41,7 +41,7 @@
                             <p class="text-gray-700 mb-4">{{ Str::limit(strip_tags($post->content), 200) }}</p>
                         @endif
 
-                    <a href="{{route('posts.public.show', $post->slug)}}" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                    <a href="{{route('posts.public.show', $post->slug)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 font-medium">
                         Read more →
                     </a>
                     </div>

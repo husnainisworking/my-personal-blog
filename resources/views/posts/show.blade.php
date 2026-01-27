@@ -14,13 +14,14 @@
 <article class="max-w-4xl mx-auto">
     <!--Post Header-->
     <header class="mb-8">
-        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-4">{{$post->title}}</h1>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{$post->title}}</h1>
 
-        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-4">
-            <span>By {{$post->user?->name ?? "Unknown"}}</span>
-            <span class="mx-2">•</span>
-            <span>{{ optional($post->published_at)->format('F d, Y')}}</span>
-            <span class="mx-2">•</span>
+        <!-- Line 1: Author & Date -->
+        <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+            By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('F d, Y')}}
+        </div>
+        <!-- Line 2: Stats & Category -->
+         <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mb-4">
             <span class="flex items-center gap-1">
             <!-- Clock icon for reading time -->
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,7 +29,6 @@
             </svg>
             {{ $post->reading_time }}
 </span>
-            <span class="mx-2">•</span>
             <span class="flex items-center gap-1">
         <!-- Eye icon for views -->
          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,6 @@
         {{ $post->formatted_views }} views
 </span>
             @if($post->category)
-                <span class="mx-2">•</span>
                 <a href="{{route('categories.show', $post->category->slug)}}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
                     {{$post->category->name}}
                 </a>
@@ -48,7 +47,7 @@
         @if($post->tags->count() > 0)
             <div class="flex flex-wrap gap-2">
                 @foreach($post->tags as $tag)
-                <a href="{{route('tags.show', $tag->slug)}}" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300">
+                <a href="{{route('tags.show', $tag->slug)}}" class="bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-slate-600">
                     <!-- Displays clickable tags (like #Laravel, #PHP)-->
                     #{{$tag->name}}
                 </a>
@@ -131,7 +130,7 @@ x-init="
 
 
     <!-- Post Content -->
-    <div class="prose prose-lg max-w-none mb-12 break-words">
+    <div class="post-prose max-w-3xl mx-auto mb-12 break-words">
         {!! $post->content !!}
     <!-- Converts the post's content(written in Markdown) into HTMl.
         Problem Solved: Authors can write in simple Markdown, but readers can see nicely formatted text.

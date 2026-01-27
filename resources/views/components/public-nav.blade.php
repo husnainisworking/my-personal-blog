@@ -28,7 +28,7 @@
             <div class="flex flex-col w-full sm:w-auto sm:flex-row sm:items-center sm:gap-4 sm:ml-6">
                 <form action="{{ route('search') }}" method="GET" class="flex w-full sm:w-auto sm:ml-4 relative"
                     x-data="{ searching: false }" @submit="searching = true">
-                    <input type="text" name="q" placeholder="Search..."
+                    <input type="text" name="q" placeholder="Search posts, tags, or topics…"
                         class="h-10 w-full sm:w-48 lg:w-64 xl:w-72 rounded-l-md border border-gray-300 dark:border-slate-700 border-r-0 px-4 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-slate-900 dark:text-gray-100 dark:placeholder-gray-400"
                         value="{{ request('q') }}" required minlength="2">
                     <button type="submit"

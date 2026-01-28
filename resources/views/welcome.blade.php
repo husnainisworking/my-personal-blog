@@ -9,69 +9,49 @@
     </div>
 
     @if ($posts->count() > 0)
-        <div class="grid gap-8">
+        <div class="grid gap-6">
             @foreach ($posts as $post)
-                <article class="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
-                    <div class="p-5 sm:p-8">
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-                            <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:text-indigo-400">
+                <article class="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:shadow-md transition">
+                    <div class="flex flex-col sm:flex-row">
+                        <!-- Content -->
+                         <div class="flex-1 p-5 sm:p-6">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">
+                            <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
                                 {{ $post->title }}
                             </a>
                         </h2>
 
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-600 mb-4">
-                            <span>{{ $post->user?->name ?? 'Unknown Author' }}</span>
-                            <span class="mx-2">•</span>
-                            <span>{{ optional($post->published_at)->format('F d, Y') }}</span>
-                            <span class="mx-2">•</span>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                {{ $post->reading_time }}
-                            </span>
+                        <p class="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                            {{$post->excerpt ?? Str::limit(strip_tags($post->content), 150)}}
+                        </p>
 
-                            <span class="mx-2">•</span>
-                            <span class="flex items-center gap-1" title="Total views">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                                {{ $post->formatted_views }} views
-                            </span>
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                            <span>{{ $post->user?->name ?? 'Unknown' }}</span>
+                            <span>•</span>
+                            <span>{{ optional($post->published_at)->format('M d, Y') }}</span>
+                            <span>•</span>
+                            <span>{{ $post->reading_time }}</span>
                             @if ($post->category)
-                                <span class="mx-2">•</span>
+                                <span>•</span>
                                 <a href="{{ route('categories.show', $post->category->slug) }}"
                                     class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">
                                     {{ $post->category->name }}
                                 </a>
                             @endif
                         </div>
+                    </div>
 
-                        @if ($post->excerpt)
-                            <p class="text-gray-700 text-lg mb-4 leading-relaxed">{{ $post->excerpt }}</p>
-                        @else
-                            <p class="text-gray-700 text-lg mb-4 leading-relaxed">
-                                {{ Str::limit(strip_tags($post->content), 300) }}</p>
+                        <!-- Thumbnail -->
+                         @if ($post->featured_image)
+                        <div class="sm:w-48 sm:h-auto flex-shrink-0">
+                            <a href="{{ route('posts.public.show', $post->slug) }}">
+                                <img src="{{ asset('storage/' . $post->featured_image) }}"
+                                alt="{{ $post->title }}"
+                                loading="lazy"
+                                class="w-full h-40 sm:h-full object-cover sm:rounded-r-lg">
+                            </a>
+                        </div>
                         @endif
-
-                        @if ($post->tags->count() > 0)
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                @foreach ($post->tags as $tag)
-                                    <a href="{{ route('tags.show', $tag->slug) }}"
-                                        class="bg-gray-100 text-gray-700 border border-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-200">
-                                        #{{ $tag->name }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-                        <a href="{{ route('posts.public.show', $post->slug) }}"
-                            class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 font-medium text-lg">
-                            Read more →
-                        </a>
                     </div>
                 </article>
             @endforeach

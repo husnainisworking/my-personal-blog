@@ -3,7 +3,10 @@
 @section('content')
     <!-- Public-facing page for a tag -->
     <div class="mb-8">
-        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">#{{ $tag->name }}</h1>
+        <h1 class="text-2xl sm:text-4xl mb-2">
+            <span class="text-gray-500 dark:text-gray-400 font-normal">Posts tagged</span>
+            <span class="text-gray-900 dark:text-gray-100 font-bold">#{{$tag->name}}</span>
+        </h1>
         <p class="text-gray-500 text-sm">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
         <div class="mt-2">

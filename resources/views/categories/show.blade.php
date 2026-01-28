@@ -5,7 +5,10 @@
 
 @section('content')
         <div class="mb-8">
-            <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">{{$category->name}}</h1>
+            <h1 class="text-2xl sm:text-4xl  mb-2">
+                <span class="text-gray-500 dark:text-gray-400 font-normal">Posts in</span>
+                <span class="text-gray-900 dark:text-gray-100 font-bold">{{$category->name}}</span>    
+            </h1>
         
             @if($category->description)
                 <p class="text-gray-600">{{ $category->description }}</p>

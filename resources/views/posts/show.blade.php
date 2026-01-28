@@ -61,7 +61,7 @@
         <div class="mb-8">
             <img src="{{ asset('storage/' . $post->featured_image) }}"
             alt="{{ $post->title }}"
-            class="w-full h-auto rounded-lg shadow-lg">
+            class="w-full h-auto rounded-xl border border-gray-200 dark:border-slate-700">
     </div>
     @endif
 

@@ -59,11 +59,10 @@
     <!-- Featured Image -->
      @if($post->featured_image)
         <div class="mb-8 max-w-3xl mx-auto">
-            <div class="aspect-[16/9] overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700">
             <img src="{{ asset('storage/' . $post->featured_image) }}"
             alt="{{ $post->title }}"
-            class="w-full h-full object-cover">
-        </div>
+            class="w-full h-auto rounded-xl border border-gray-200 dark:border-slate-700"
+            loading="lazy">
     </div>
     @endif
 

@@ -18,7 +18,7 @@
 
         <!-- Line 1: Author & Date -->
         <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-            By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('F d, Y')}}
+            By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('M d, Y')}}
         </div>
         <!-- Line 2: Stats & Category -->
          <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -58,10 +58,12 @@
 
     <!-- Featured Image -->
      @if($post->featured_image)
-        <div class="mb-8">
+        <div class="mb-8 max-w-3xl mx-auto">
+            <div class="aspect-[16/9] overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700">
             <img src="{{ asset('storage/' . $post->featured_image) }}"
             alt="{{ $post->title }}"
-            class="w-full h-auto rounded-xl border border-gray-200 dark:border-slate-700">
+            class="w-full h-full object-cover">
+        </div>
     </div>
     @endif
 

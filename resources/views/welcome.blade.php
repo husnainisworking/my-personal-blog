@@ -43,12 +43,12 @@
 
                         <!-- Thumbnail -->
                          @if ($post->featured_image)
-                        <div class="sm:w-48 sm:h-auto flex-shrink-0">
-                            <a href="{{ route('posts.public.show', $post->slug) }}">
+                        <div class="w-full sm:w-48 aspect-[4/3] flex-shrink-0 overflow-hidden sm:rounded-r-lg">
+                            <a href="{{ route('posts.public.show', $post->slug) }}" class="block w-full h-full">
                                 <img src="{{ asset('storage/' . $post->featured_image) }}"
                                 alt="{{ $post->title }}"
                                 loading="lazy"
-                                class="w-full h-40 sm:h-full object-cover sm:rounded-r-lg">
+                                class="w-full h-full object-cover">
                             </a>
                         </div>
                         @endif

@@ -69,7 +69,7 @@
         id="content"
         rows="4"
         required
-        class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('content') border-red-500 @enderror"
+        class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-gray-400 placeholder:font-normal @error('content') border-red-500 @enderror"
         placeholder="What are your thoughts?"
 >{{ old('content') }}</textarea>
     @error('content')

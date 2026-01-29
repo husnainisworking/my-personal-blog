@@ -21,7 +21,7 @@
         >
         Link copied to clipboard!
 </div>
-    <div class="flex flex-wrap items-center justify-between gap-4 border-y border-gray-200 dark:border-slate-700 py-3 text-sm text-gray-600 dark:text-gray-300">
+    <div class="flex flex-wrap items-center justify-between mt-3 gap-4 border-y border-gray-200 dark:border-slate-700 py-3 text-sm text-gray-500 dark:text-gray-300">
         <div class="flex items-center gap-5">
             @if($likes !== null)
                 <div class="flex items-center gap-2">

@@ -45,7 +45,7 @@
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 mb-4">
                                     <span>{{ $post->user?->name ?? 'Unknown'}}</span>
                                     <span class="mx-2">•</span>
-                                    <span>{{ optional($post->published_at)->format('F d, Y') }}</span>
+                                    <span>{{ optional($post->published_at)->format('M d, Y') }}</span>
                                 </div>
 
                                 @if($post->excerpt)

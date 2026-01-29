@@ -14,10 +14,12 @@
 <article class="max-w-4xl mx-auto">
     <!--Post Header-->
     <header class="mb-8">
-        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">{{$post->title}}</h1>
-
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 mb-4">{{$post->title}}</h1>
+        <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+            {{$post->excerpt ?? Str::limit(strip_tags($post->content), 150)}}
+        </p>   
         <!-- Line 1: Author & Date -->
-        <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        <div class="text-sm text-gray-600 dark:text-gray-400 mt-4 mb-2">
             By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('M d, Y') }}
               @if($post->category)
               •

@@ -18,26 +18,9 @@
 
         <!-- Line 1: Author & Date -->
         <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-            By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('M d, Y')}}
-        </div>
-        <!-- Line 2: Stats & Category -->
-         <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mb-4">
-            <span class="flex items-center gap-1">
-            <!-- Clock icon for reading time -->
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            {{ $post->reading_time }}
-</span>
-            <span class="flex items-center gap-1">
-        <!-- Eye icon for views -->
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-        </svg>
-        {{ $post->formatted_views }} views
-</span>
-            @if($post->category)
+            By {{$post->user?->name ?? "Unknown"}} • {{ optional($post->published_at)->format('M d, Y') }}
+              @if($post->category)
+              •
                 <a href="{{route('categories.show', $post->category->slug)}}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
                     {{$post->category->name}}
                 </a>
@@ -45,7 +28,7 @@
         </div>
 
         @if($post->tags->count() > 0)
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 mb-8">
                 @foreach($post->tags as $tag)
                 <a href="{{route('tags.show', $tag->slug)}}" class="bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-slate-600">
                     <!-- Displays clickable tags (like #Laravel, #PHP)-->
@@ -54,6 +37,16 @@
                 @endforeach
             </div>
             @endif
+
+                <!-- Engagement Bar -->
+ <x-engagement-bar
+    :views="$post->formatted_views"
+    :comments="$post->approvedComments->count()"
+    :read-time="$post->reading_time"
+    :url="route('posts.public.show', $post->slug)"
+    :title="$post->title"
+ />
+
     </header>
 
     <!-- Featured Image -->
@@ -138,18 +131,12 @@ x-init="
 -->
     </div>
 
-<!-- Share Buttons -->
- <x-share-buttons
-    :url="route('posts.public.show', $post->slug)"
-    :title="$post->title"
-    :description="$post->excerpt ?? Str::limit(strip_tags($post->content), 150)"
-    />
 
 </div>
     <hr class="my-12">
 
     <!-- Comments Section -->
-    <section class="mb-12">
+    <section class="mb-12" id="comments">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">
             Comments ({{$post->approvedComments->count()}})
         </h2>

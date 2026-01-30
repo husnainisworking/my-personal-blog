@@ -169,8 +169,8 @@ x-init="
     <!-- Structured Data (JSON-LD) for Rich Snippets -->
                     <script type="application/ld+json">
                         {
-                            "@@context": "https://schema.org",
-                            "@@type": "BlogPosting",
+                            "@context": "https://schema.org",
+                            "@type": "BlogPosting",
                             "headline": "{{ $post->title }}",
                             "description": "{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 155) }}",
                             "author": {
@@ -179,9 +179,8 @@ x-init="
                             },
                             "datePublished": "{{ $post->published_at?->toIso8601String() }}",
                             "dateModified": "{{ $post->updated_at->toIso8601String() }}"
-                            @if($post->featured_image)
-                            ,
-                            "image": "{{ asset('storage/'. $post->featured_image) }}"
+                            @if($post->featured_image),
+                            "image": "{{ asset('storage/' . $post->featured_image) }}"
                             @endif
                         }
                     </script>

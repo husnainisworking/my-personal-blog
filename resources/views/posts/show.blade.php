@@ -14,7 +14,7 @@
 <article class="max-w-4xl mx-auto">
     <!--Post Header-->
     <header class="mb-8">
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 mb-4">{{$post->title}}</h1>
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 dark:text-white mb-4">{{$post->title}}</h1>
         <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
             {{$post->excerpt ?? Str::limit(strip_tags($post->content), 150)}}
         </p>   
@@ -132,9 +132,10 @@ x-init="
         Problem Solved: Authors can write in simple Markdown, but readers can see nicely formatted text.
 -->
     </div>
-
-
 </div>
+
+
+
     <hr class="my-12">
 
     <!-- Comments Section -->
@@ -150,7 +151,7 @@ x-init="
         @if($post->approvedComments->count() > 0)
             <div class="space-y-6">
                 @foreach($post->approvedComments as $comment)
-                    <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow">
                         <div class="flex items-center mb-2">
                             <div class="font-semibold text-gray-900">{{$comment->name}}</div>
                             <span class="mx-2 text-gray-400">•</span>
@@ -169,12 +170,12 @@ x-init="
     <!-- Structured Data (JSON-LD) for Rich Snippets -->
                     <script type="application/ld+json">
                         {
-                            "@context": "https://schema.org",
-                            "@type": "BlogPosting",
+                            "@@context": "https://schema.org",
+                            "@@type": "BlogPosting",
                             "headline": "{{ $post->title }}",
                             "description": "{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 155) }}",
                             "author": {
-                                "@type": "Person",
+                                "@@type": "Person",
                                 "name": "{{ $post->user?->name ?? 'Unknown' }}"
                             },
                             "datePublished": "{{ $post->published_at?->toIso8601String() }}",
@@ -188,33 +189,6 @@ x-init="
                     <x-related-posts :post="$post" />
 </article>
     @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

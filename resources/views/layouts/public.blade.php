@@ -37,6 +37,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @livewireStyles
 </head>
 
 <body class="font-sans bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
@@ -49,7 +50,7 @@
     </main>
     <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-auto">
         <!-- Newsletter Signup -->
-        <div class="pt-6 border-gray-200 dark:border-slate-700">
+        <div class="pt-6 border-gray-200 dark:border-slate-700"
             <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
                 <x-newsletter-signup title="Stay Updated"
                     description="Subscribe to get new posts delivered to your inbox" buttonText="Subscribe" />
@@ -74,6 +75,7 @@
             </div>
         </div>
     </footer>
+    @livewireScripts
 </body>
 
 </html>

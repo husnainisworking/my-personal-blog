@@ -134,39 +134,11 @@ x-init="
     </div>
 </div>
 
-
-
     <hr class="my-12">
 
-    <!-- Comments Section -->
-    <section class="mb-12" id="comments">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">
-            Comments ({{$post->approvedComments->count()}})
-        </h2>
+    <livewire:post-comments :post="$post" />
 
-    <!-- Comment Form Component -->
-     <x-comment-form :post="$post" class="mb-8"/>
-
-    <!-- Display Comments -->
-        @if($post->approvedComments->count() > 0)
-            <div class="space-y-6">
-                @foreach($post->approvedComments as $comment)
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow">
-                        <div class="flex items-center mb-2">
-                            <div class="font-semibold text-gray-900">{{$comment->name}}</div>
-                            <span class="mx-2 text-gray-400">•</span>
-                            <div class="text-sm text-gray-600">{{$comment->created_at->diffForHumans()}}</div>
-                            <!--diffforhmns() is a Laravel Carbon Method(Carbon is the date/time library Laravel uses), it takes a date/time and converts into human-friendly string -->
-                        </div>
-
-                        <p class="text-gray-700">{{$comment->content}}</p>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <p class="text-gray-500 text-center py-8">No comments yet. Be the first to comment!</p>
-        @endif
-    </section>
+    
     <!-- Structured Data (JSON-LD) for Rich Snippets -->
                     <script type="application/ld+json">
                         {

@@ -68,6 +68,11 @@
         </div>
         @else
         <div class="text-center py-20">
+            <!-- Search not found icon -->
+             <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5 10.5 13.5m0-3 3 3" />
+            </svg>
             <p class="text-gray-500 text-xl">No posts found matching your search.</p>
             <a href="{{route('home')}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 mt-4 inline-block">← Back to home</a>
         </div>

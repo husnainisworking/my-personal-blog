@@ -29,7 +29,7 @@ class SlugService
              */
             while ($attempt <= $maxAttempts) {
                 // Check if slug exists with pessimistic lock (prevents race condition)
-                $query = $model::withTrashed()->lockForUpdate()->where('slug', $slug);
+                $query = $model::lockForUpdate()->where('slug', $slug);
 
                 if ($excludeId) {
                     $query->where('id', '!=', $excludeId);

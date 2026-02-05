@@ -58,7 +58,7 @@ class TagController extends Controller
     public function posts(Tag $tag)
     {
         //whereHas() filters posts that have this tag in the pivot table
-        $posts = Post::whereHas('tags', function($query){
+        $posts = Post::whereHas('tags', function($query) use ($tag) {
             $query->where('tags.id', $tag->id);
         })
         ->published()

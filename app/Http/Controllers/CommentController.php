@@ -107,7 +107,9 @@ class CommentController extends Controller
             ? 'Comment posted successfully!'
             : 'Comment submitted successfully! It will appear after approval.';
 
-            return back()->with('success', $message);
+            return back()
+            ->with('success', $message)
+            ->withInput([]); //clears old input
 
         } catch (QueryException $e) {
             // Specific: Database errors(constraint violations, connection issues, etc)

@@ -25,6 +25,8 @@ class PostComments extends Component
     // Messages
     public string $successMessage = '';
 
+    public int $formKey = 0;
+
     protected function rules(): array
     {
         return [
@@ -97,8 +99,12 @@ class PostComments extends Component
             'ip_address' => config('comments.moderation.track_ip', true) ? request()->ip() : null,
         ]);
 
-        // Reset form
-        $this->reset(['name', 'email', 'content']);
+        // Reset form + validation, then force re-render
+        $this->resetValidation();
+        $this->name = '';
+        $this->email = '';
+        $this->content = '';
+        $this->formKey++;
 
         // Show success message
         $this->successMessage = config('comments.moderation.auto_approve', false)

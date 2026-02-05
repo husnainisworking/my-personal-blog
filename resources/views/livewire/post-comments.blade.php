@@ -20,7 +20,7 @@
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Leave a comment</h3>
 
 
-        <form wire:submit="addComment">
+        <form wire:submit="addComment" wire:key="comment-form-{{ $formKey }}" autocomplete="off">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">

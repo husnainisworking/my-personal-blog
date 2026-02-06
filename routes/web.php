@@ -72,12 +72,12 @@ Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])
 
 // User post management (logged-in users)
 Route::middleware(['auth', '2fa.verified'])->group(function() {
-    Route::get('/my/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/my/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/my/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/my/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/my/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/my/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/my/posts', [PostController::class, 'index'])->name('my-posts.index');
+    Route::get('/my/posts/create', [PostController::class, 'create'])->name('my-posts.create');
+    Route::post('/my/posts', [PostController::class, 'store'])->name('my-posts.store');
+    Route::get('/my/posts/{post}/edit', [PostController::class, 'edit'])->name('my-posts.edit');
+    Route::put('/my/posts/{post}', [PostController::class, 'update'])->name('my-posts.update');
+    Route::delete('/my/posts/{post}', [PostController::class, 'destroy'])->name('my-posts.destroy');
 });
 
 

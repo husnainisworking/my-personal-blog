@@ -78,5 +78,55 @@
     <!-- This doesn't block rendering -->
  @livewireScriptConfig
  <script src="{{ asset('vendor/livewire/livewire.min.js') }}" defer></script>
+ <script>
+ /**
+ * Alpine "store" = global state you can access anywhere in Blade via:
+ *     $store.theme.isDark
+ *     $store.theme.toggle()
+ */
+document.addEventListener('livewire:init', () => {
+Alpine.store('theme', {
+    // This is the global state (true = dark mode on)
+    isDark: false,
+
+    /** 
+     * Runs once on page load.
+     * - checks localStorage first (user preference)
+     * - if no saved preference, uses OS setting
+     * - adds/remove the "dark" class on <html>
+    */
+    init() {
+        const stored = localStorage.getItem('theme'); // 'dark' | 'light' | null
+        this.isDark = stored === 'dark';
+
+        // Tailwind will apply dark styles when <html class="dark" exists
+        document.documentElement.classList.toggle('dark', this.isDark);
+    },
+    /**
+     * Set theme explicity + save it.
+     * Call: $store.theme.set(true) or $store.theme.set(false)
+     */
+    set(isDark) {
+        this.isDark = isDark;
+        document.documentElement.classList.add('dark-transition');
+        document.documentElement.classList.toggle('dark', isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        setTimeout(() => {
+            document.documentElement.classList.remove('dark-transition');
+        }, 200);
+    },
+
+    /**
+     * Flip theme.
+     * Call: $store.theme.toggle()
+     */
+    toggle() {
+        this.set(!this.isDark);
+    },
+});
+// IMPORTANT: Initialize the store after Alpine starts
+Alpine.store('theme').init();
+});
+</script>
 </body>
 </html>

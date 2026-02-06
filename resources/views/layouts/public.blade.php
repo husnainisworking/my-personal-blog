@@ -75,7 +75,8 @@
             </div>
         </div>
     </footer>
-    @livewireScripts
+    <!-- This doesn't block rendering -->
+ @livewireScriptConfig
+ <script src="{{ asset('vendor/livewire/livewire.min.js') }}" defer></script>
 </body>
-
 </html>

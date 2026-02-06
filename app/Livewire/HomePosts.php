@@ -12,6 +12,7 @@ class HomePosts extends Component
 
     public function render()
     {
+
         // Fetch published posts with relationships, paginated
         $posts = Post::with(['user', 'category', 'tags'])
         ->whereNotNull('published_at')

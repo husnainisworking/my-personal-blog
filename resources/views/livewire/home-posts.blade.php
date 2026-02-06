@@ -41,7 +41,11 @@
                         <a href="{{ route('posts.public.show', $post->slug) }}" class="block w-full h-full">
                             <img src="{{ asset('storage/' . $post->featured_image) }}"
                             alt="{{ $post->title }}"
-                            loading="lazy"
+                            @if($loop->first)
+                                fetchpriority="high"
+                            @else
+                                loading="lazy"
+                            @endif
                             class="w-full h-full object-cover">
                         </a>
                     </div>

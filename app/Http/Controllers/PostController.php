@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\Laravel\Facades\Image;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Category;
@@ -317,11 +318,21 @@ class PostController extends Controller
      */
     private function uploadImage($image): string
     {
-        // Generate unique filename with optional extension.
-        $filename = time().'-'.uniqid().'.'.$image->getClientOriginalExtension();
+        // Generate unique filename - always save as .jpg for compression
+        $filename = time().'-'.uniqid().'.jpg';
+        $path = 'posts/'.$filename;
+        $fullPath = storage_path('app/public/'.$path);
 
-        // Store in storage/app/public/posts directory
-        $path = $image->storeAs('posts', $filename, 'public');
+        // Ensure the directory exists
+        if (!file_exists(dirname($fullPath))) {
+            mkdir(dirname($fullPath), 0755, true);
+        }
+
+        // Compress and resize image (max 1200px width, 80% quality)
+        Image::read($image->getPathname())
+        ->scaleDown(width:1200)
+        ->toJpeg(quality: 80)
+        ->save($fullPath);
 
         return $path;
     }

@@ -318,8 +318,8 @@ class PostController extends Controller
      */
     private function uploadImage($image): string
     {
-        // Generate unique filename - always save as .jpg for compression
-        $filename = time().'-'.uniqid().'.jpg';
+        // Generate unique filename 
+        $filename = time().'-'.uniqid().'.webp';
         $path = 'posts/'.$filename;
         $fullPath = storage_path('app/public/'.$path);
 
@@ -331,7 +331,7 @@ class PostController extends Controller
         // Compress and resize image (max 1200px width, 80% quality)
         Image::read($image->getPathname())
         ->scaleDown(width:1200)
-        ->toJpeg(quality: 80)
+        ->toWebp(quality: 80)
         ->save($fullPath);
 
         return $path;

@@ -75,16 +75,13 @@
             </div>
         </div>
     </footer>
-    <!-- This doesn't block rendering -->
- @livewireScriptConfig
- <script src="{{ asset('vendor/livewire/livewire.min.js') }}" defer></script>
+ @livewireScripts
  <script>
  /**
  * Alpine "store" = global state you can access anywhere in Blade via:
  *     $store.theme.isDark
  *     $store.theme.toggle()
  */
-document.addEventListener('livewire:init', () => {
 Alpine.store('theme', {
     // This is the global state (true = dark mode on)
     isDark: false,
@@ -126,7 +123,7 @@ Alpine.store('theme', {
 });
 // IMPORTANT: Initialize the store after Alpine starts
 Alpine.store('theme').init();
-});
+
 </script>
 </body>
 </html>

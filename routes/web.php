@@ -136,65 +136,23 @@ Route::middleware(['auth', '2fa.verified'])->group(function () {
     });
 
 
-// Admin Routes (Protected)
-// All routs inside this group require the user to be logged in (auth middleware).
-// if not authenticated -> redirected to login.
-// FIXED: Removed 'admin' middleware - authorization now handled by policies in controllers
+// Admin only
 Route::middleware(['auth', '2fa.verified', 'permission:view dashboard'])->group(function () {
-    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    /**
-     * URL: /dashboard
-     * Collect site statistics:
-     *  Total comments, pending comments.
-     *  Total categories, total tags.
-     * Passes stats to dashboard.blade.php , this is the admin overview page
-     */
-    // Profile Management
+    Route::resource('admin/categories', CategoryController::class)->except(['show']);
+    Route::resource('admin/tags', TagController::class)->except(['show']);
+    Route::resource('admin/comments', CommentController::class)->only(['index', 'destroy']);
+    Route::post('admin/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
+});
+
+// Any authenticated user
+Route::middleware(['auth', '2fa.verified'])->group(function (){
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    /**
-     * Edit profile -> /profile (GET)
-     *  Update profile -> /profile (PATCH).
-     *  Delete account -> /profile (DELETE).
-     * Lets the logged-in user manage their own profile.
-     */
-
-    // Post management
     Route::resource('admin/posts', PostController::class)->except(['show']);
-    /**
-     * Generates all CRUD routes for posts (index, create, store, edit, update, destroy).
-     *  Excludes show because public post viewing is handled separately.
-     *  Admin can manage posts.
-     *  This generates a full set of RESTful routes for a resource (in this case, posts under the admin prefix).
-     *  all these routes point to methods inside PostController.
-     */
-
-    // Category management
-    Route::resource('admin/categories', CategoryController::class)->except(['show']);
-    /**
-     * Excludes show (public view handled separately), Admin can manage categories.
-     */
-
-    // Tag management
-    // Admin can manage tags.
-    Route::resource('admin/tags', TagController::class)->except(['show']);
-
-    // Comment management
-    Route::resource('admin/comments', CommentController::class)->only(['index', 'destroy']);
-
-    // Custom approve route
-    Route::post('admin/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
-    /**
-     * List comments -> /admin/comments.
-     * Approve comment -> /admin/comments/{comment}/approve
-     * Delete comment -> /admin/comments/{comment}.
-     * Admin can moderate comments.
-     */
-    
 });
+
 
 require __DIR__.'/auth.php';
 // includes Laravel Breeze/Fortify/Jetstream auth routes (login, register, password reset, etc.)

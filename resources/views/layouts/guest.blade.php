@@ -43,6 +43,30 @@
             </div>
         </div>
     </div>
+    @livewireScripts
+<script>
+    Alpine.store('theme', {
+        isDark: false,
+        init() {
+            const stored = localStorage.getItem('theme');
+            this.isDark = stored === 'dark';
+            document.documentElement.classList.toggle('dark', this.isDark);
+        },
+        set(isDark) {
+            this.isDark = isDark;
+            document.documentElement.classList.add('dark-transition');
+            document.documentElement.classList.toggle('dark', isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            setTimeout(() => {
+                document.documentElement.classList.remove('dark-transition');
+            }, 200);
+        },
+        toggle() {
+            this.set(!this.isDark);
+        },
+    });
+    Alpine.store('theme').init();
+</script>
 </body>
 
 </html>

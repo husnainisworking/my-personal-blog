@@ -70,8 +70,6 @@ class RolePermissionSeeder extends Seeder
         $editor->syncPermissions([
             'view posts', 'create posts', 'edit posts',
             'view categories', 'view tags',
-            'view comments',
-            'view dashboard',
         ]);
 
         // 4. Moderator - Can only manage comments

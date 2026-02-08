@@ -140,13 +140,13 @@ Route::middleware(['auth', '2fa.verified'])->group(function () {
 // All routs inside this group require the user to be logged in (auth middleware).
 // if not authenticated -> redirected to login.
 // FIXED: Removed 'admin' middleware - authorization now handled by policies in controllers
-Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
+Route::middleware(['auth', '2fa.verified', 'permission:view dashboard'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     /**
      * URL: /dashboard
      * Collect site statistics:
-     *  Total comments, pending comments.https://cineb.gg/
+     *  Total comments, pending comments.
      *  Total categories, total tags.
      * Passes stats to dashboard.blade.php , this is the admin overview page
      */
@@ -157,7 +157,7 @@ Route::middleware(['auth', '2fa.verified', 'role:admin'])->group(function () {
 
     /**
      * Edit profile -> /profile (GET)
-     *  Update profile -> /profile (PATCH).https://cineb.gg/
+     *  Update profile -> /profile (PATCH).
      *  Delete account -> /profile (DELETE).
      * Lets the logged-in user manage their own profile.
      */
@@ -227,7 +227,7 @@ Route::get('/newsletter/unsubscribe/{token}', [App\Http\Controllers\NewsletterCo
 Route::post('posts/{post:slug}/track', [PostAnalyticsController::class, 'track'])->name('analytics.track');
 
 // Admin analytics dashboard
-Route::middleware('auth', 'role:admin')->group(function () {
+Route::middleware('auth', 'permission:view dashboard')->group(function () {
     Route::get('admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
 });
 

@@ -22,14 +22,14 @@
                         </a>
                     @endcan
 
-                    @can('view categories')
+                    @can('view dashboard')
                         <a href="{{ route('categories.index') }}"
                             class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-900 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out dark:text-gray-300 dark:hover:text-white dark:hover:border-slate-600">
                             Categories
                         </a>
                     @endcan
 
-                    @can('view tags')
+                    @can('view dashboard')
                         <a href="{{ route('tags.index') }}"
                             class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-900 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out dark:text-gray-300 dark:hover:text-white dark:hover:border-slate-600">
                             Tags
@@ -44,7 +44,7 @@
                         </a>
                     @endcan
 
-                    @can('view comments')
+                    @can('view dashboard')
                         <a href="{{ route('comments.index') }}"
                             class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-900 inline-flex items-center px-2 py-2 border-b-2 text-sm font-medium transition duration-150 ease-in-out dark:text-gray-300 dark:hover:text-white dark:hover:border-slate-600">
                             Comments

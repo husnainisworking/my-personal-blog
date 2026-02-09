@@ -33,7 +33,7 @@
 
 <body class="font-sans bg-gray-100 dark:bg-slate-900">
 
-    <x-admin-nav />
+    <x-adminNav />
 
     <!--
     This is a flash message block, when you redirect back after an action (like submitting a comment or approving one), laravel stores a message in the session (with('success', 'Comment submitted!')).

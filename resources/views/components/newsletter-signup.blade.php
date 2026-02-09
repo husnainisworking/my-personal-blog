@@ -25,7 +25,7 @@
     @csrf 
     @honeypot
 
-    <div class="flex flex-col sm:flex-row gap-2">
+    <div class="flex flex-col sm:flex-row gap-2 rounded-md hover:shadow-[0_0_30px_rgba(129,140,248,0.6)] focus-within:shadow-[0_0_30px_rgba(129,140,248,0.6)] transition-shadow duration-300">
         <input
             type="email"
             name="email"

@@ -69,7 +69,7 @@
                             New Post</a>
                         
                         <!-- User Dropdown -->
-                        <div class="relative" x-data="{open: false}">
+                        <div class="relative" x-data="{open: false}" @mouseenter="open =  true" @mouseleave="open = false" >
                          <button @click="open = !open" @click.outside="open = false"
                             class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-150 dark:bg-slate-800 dark:text-gray-200 dark:border-slate-600 dark:hover:bg-slate-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

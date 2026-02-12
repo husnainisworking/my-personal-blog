@@ -70,12 +70,12 @@
                         
                         <!-- User Dropdown -->
                         <div class="relative" x-data="{open: false}" @mouseenter="open =  true" @mouseleave="open = false" >
-                         <button @click="open = !open" @click.outside="open = false"
-                            class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-150 dark:bg-slate-800 dark:text-gray-200 dark:border-slate-600 dark:hover:bg-slate-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <button @click="open = !open" @click.outside="open = false" 
+                            class="inline-flex group items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-150 dark:bg-slate-800 dark:text-gray-200 dark:border-slate-600 dark:hover:bg-slate-700">
+                            <svg class="w-5 h-5 fill-none group-hover:fill-indigo-100 stroke-gray-600 group-hover:stroke-indigo-600 dark:stroke-gray-300 dark:group-hover:fill-indigo-900 dark:group-hover:stroke-indigo-400" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
-                            <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 transition-transform fill-none" :class="{ 'rotate-180': open }" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                          </button>

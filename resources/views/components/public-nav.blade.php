@@ -31,6 +31,7 @@
                     <input type="text" name="q" placeholder="Search posts, tags, or topics…"
                         class="h-10 w-full sm:w-48 lg:w-64 xl:w-72 rounded-l-md border border-gray-300 dark:border-slate-700 border-r-0 px-4 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-slate-900 dark:text-gray-100 dark:placeholder-gray-400"
                         value="{{ request('q') }}" required minlength="2">
+                         
                     <button type="submit"
                         class="h-10 rounded-r-md bg-indigo-600 text-white px-3 text-sm hover:bg-indigo-700 shrink-0 flex items-center justify-center focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900"
                         :disabled="searching">
@@ -44,7 +45,7 @@
                     </button>
                 </form>
                 <button type="button"
-                    x-cloak
+                    
                     class="hidden sm:inline-flex items-center justify-center gap-2 w-10 h-10 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors duration-150 dark:border-slate-600 dark:bg-slate-800 dark:text-gray-100 dark:hover:bg-slate-700"
                     x-data @click="$store.theme.toggle()"
                     title="Toggle dark mode">
@@ -80,7 +81,7 @@
                             </svg>
                          </button>
 
-                         <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                         <div x-cloak x-show="open" x-transition:enter="transition ease-out duration-100"
                          x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"

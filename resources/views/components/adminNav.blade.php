@@ -69,7 +69,12 @@
                 <form class="hidden sm:inline-flex" method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="inline-flex items-center h-9 px-3 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-slate-800">
+                        class="group inline-flex gap-1 items-center h-9 px-3 rounded-md text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-100 dark:text-gray-300 dark:hover:text-red-300 dark:hover:bg-red-900/30">
+                        <svg class="h-4 w-4 text-gray-400 group-hover:text-red-500 dark:group-hover:text-red-300 dark:text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"/>
+                                </svg>
                         Logout
                     </button>
                 </form>

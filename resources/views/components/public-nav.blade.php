@@ -60,12 +60,14 @@
                     </button>
                     @guest
                     <div class="flex items-center gap-3 mt-3 sm:mt-0 sm:ml-4">
-                        <a href="{{ route('register') }}"
-                            class="text-gray-600 hover:text-gray-900 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Create
-                            account</a>
                         <a href="{{ route('login') }}"
-                            class="text-gray-600 hover:text-gray-900 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Log
-                            in</a>
+                            class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors duration-150 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">
+                            Log in
+                        </a>
+                        <a href="{{ route('register') }}"
+                            class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                            Create account
+                        </a>
                     </div>
                 @endguest
                 @auth

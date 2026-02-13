@@ -39,8 +39,13 @@
 <p class="mb-4">
         Have a question or want to connect? Feel free to reach out:
 </p>
-<ul class="list-none space-y-2">
-    <li>Email: <a href="mailto:husnainisworking@gmail.com" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">husnainisworking@gmail.com</a></li>
+<ul class="space-y-3">
+    <li class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>    
+        <a href="mailto:husnainisworking@gmail.com" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">husnainisworking@gmail.com</a>
+    </li>
 </ul>
 </div>
 </div>

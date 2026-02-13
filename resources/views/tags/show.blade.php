@@ -63,33 +63,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
         </svg>
     <p class="text-gray-500 text-center py-12">No posts with this tag yet.</p>
+</div>
     @endif
     @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

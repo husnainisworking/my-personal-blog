@@ -21,7 +21,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', 'Welcome') - My Personal Blog">
-    <meta property="twitter:description"content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
+    <meta property="twitter:description" content="@yield('description', 'My personal blog about web development, Laravel, PHP, and technology')">
 
     <link rel="alternate" type="application/rss+xml" title="My Personal Blog" href="{{ url('/feed.xml') }}">
     <script>
@@ -48,22 +48,22 @@
             @yield('content')
         </div>
     </main>
-    <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-auto">
+    <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-auto">
         <!-- Newsletter Signup -->
-        <div class="pt-6 border-gray-200 dark:border-slate-700">
+        <div class="pt-3">
             <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
                 <x-newsletter-signup title="Stay Updated"
                     description="Subscribe to get new posts delivered to your inbox" buttonText="Subscribe" />
             </div>
         </div>
-        <div class="max-w-7xl mx-auto py-4 px-5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-2 px-5 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
                 <p>© {{ date('Y') }} Personal Blog. All rights reserved.</p>
 
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('about') }}" class="hover:text-gray-700">About</a>
-                    <a href="mailto:husnainisworking@gmail.com" class="hover:text-gray-700">Contact</a>
-                    <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-1 hover:text-gray-700"
+                    <a href="{{ route('about') }}" class="hover:text-gray-700 dark:hover:text-gray-300">About</a>
+                    <a href="mailto:husnainisworking@gmail.com" class="hover:text-gray-700 dark:hover:text-gray-300">Contact</a>
+                    <a href="{{ url('/feed.xml') }}" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-300"
                         target="_blank" rel="noopener">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-current">
                             <path

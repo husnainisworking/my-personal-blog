@@ -4,12 +4,12 @@
     'buttonText' => 'Subscribe'    
     ])
 
-    <div {{ $attributes->merge(['class' => 'bg-white dark:bg-slate-900 p-8 rounded-lg border border-gray-200 dark:border-slate-800 shadow-sm'])}}>
-    <h3 class="text-base font-medium mb-2 text-gray-700 dark:text-gray-300">{{ $title }}</h3>
-    <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $description }}</p>
+    <div {{ $attributes->merge(['class' => 'dark:bg-slate-900 p-4 rounded-lg'])}}>
+    <h3 class="text-base text-center font-medium mb-2 text-gray-700 dark:text-gray-300">{{ $title }}</h3>
+    <p class="text-gray-600 text-center dark:text-gray-300 mb-4">{{ $description }}</p>
 
 
-    @if(session('newsletter_success'))s-90
+    @if(session('newsletter_success'))
     <div class="mb-4 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-200 px-4 py-3 rounded">
         {{ session('newsletter_success') }}
 </div>
@@ -21,22 +21,36 @@
 </div>
 @endif
 
-<form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-4">
+<form action="{{ route('newsletter.subscribe') }}" 
+        method="POST" 
+        class="space-y-4"
+        x-data="{ email: '' }"
+        >
     @csrf 
     @honeypot
 
-    <div class="flex flex-col sm:flex-row gap-2 rounded-md hover:shadow-[0_0_30px_rgba(129,140,248,0.6)] focus-within:shadow-[0_0_30px_rgba(129,140,248,0.6)] transition-shadow duration-300">
+    <div class="relative rounded-md  max-w-md mx-auto hover:shadow-[0_0_30px_rgba(129,140,248,0.6)] focus-within:shadow-[0_0_30px_rgba(129,140,248,0.6)] transition-shadow duration-300">
         <input
             type="email"
             name="email"
             placeholder="Enter your email"
             required
-            class="flex-1 border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md shadow-md focus:border-indigo-500 focus:ring-indigo-500 @error('email') border-red-500 @enderror"
+            class="w-full border border-gray-400 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md pr-28 focus:border-indigo-500 focus:ring-indigo-500 @error('email') border-red-500 @enderror"
+            x-model="email"
             >
+            <!-- Envelope icon - shows when empty -->
+            <div x-show="email.length === 0" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            </div>
+
+            <!-- Subscribe button -->
             <button
+            x-show="email.length > 0" 
+            x-cloak
             type="submit"
-            class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition-colors duration-200 whitespace-nowrap"
-            >
+            class="absolute right-1 bg-indigo-600 text-white px-4 top-1 bottom-1 flex items-center rounded text-sm hover:bg-indigo-700 transition-colors duration-200">
             {{ $buttonText }}
 </button>
 </div>

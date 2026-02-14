@@ -10,7 +10,11 @@
         <p class="text-gray-500 text-sm">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
         <div class="mt-2">
-            <x-back-link :fallback="route('public.tags.index')" />
+            <x-breadcrumb :items="[
+            ['label' => 'Home' , 'url' => route('home')],
+            ['label' => 'Tags', 'url' => route('public.tags.index')],
+            ['label' => '#' . $tag->name],
+        ]" />
 </div>
 </div>
 

@@ -12,6 +12,13 @@
 @section('content')
     <!-- Single Post View (Public) -->
 <article class="max-w-4xl mx-auto">
+
+    <x-breadcrumb :items="[
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => $post->category?->name ?? 'Uncategorized' , 'url' => $post->category ? route('categories.show', $post->category->slug) : route('home')],
+            ['label' => $post->title],
+    ]" />
+    
     <!--Post Header-->
     <header class="mb-8">
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 dark:text-white mb-4">{{$post->title}}</h1>

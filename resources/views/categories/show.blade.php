@@ -17,8 +17,14 @@
             <p class="text-gray-500 text-sm mt-1">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
             <div class="mt-2">
-                <x-back-link :fallback="route('public.categories.index')" />
-</div>
+        
+        <x-breadcrumb :items="[
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Categories' , 'url' => route('public.categories.index')],
+            ['label' =>  $category->name],
+        ]" />    
+
+        </div>
 
             @auth
                 @role('admin')

@@ -1,7 +1,17 @@
-<nav class="bg-white shadow dark:bg-slate-900 dark:border-b dark:border-slate-700">
+<nav class="bg-white shadow dark:bg-slate-900 dark:border-b dark:border-slate-700"
+    x-data="{ mobileMenu: false}">
     <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 ">
         <div class="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:gap-6">
-            <div class="flex min-w-0 justify-center sm:justify-start sm:flex-nowrap">
+            <div class="flex min-w-0 items-center gap-2 sm:justify-start sm:flex-nowrap">
+                <!-- Mobile hamburger -->
+                 <button @click="mobileMenu = !mobileMenu" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-slate-700" aria-label="Toggle navigation menu">
+                    <svg x-show="!mobileMenu" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg x-show="mobileMenu" x-cloak class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}"
                         class="text-lg sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 truncate max-w-[11rem] sm:max-w-none text-center">
@@ -136,4 +146,49 @@
             </div>
         </div>
     </div>
+    <!-- Mobile menu panel -->
+     <div x-show="mobileMenu" x-cloak
+          x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-150"
+          x-transition:leave-start="opacity-100 -translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+          class="sm:hidden border-t border-gray-200 dark:border-slate-700">
+          <div class="max-w-7xl mx-auto px-5 py-3 space-y-1">
+            <a href="{{ route('home') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150
+                {{ request()->routeIs('home')
+                 ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-900/30'
+                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-indigo-400 dark:hover:bg-slate-700' }}">
+                 Home
+            </a>
+            <a href="{{ route('public.categories.index') }}"
+             class="block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150
+             {{ request()->routeIs('public.categories.*', 'categories.*')
+              ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-900/30'
+              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-indigo-400 dark:hover:bg-slate-700' }}">
+                Categories
+            </a>
+            <a href="{{ route('public.tags.index') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150
+            {{ request()->routeIs('public.tags.*')
+                ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-900/30'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-indigo-400 dark:hover:bg-slate-700' }}">
+                Tags
+            </a>
+            <div class="border-t border-gray-200 dark:border-slate-700 my-2"></div>
+            <button @click="$store.theme.toggle()"
+             class="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-slate-700">
+            <!-- Moon icon (show when in light mode -> offers dark) -->
+             <svg x-show="!$store.theme.isDark" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.64 13a1 1 0 0 0-1.05-.14A8 8 0 0 1 11.14 3.4a1 1 0 0 0-1.19-1.19A10 10 0 1 0 22 14.05a1 1 0 0 0-.36-1.05Z" /> 
+            </svg>
+            <!-- Sun icon (show when in dark mode -> offers light) -->
+             <svg x-show="$store.theme.isDark" x-cloak class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM11 1h2v3h-2V1Zm0 19h2v3h-2v-3ZM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93ZM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121Zm2.121-14.85 1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121ZM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121ZM23 11v2h-3v-2h3ZM4 11v2H1v-2h3Z"/>
+            </svg>
+            <span x-text="$store.theme.isDark ? 'Light mode' : 'Dark mode'"></span>
+            </button>
+        </div>
+    </div>
 </nav>
+

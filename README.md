@@ -15,6 +15,8 @@ A Laravel 12 personal blog with an admin panel, categories/tags, comments modera
   - Post/category/tag CRUD
   - Role-based access control (Spatie Permission)
   - Two-factor verification flow
+    <img width="1862" height="926" alt="image" src="https://github.com/user-attachments/assets/1c17b221-7156-4bde-b613-538eabc70448" />
+
 - SEO:
   - `robots.txt`
   - Dynamic `sitemap.xml`
@@ -22,6 +24,9 @@ A Laravel 12 personal blog with an admin panel, categories/tags, comments modera
 - Performance:
   - Cached queries for common pages
   - Cached sitemap/feed responses
+    <img width="1862" height="926" alt="image" src="https://github.com/user-attachments/assets/9906e855-26de-4590-b930-aa7dd41e8842" />
+    <img width="1862" height="926" alt="image" src="https://github.com/user-attachments/assets/e1cf4586-713f-4484-a2c5-3dca1c7b4587" />
+
 
 ## Tech Stack
 

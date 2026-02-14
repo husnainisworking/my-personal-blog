@@ -41,9 +41,12 @@
 </head>
 
 <body class="font-sans bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-md focus:text-sm focus:font-medium">
+        Skip to content
+    </a>
     <x-public-nav />
 
-    <main class="pt-8 pb-6 sm:pt-10 sm:pb-10 flex-1">
+    <main class="pt-8 pb-6 sm:pt-10 sm:pb-10 flex-1" id="main-content">
         <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             @yield('content')
         </div>

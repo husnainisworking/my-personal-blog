@@ -151,7 +151,21 @@
                 class="block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-200
                 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500
                 @error('featured_image') border-red-500 rounded-md p-1 @enderror"
-                @change="const file = $event.target.files[0]; if(file && file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = e => preview = e.target.result; reader.readAsDataURL(file); } else { preview = null; }"
+                @change="
+                const file = $event.target.files[0];
+                if (!file) {preview = null; return; }
+                if (file.size > 2 * 1024 * 1024) {
+                        preview = null;
+                        $event.target.value = '';
+                        alert('Image must be under 2MB. Selected file: ' + (file.size / 1024 / 1024).toFixed(1) + 'MB');
+                        return;
+                }
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = e => preview = e.target.result;
+                    reader.readAsDataURL(file);
+                } else { preview = null; }
+" 
                 />
 
             <p class="text-sm text-gray-500 mt-2">Max 2MB. Formats: JPEG, PNG, GIF, WebP</p>
@@ -347,26 +361,36 @@
 </script>
 
 <script>
-        const titleInput = document.getElementById('title');
-        const excerptInput = document.getElementById('excerpt');
-        const titleCount = document.getElementById('title-count');
-        const excerptCount = document.getElementById('excerpt-count');
+    const titleInput = document.getElementById('title');
+    const excerptInput = document.getElementById('excerpt');
+    const titleCount = document.getElementById('title-count');
+    const excerptCount = document.getElementById('excerpt-count');
 
-        const updateCounts = () => {
-            if (titleInput && titleCount) {
-                titleCount.textContent = `${titleInput.value.length}/70`;
-            }
-            if (excerptInput && excerptCount) {
-                excerptCount.textContent = `${excerptInput.value.length}/160`;
-            }
-        };
+    function counterColor(len, min, max) {
+        if (len === 0) return 'text-gray-500';
+        if (len >= min && len <= max) return 'text-green-600';
+        if (len > max) return 'text-red-500';
+        return 'text-amber-500';
+    }
 
-        if (titleInput || excerptInput) {
-            updateCounts();
-            titleInput && titleInput.addEventListener('input', updateCounts);
-            excerptInput && excerptInput.addEventListener('input', updateCounts);
+    const updateCounts = () => {
+        if (titleInput && titleCount) {
+            const len = titleInput.value.length;
+            titleCount.textContent = `${len}/70`;
+            titleCount.className =  'text-xs ' + counterColor(len, 50, 70); 
         }
-        </script>
+        if (excerptInput && excerptCount) {
+            const len = excerptInput.value.length;
+            excerptCount.textContent = `${len}/160`;
+            excerptCount.className = 'text-xs ' + counterColor(len, 120, 160);
+        }
+    };
+
+    updateCounts();
+    titleInput?.addEventListener('input', updateCounts);
+    excerptInput?.addEventListener('input', updateCounts);
+    </script>
+
         </form>
     </div>
 @endsection

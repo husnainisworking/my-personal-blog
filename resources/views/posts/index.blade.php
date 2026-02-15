@@ -62,19 +62,12 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{route('posts.edit', $post)}}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 mr-3">Edit</a>
-                                    <form action="{{route('posts.destroy', $post)}}" method="POST" class="inline">
-                                        <!--
-                                        Browsers only know GET(links) and POST(forms).
-                                        Laravel wants a DELETE request when you remove a post.
-                                        Since HTML doesn't support DELETE directly, Laravel uses a trick:
-                                        Make a <form method='POST'>
-                                        Inside it, we add @methd('DELETE'), because in HTML a form can only use GET or POST as its method.
-                                        But in laravel, routes can also expect PUT, PATCH, or DELETE(RESTful verbs).
-                                        RESTful system is one that follows the principles of REST(Representational State Transfer) -- an architectural style for designing web APIs. It uses standard HTTP methods(GET, POST, PUT/PATCH, DELETE) to perform actions on resources, making communication between client and server simple, predictable and scalable.
-                                        -->
+                                   <x-confirm-modal title="Delete post?" message="This will permanently remove this post and its comments.">
+                                        <span class="text-red-600 hover:text-red-900">Delete</span>
+                                    </x-confirm-modal>
+                                    <form action="{{ route('posts.destroy', $post)}}" method="POST" class="confirm-form hidden">
                                         @csrf
                                         @method('DELETE')
-                                   <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
                                     </td>
                                 </tr>

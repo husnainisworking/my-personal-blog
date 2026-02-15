@@ -138,9 +138,12 @@
                     class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{old('excerpt')}}</textarea>
             <p class="text-xs text-gray-500 mt-1">Recommended 120-160 characters.</p>
         </div>
-        <div class="mb-5">
-            <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
-            <input 
+       
+        <div class="mb-5" x-data="{ preview: null }">
+            <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">
+                Featured Image
+            </label>
+            <input
                 type="file"
                 id="featured_image"
                 name="featured_image"
@@ -148,12 +151,18 @@
                 class="block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-200
                 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500
                 @error('featured_image') border-red-500 rounded-md p-1 @enderror"
-               /> 
-            
-            <p  class="text-sm text-gray-500 mt-2">Max 2MB. Formats: JPEG, PNG, GIF, WebP</p>
-            <p class="text-xs text-gray-500">Featured image appears at the top of the post.</p>
-        </div>
+                @change="const file = $event.target.files[0]; if(file && file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = e => preview = e.target.result; reader.readAsDataURL(file); } else { preview = null; }"
+                />
 
+            <p class="text-sm text-gray-500 mt-2">Max 2MB. Formats: JPEG, PNG, GIF, WebP</p>
+
+            <!-- Image Preview -->
+             <div x-show="preview" x-cloak class="mt-3">
+                <p class="text-xs text-gray-500 mb-1">Preview:</p>
+                    <img :src="preview" alt="Featured image preview" class="max-w-xs max-h-48 rounded-lg border border-gray-200 dark:border-slate-700 object-cover">
+            </div>
+        </div>
+        
     <!-- Tiptap editor -->
         <div class="mb-5">
             <label for="content" class="block text-sm font-medium text-gray-700 mb-2">

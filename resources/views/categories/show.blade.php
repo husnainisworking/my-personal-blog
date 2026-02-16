@@ -6,7 +6,7 @@
 @section('content')
         <div class="mb-8">
             <h1 class="text-2xl sm:text-4xl  mb-2">
-                <span class="text-gray-500 dark:text-gray-400 font-normal">Posts in</span>
+                <span class="text-gray-500 dark:text-gray-400 font-normal">Found <span class="text-gray-900 dark:text-gray-100 font-bold">{{ $posts->total() }}</span> {{ \Illuminate\Support\Str::plural('post', $posts->total()) }} in</span>
                 <span class="text-gray-900 dark:text-gray-100 font-bold">{{$category->name}}</span>    
             </h1>
         
@@ -14,7 +14,6 @@
                 <p class="text-gray-600">{{ $category->description }}</p>
             @endif
 
-            <p class="text-gray-500 text-sm mt-1">Found {{ $posts->total() }} {{ \Illuminate\Support\Str::plural('post', $posts->total()) }}</p>
 
             <div class="mt-2">
         

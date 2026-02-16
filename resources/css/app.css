@@ -5,6 +5,33 @@
 
 @layer base {
 
+    .underline-input::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: rgb(99 102 241);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s ease;
+    }
+
+    .underline-input:hover::after {
+        transform: scaleX(1);
+    }
+
+    .dark .underline-input::after {
+        background-color: rgb(129 140 248);
+    }
+
+    .underline-input input:focus-visible {
+        outline: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
     html {
         scroll-behavior: smooth;
     }

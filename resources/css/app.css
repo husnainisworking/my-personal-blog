@@ -5,6 +5,10 @@
 
 @layer base {
 
+    html {
+        scroll-behavior: smooth;
+    }
+
     /* Makes input/scrollbars use dark palette in supporting browsers */
     html.dark {
         color-scheme: dark;

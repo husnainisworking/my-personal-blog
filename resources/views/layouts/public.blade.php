@@ -128,5 +128,25 @@ Alpine.store('theme', {
 Alpine.store('theme').init();
 
 </script>
+
+<!-- Scroll to Top Button -->
+<div x-data="{ show: false }"
+    x-init="window.addEventListener('scroll', () => show = window.scrollY > 300)"
+    x-cloak>
+    <button x-show="show"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-2"
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="fixed bottom-6 right-6 z-40 h-10 w-10 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 flex items-center justify-center transition-colors"
+        aria-label="Scroll to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+</div>
 </body>
 </html>

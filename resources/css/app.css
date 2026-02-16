@@ -145,6 +145,7 @@
     select:focus-visible,
     textarea:focus-visible {
         outline: none;
+        border-radius: 8px;
         box-shadow: 0 0 0 2px var(--ring-offset-color, white), 0 0 0 4px rgb(99 102 241);
         /* indigo-500 */
     }

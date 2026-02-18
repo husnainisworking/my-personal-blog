@@ -47,12 +47,14 @@
                                     </button>
                                     </form>
                                     @endif
-                            <form action="{{route('comments.destroy', $comment)}}" method="POST" class="inline">
+                            <x-confirm-modal title="Delete comment?" message="This comment will be moved to the trash.">
+                                <button type="button" class="inline-flex items-center h-8 px-3 rounded-md bg-red-500 dark:bg-red-600 text-white text-xs font-medium hover:bg-red-600 dark:hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </x-confirm-modal>
+                            <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="confirm-form hidden">
                                 @csrf
-                            @method('DELETE')
-                            <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-500 dark:bg-red-600 text-white text-xs font-medium hover:bg-red-600 dark:hover:bg-red-700" onclick="return confirm('Delete this comment?')">
-                                Delete
-                            </button>
+                                @method('DELETE')
                             </form>
                             </div>
                         </div>

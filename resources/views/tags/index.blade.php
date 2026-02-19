@@ -26,12 +26,14 @@
                             <a href="{{route('tags.edit', $tag)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 text-sm">
                                 Edit
                             </a>
-                            <form action="{{route('tags.destroy', $tag)}}" method="POST" class="inline">
+                           <x-confirm-modal title="Delete tag?" message="This will remove the tag from all posts.">
+                            <button type="button" class="text-red-600 hover:text-red-800 text-sm">
+                                Delete
+                            </button>
+                            </x-confirm-modal>
+                            <form action="{{ route('tags.destroy', $tag) }}" method="POST" class="confirm-form hidden">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 text-sm" onclick="return confirm('Delete this tag?')">
-                                    Delete
-                                </button>
                             </form>
                         </div>
                     </div>

@@ -27,12 +27,14 @@
                             <a href="{{route('categories.edit', $category)}}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 text-sm font-medium">
                                 Edit
                             </a>
-                            <form action="{{route('categories.destroy', $category)}}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium" onclick="return confirm('Delete this category?')">
+                            <x-confirm-modal title="Delete category?" message="This will remove the category from all posts.">
+                                <button type="button" class="text-red-600 hover:text-red-800 text-sm font-medium">
                                     Delete
                                 </button>
+                            </x-confirm-modal>
+                            <form action="{{ route('categories.destroy', $category) }}" method="POST" class="confirm-form hidden">
+                                @csrf
+                                @method('DELETE')
                             </form>
                         </div>
                     </div>

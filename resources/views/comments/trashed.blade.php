@@ -56,13 +56,15 @@
                                         Restore
                                     </button>
                                 </form>
-                                <form action="{{ route('comments.force-delete', $comment->id) }}" method="POST" onsubmit="return confirm('Permanently delete this comment? This cannot be undone.');">
+                                <x-confirm-modal title="Delete forever?" message="Permanently delete this comment? This cannot be undone." confirmText="Delete Forever">
+                                    <button type="button" class="inline-flex items-center h-8 px-3 rounded-md bg-red-500 dark:bg-red-500 text-white text-xs font-medium hover:bg-red-600 dark:hover:bg-red-700">
+                                        Delete Forever
+                                    </button>
+                                </x-confirm-modal>
+                                <form action="{{ route('comments.force-delete', $comment->id) }}" method="POST" class="confirm-form hidden">
                                     @csrf
                                     @honeypot
                                     @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center h-8 px-3 rounded-md bg-red-500 dark:bg-red-500 text-white text-xs font-medium hover:bg-red-600 dark:hover:bg-red-700">
-                                        Delete Forever
-                                    </button>
                                 </form>
                             </div>
                         </div>

@@ -49,11 +49,31 @@
     <div class="cf-turnstile" data-sitekey="0x4AAAAAACm7o185TSNmO-n_" data-theme="auto" data-callback="onTurnstileSuccess" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
 
     <script>
+
+        var turnstileReady = false;
+        var minTimeReached = false;
+
         function onTurnstileSuccess(token) {
+            turnstileReady = true;
+            if (minTimeReached) dismissOverlay();
+        }
+
+        function dismissOverlay() {
             var overlay = document.getElementById('turnstile-overlay');
             overlay.style.opacity = '0';
-            setTimeout(function() {overlay.style.display = 'none';}, 400);
+            setTimeout(function() {
+                overlay.style.display = 'none';
+                // Hide the widget after success
+                var widget = document.querySelector('.cf-turnstile');
+                if (widget) widget.style.display = 'none';
+            }, 400);
         }
+
+        // Minimum 1.5s blur so it's actually visible
+        setTimeout(function() {
+            minTimeReached = true;
+            if (turnstileReady) dismissOverlay();
+        },1500);
     </script>
 
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-md focus:text-sm focus:font-medium">

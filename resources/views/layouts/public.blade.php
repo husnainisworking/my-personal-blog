@@ -46,7 +46,7 @@
         <!-- Blur overlay while Turnstile verifies -->
     <div id="turnstile-overlay" style="position:fixed;inset:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(0,0,0,0.15);z-index:9998;transition:opacity 0.4s ease;"></div>
 
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAACm7o185TSNmO-n_" data-theme="auto" data-callback="onTurnstileSuccess" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAACm7o185TSNmO-n_" data-theme="auto" data-callback="onTurnstileSuccess" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;"></div>
 
     <script>
 

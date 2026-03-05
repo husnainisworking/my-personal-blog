@@ -64,7 +64,8 @@
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
         @enderror
         
-        <div class="g-recaptcha" data-sitekey="6Lez54AsAAAAAM_idxamR1wRpuQu3DwJtlFjZ5Eu">
+        <div class="mt-4 flex justify-center">
+            <div class="g-recaptcha" data-sitekey="6Lez54AsAAAAAM_idxamR1wRpuQu3DwJtlFjZ5Eu"></div>
         </div>
   
 

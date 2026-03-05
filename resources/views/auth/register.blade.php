@@ -65,9 +65,18 @@
         @enderror
         
         <div class="mt-4 flex justify-center">
-            <div class="g-recaptcha" data-sitekey="6Lez54AsAAAAAM_idxamR1wRpuQu3DwJtlFjZ5Eu"></div>
+            <div 
+            class="g-recaptcha"
+            id="recaptcha-widget"
+            data-sitekey="6Lez54AsAAAAAM_idxamR1wRpuQu3DwJtlFjZ5Eu"
+            data-theme="light"></div>
         </div>
-  
+        <script>
+            (function() {
+                const theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+                document.getElementById('recaptcha-widget').setAttribute('data-theme', theme);
+            })();
+        </script>
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">

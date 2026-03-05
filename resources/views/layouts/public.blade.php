@@ -43,8 +43,18 @@
 </head>
 
 <body class="font-sans bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
+        <!-- Blur overlay while Turnstile verifies -->
+    <div id="turnstile-overlay" style="position:fixed;inset:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(0,0,0,0.15);z-index:9998;transition:opacity 0.4s ease;"></div>
 
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAACm7o185TSNmO-n_" data-theme="auto" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAACm7o185TSNmO-n_" data-theme="auto" data-callback="onTurnstileSuccess" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
+
+    <script>
+        function onTurnstileSuccess(token) {
+            var overlay = document.getElementById('turnstile-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(function() {overlay.style.display = 'none';}, 400);
+        }
+    </script>
 
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-md focus:text-sm focus:font-medium">
         Skip to content

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -29,6 +30,18 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Verify reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify',[
+         'secret' => env('RECAPTCHA_SECRET_KEY'),
+         'response' => $request->input('g-recaptcha-response'),
+         'remoteip' => $request->ip(),
+        ]);
+
+        if (!$response->json('success')) {
+            return back()->withErrors(['captcha' =>'Please complete the reCAPTCHA.'])
+            ->withInput();
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],

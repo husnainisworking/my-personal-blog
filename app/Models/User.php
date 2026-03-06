@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'two_factor_code',
         'two_factor_expires_at',
+        'avatar',
     ];
 
     protected $hidden = [
@@ -42,5 +43,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         // A user can have multiple provider connections (google + apple)
         return $this->hasMany(OAuthAccount::class);
+    }
+
+    public function avatarUrl(): string
+    {
+        if($this->avatar) {
+            // Google OAuth picture(a URL) or uploaded file path
+            if(str_starts_with($this->avatar, 'http')) {
+                return $this->avatar;
+            }
+            return asset('storage/' . $this->avatar);
+        }
+
+        // Gravatar fallback
+        $hash = md5(strtolower(trim($this->email)));
+        return "https://www.gravatar.com/avatar/{$hash}?d=mp&s=80";
     }
 }

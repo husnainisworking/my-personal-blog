@@ -12,10 +12,13 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @auth
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @endauth
                 </div>
+                
             </div>
 
             <!-- Settings Dropdown -->
@@ -25,6 +28,8 @@
                         <button class="inline-flex items-center h-9 px-3 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
 
                             @auth
+                            <img src="{{ Auth::user()->avatarUrl() }}" alt="{{ Auth::user()->name }}"
+                                class="w-7 h-7 rounded-full object-cover border border-gray-200 mr-1">
                             <div>{{ Auth::user()->name }}</div>
                             @endauth
 

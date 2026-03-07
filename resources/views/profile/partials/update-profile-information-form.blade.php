@@ -13,9 +13,30 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+
+        <div>
+            <x-input-label value="Avatar" />
+            <div class="mt-2 flex items-center gap-4">
+                <img id="avatar-preview"
+                    src="{{ $user->avatarUrl() }}"
+                    alt="Avatar"
+                    class="w-16 h-16 rounded-full object-cover border border-gray-200">
+            <div class="flex flex-col gap-2">
+                <input type="file" name="avatar" id="avatar" accept="image/*"
+                        class="text-sm text-gray-600"
+                        onchange="previewAvatar(this)">
+                    <x-input-error class="mt-1" :messages="$errors->get('avatar')" />
+                    @if($user->avatar)
+                        <label class="flex items-center gap-1 text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="remove_avatar" value="1">Remove avatar
+                        </label>
+                    @endif
+                </div>
+                </div>
+                </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -61,4 +82,16 @@
             @endif
         </div>
     </form>
+
+    <script>
+            function previewAvatar(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('avatar-preview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+    </script>
 </section>

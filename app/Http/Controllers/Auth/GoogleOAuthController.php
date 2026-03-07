@@ -124,6 +124,7 @@ class GoogleOAuthController extends Controller
                     'email' => $email,
                     'email_verified_at' => now(), // Auto-verify Google emails
                     'password' => Hash::make(Str::random(32)), // Random secure password
+                    'avatar' => $claims['picture'] ?? null,
                 ]);
 
                     // Assign editor role (allows creating and publishing posts)

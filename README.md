@@ -1,6 +1,6 @@
 # My Personal Blog
 
-A Laravel 12 personal blog with an admin panel, categories/tags, comments moderation, live search, and basic SEO (robots + sitemap). Built with Tailwind CSS + Vite.
+A Laravel 12 personal blog with an admin panel, categories/tags, comments moderation, live search, and basic SEO (robots + sitemap). Built with Tailwind CSS + Vite
 <img width="1861" height="926" alt="Screenshot from 2026-02-17 22-18-49" src="https://github.com/user-attachments/assets/d6111804-61dd-4891-b71d-888dc4dcc86e" />
 
 ## Features

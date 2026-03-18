@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Exclude analytics tracking from CSRF (sendBeacon can't send custom headers)
         $middleware->validateCsrfTokens(except: [
             'posts/*/track',
+            'stripe/webhook',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

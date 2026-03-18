@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Post;
 
 class PostController extends Controller
 {
     public function index(){
 
-    $posts = Post::latest()->get();
+    $postsQuery = Post::latest();
+
+    $user = request()->user();
+    if (!$user || !$user->hasPremiumAccess()) {
+        $postsQuery->where('is_premium', false);
+    }
+
+    $posts = $postsQuery->get();
 
     return response()->json($posts);
     }
@@ -27,6 +33,13 @@ class PostController extends Controller
             return response()->json([
                 'error' => 'Post not found'
             ], 404);
+        }
+
+        $user = request()->user();
+        if ($post->is_premium && (!$user || !$user->hasPremiumAccess())) {
+            return response()->json([
+                'error' => 'Premium content. Upgrade required.'
+            ], 403);
         }
 
         // Load related data (eager loading prevents N+1 queries)

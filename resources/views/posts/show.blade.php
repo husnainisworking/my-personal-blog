@@ -21,6 +21,9 @@
     
     <!--Post Header-->
     <header class="mb-8">
+        @if($post->is_premium)
+            <x-premium-badge class="mb-3" />
+        @endif
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 dark:text-white mb-4">{{$post->title}}</h1>
         <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
             {{$post->excerpt ?? Str::limit(strip_tags($post->content), 150)}}
@@ -168,6 +171,5 @@ x-init="
                     <x-related-posts :post="$post" />
 </article>
     @endsection
-
 
 

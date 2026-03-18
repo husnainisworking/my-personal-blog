@@ -43,6 +43,13 @@
                         title="Browse posts by keyword (e.g., #laravel, #tips)">
                         Tags
                     </a>
+                    <a href="{{ route('premium.index') }}"
+                        class="inline-flex items-center px-1 py-2 border-b-2 text-sm font-medium transition-colors duration-150
+                        {{ request()->routeIs('premium.*')
+                         ?'border-transparent text-indigo-600 hover:text-indigo-600 hover:border-indigo-300 dark:text-indigo-400 dark:hover:text-indigo-400 dark:hover:border-indigo-400/50'
+                         :'border-transparent text-gray-900 hover:border-gray-500 dark:text-gray-100 dark:hover:border-gray-400' }}">
+                        Premium
+                    </a>
                 </div>
             </div>
             <div class="flex flex-col w-full sm:w-auto sm:flex-row sm:items-center sm:gap-4 sm:ml-6">
@@ -177,6 +184,13 @@
                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-indigo-400 dark:hover:bg-slate-700' }}">
                 Tags
             </a>
+            <a href="{{ route('premium.index') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150
+            {{ request()->routeIs('premium.*')
+                ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-900/30'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-indigo-400 dark:hover:bg-slate-700' }}">
+                Premium
+            </a>
             <div class="border-t border-gray-200 dark:border-slate-700 my-2"></div>
             <button @click="$store.theme.toggle()"
              class="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-slate-700">
@@ -193,4 +207,3 @@
         </div>
     </div>
 </nav>
-

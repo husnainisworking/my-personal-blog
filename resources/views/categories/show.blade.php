@@ -41,6 +41,11 @@
                     @foreach($posts as $post)
                         <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
                             <div class="p-5 sm:p-6">
+                                @if($post->is_premium)
+                                    <div class="mb-2">
+                                        <x-premium-badge />
+                                    </div>
+                                @endif
                                 <h2 class="text-2xl font-bold text-gray-900 mb-2">
                                     <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:text-indigo-400">
                                         {{ $post->title }}
@@ -95,4 +100,3 @@ Read more →
 
 
                                 
-

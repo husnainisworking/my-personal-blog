@@ -89,6 +89,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['is_premium'] = $request->boolean('is_premium');
 
         // Sanitize post content to prevent XSS attacks
         if (isset($validated['content'])) {
@@ -161,6 +162,16 @@ class PostController extends Controller
     public function show(Post $post): View
     {   // Post $post -> laravel automatically injects the post you want to show
         // (based on the route parameter, e.g. /posts/5).
+        $user = auth()->user();
+        $hasPremiumAccess = $post->is_premium
+            ? ($user && ($user->hasPremiumAccess() || $user->id === $post->user_id || $user->hasRole('admin')))
+            : true;
+
+        if (!$hasPremiumAccess) {
+            $post->load('category');
+            return view('posts.premium-locked', compact('post'));
+        }
+
         $post->load(['user', 'category', 'tags', 'approvedComments']);
 
         // Increment view count when someone views the post
@@ -208,6 +219,7 @@ class PostController extends Controller
         }
 
         $validated = $request->validated();
+        $validated['is_premium'] = $request->boolean('is_premium');
 
         // Sanitize post content to prevent XSS attacks
         if (isset($validated['content'])) {

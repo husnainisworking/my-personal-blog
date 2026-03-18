@@ -14,6 +14,8 @@ use App\Http\Controllers\RssFeedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\DraftAutosaveController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Analytics\PostAnalyticsController;
@@ -58,6 +60,18 @@ Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
  * Calls TagController@show
  * Shows all published posts linked to a specific tag.
  */
+
+// Premium landing + checkout placeholder
+Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/premium/checkout', [PremiumController::class, 'checkout'])->name('premium.checkout');
+    Route::post('/premium/checkout', [PremiumController::class, 'createCheckoutSession'])->name('premium.checkout.session');
+    Route::get('/premium/success', [PremiumController::class, 'success'])->name('premium.success');
+    Route::get('/premium/cancel', [PremiumController::class, 'cancel'])->name('premium.cancel');
+});
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->name('stripe.webhook');
 
 // Public comment submission
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])

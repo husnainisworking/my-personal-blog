@@ -21,6 +21,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'two_factor_code',
         'two_factor_expires_at',
         'avatar',
+        'is_premium',
+        'premium_expires_at',
+        'stripe_customer_id',
+        'stripe_subscription_id',
+        'stripe_price_id',
     ];
 
     protected $hidden = [
@@ -32,6 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'two_factor_expires_at' => 'datetime',
+        'is_premium' => 'boolean',
+        'premium_expires_at' => 'datetime',
     ];
 
     public function posts(): HasMany
@@ -58,5 +65,18 @@ class User extends Authenticatable implements MustVerifyEmail
         // Gravatar fallback
         $hash = md5(strtolower(trim($this->email)));
         return "https://www.gravatar.com/avatar/{$hash}?d=mp&s=80";
+    }
+
+    public function hasPremiumAccess(): bool
+    {
+        if ($this->is_premium && $this->premium_expires_at === null) {
+            return true;
+        }
+
+        if ($this->premium_expires_at) {
+            return $this->premium_expires_at->isFuture();
+        }
+
+        return (bool) $this->is_premium;
     }
 }

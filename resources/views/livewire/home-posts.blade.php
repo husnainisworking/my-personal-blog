@@ -9,6 +9,11 @@
                     <div class="flex flex-col sm:flex-row">
                         <!-- Content -->
                          <div class="flex-1 p-5 sm:p-6">
+                            @if($post->is_premium)
+                                <div class="mb-2">
+                                    <x-premium-badge />
+                                </div>
+                            @endif
                             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">
                                 <a href="{{ route('posts.public.show', $post->slug) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
                                     {{ $post->title }}

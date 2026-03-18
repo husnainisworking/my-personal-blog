@@ -229,6 +229,17 @@
     </div>
     </div>
 
+            <div class="mb-6 rounded-md border border-amber-100 bg-amber-50/50 p-4 dark:border-amber-800/70 dark:bg-amber-900/20">
+                <label class="block text-sm font-medium text-amber-900 mb-2 dark:text-amber-200">Premium Only</label>
+                <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+                    <input type="checkbox" name="is_premium" value="1"
+                           {{ old('is_premium', $post->is_premium) ? 'checked' : '' }}
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span>Mark this post as members-only.</span>
+                </label>
+                <p class="text-xs text-gray-600 mt-1 dark:text-gray-300">Only premium users can read the full post.</p>
+            </div>
+
             <div class="mb-4 rounded-md border border-gray-100 bg-gray-50/50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
                <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-100">Tags</label>
                <p class="text-xs text-gray-500 mb-2 dark:text-gray-400">Optional</p>
@@ -261,8 +272,6 @@
         </form>
     </div>
 @endsection 
-
-
 
 
 

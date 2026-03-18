@@ -34,4 +34,14 @@ return [
     'groq' => [
         'api_key' => env('GROQ_API_KEY'),
     ],
+
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        'price_id' => env('STRIPE_PRICE_ID'),
+        'success_url' => env('STRIPE_SUCCESS_URL'),
+        'cancel_url' => env('STRIPE_CANCEL_URL'),
+        'price_display' => env('STRIPE_PRICE_DISPLAY', '$9/month'),
+        'currency' => env('STRIPE_CURRENCY', 'usd'),
+    ],
 ];

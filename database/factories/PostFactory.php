@@ -21,6 +21,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraphs(3, true),
             'featured_image' => null,
             'status' => 'published',
+            'is_premium' => false,
             'published_at' => now(),
         ];
     }

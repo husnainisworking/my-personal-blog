@@ -8,6 +8,17 @@
         <p class="text-xl text-gray-600">Sharing thoughts, ideas, and stories</p>
     </div>
 
+    <div class="mb-10 rounded-xl border border-amber-200 bg-amber-50/70 p-6 text-center dark:border-amber-800/70 dark:bg-amber-900/20">
+        <div class="flex items-center justify-center gap-2 mb-2">
+            <x-premium-badge class="text-xs" />
+            <span class="text-sm text-amber-900 dark:text-amber-200">Members-only posts available</span>
+        </div>
+        <p class="text-sm text-gray-700 dark:text-gray-200 mb-4">Get access to premium tutorials, deep dives, and downloadable resources.</p>
+        <a href="{{ route('premium.index') }}" class="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            See Premium
+        </a>
+    </div>
+
     <livewire:home-posts />
 
     <!-- Turnstile blur overlay (home page only) -->

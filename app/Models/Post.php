@@ -27,12 +27,14 @@ class Post extends Model
         'featured_image',
         'views',
         'status',
+        'is_premium',
         'published_at',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'is_premium' => 'boolean',
     ];
     // converts the published_at column into a Carbon datetime object.
 
@@ -171,6 +173,11 @@ class Post extends Model
         return $this->status === 'published'
         && $this->published_at !== null
         && $this->published_at->isFuture();
+    }
+
+    public function isPremium(): bool
+    {
+        return (bool) $this->is_premium;
     }
 
     /**

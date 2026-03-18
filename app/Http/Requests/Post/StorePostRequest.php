@@ -28,6 +28,7 @@ class StorePostRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'excerpt' => 'nullable|max:500',
             'status' => 'required|in:draft,published',
+            'is_premium' => 'sometimes|boolean',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
 
